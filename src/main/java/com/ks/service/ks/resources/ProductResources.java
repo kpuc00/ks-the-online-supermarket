@@ -1,23 +1,51 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.model.Category;
+import com.ks.service.ks.database.FakeDatabase;
 import com.ks.service.ks.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductResources {
-    @GetMapping("all")
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "Apple", "Fresh apples", 1.99, new Category(1, "Fruits")));
-        products.add(new Product(2, "Soap", "Brand new", 1.19, new Category(3, "Cosmetics")));
-        products.add(new Product(3, "Chicken drumsticks", "Fresh from Bulgaria", 4.26, new Category(2, "Meat")));
-        return products;
+    private static final FakeDatabase fakeDb = new FakeDatabase();
+
+    @PostMapping("/add")
+    public ResponseEntity<Product> createProduct (@RequestBody Product product){
+        if (fakeDb.addProduct(product))
+            return new ResponseEntity<>(product, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping // /products
+    public ResponseEntity<List<Product>> getAllProducts() {
+        if (fakeDb.getAllProducts() != null)
+            return new ResponseEntity<>(fakeDb.getAllProducts(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable long id) {
+        Product product = fakeDb.getProduct(id);
+        if (product != null)
+            return new ResponseEntity<>(fakeDb.getProduct(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product){
+        if (fakeDb.editProduct(id, product))
+            return new ResponseEntity<>(product, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable long id){
+        if (fakeDb.deleteProduct(id))
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
