@@ -3,19 +3,14 @@ package com.ks.service.ks.model;
 import java.util.List;
 
 public class Customer {
-    private int customerId;
+    private final long customerId;
     private String name;
     private String address;
     private String phone;
-    private List<Order> orders;
     private double totalCosts;
 
-    public int getCustomerId() {
+    public long getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
     }
 
     public String getName() {
@@ -42,14 +37,6 @@ public class Customer {
         this.phone = phone;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
     public double getTotalCosts() {
         return totalCosts;
     }
@@ -58,16 +45,13 @@ public class Customer {
         this.totalCosts = totalCosts;
     }
 
-    public Customer(int customerId, String name, String address, String phone, List<Order> orders, double totalCosts) {
+    public Customer(long customerId, String name, String address, String phone, double totalCosts) {
         this.customerId = customerId;
         this.name = name;
         this.address = address;
         this.phone = phone;
-        this.orders = orders;
         this.totalCosts = totalCosts;
     }
-
-    public Customer() {}
 
     @Override
     public String toString() {
@@ -76,7 +60,6 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
-                ", orders=" + orders +
                 ", totalCosts=" + totalCosts +
                 '}';
     }

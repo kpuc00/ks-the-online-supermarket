@@ -1,19 +1,17 @@
 package com.ks.service.ks.model;
 
 public class Product {
-    private int id;
+    private final long id;
+    private long categoryId;
     private String name;
     private String description;
     private double price;
-    private Category category;
 
-    public int getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public long getCategoryId() { return categoryId; }
+
+    public void setCategoryId(long categoryId) { this.categoryId = categoryId; }
 
     public String getName() {
         return name;
@@ -39,32 +37,22 @@ public class Product {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Product(int id, String name, String description, double price, Category category) {
+    public Product(long id, long categoryId, String name, String description, double price) {
         this.id = id;
+        this.categoryId = categoryId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
     }
-
-    public Product() {}
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
+                ", categoryId=" + categoryId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", category=" + category +
                 '}';
     }
 }

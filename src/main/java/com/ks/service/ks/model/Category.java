@@ -1,10 +1,10 @@
 package com.ks.service.ks.model;
 
 public class Category {
-    private int id;
+    private final long id;
     private String name;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -16,12 +16,10 @@ public class Category {
         this.name = name;
     }
 
-    public Category(int id, String name) {
+    public Category(long id, String name) {
         this.id = id;
         this.name = name;
     }
-
-    public Category() {}
 
     @Override
     public String toString() {

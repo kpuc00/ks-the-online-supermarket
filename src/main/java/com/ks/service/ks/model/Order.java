@@ -3,33 +3,26 @@ package com.ks.service.ks.model;
 import java.util.List;
 
 public class Order {
-    private int orderNum;
-    private int customerId;
-    private List<Product> cart;
+    private final long orderNum;
+    private final long customerId;
+    private List<Product> orderedProducts;
     private double totalPrice;
+    private OrderStatus status;
 
-    public int getOrderNum() {
+    public long getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    public int getCustomerId() {
+    public long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public List<Product> getOrderedProducts() {
+        return orderedProducts;
     }
 
-    public List<Product> getCart() {
-        return cart;
-    }
-
-    public void setCart(List<Product> cart) {
-        this.cart = cart;
+    public void setOrderedProducts(List<Product> orderedProducts) {
+        this.orderedProducts = orderedProducts;
     }
 
     public double getTotalPrice() {
@@ -40,22 +33,30 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Order(int orderNum, int customerId, List<Product> cart, double totalPrice) {
-        this.orderNum = orderNum;
-        this.customerId = customerId;
-        this.cart = cart;
-        this.totalPrice = totalPrice;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public Order() {}
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public Order(long orderNum, long customerId, List<Product> orderedProducts, double totalPrice) {
+        this.orderNum = orderNum;
+        this.customerId = customerId;
+        this.orderedProducts = orderedProducts;
+        this.totalPrice = totalPrice;
+        this.status = OrderStatus.Processing;
+    }
 
     @Override
     public String toString() {
         return "Order{" +
                 "orderNum=" + orderNum +
                 ", customerId=" + customerId +
-                ", cart=" + cart +
+                ", orderedProducts=" + orderedProducts +
                 ", totalPrice=" + totalPrice +
+                ", status=" + status +
                 '}';
     }
 }
