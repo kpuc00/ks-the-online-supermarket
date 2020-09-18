@@ -11,7 +11,7 @@ cache:
 package:
   stage: build
   script:
-    - ./gradlew build --stacktrace
+    - ./gradlew build
 
 test:
   stage: test
