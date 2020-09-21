@@ -23,9 +23,13 @@ public class Product {
         this.productId = productId;
     }
 
-    public long getCategoryId() { return categoryId; }
+    public long getCategoryId() {
+        return categoryId;
+    }
 
-    public void setCategoryId(long categoryId) { this.categoryId = categoryId; }
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public String getName() {
         return name;

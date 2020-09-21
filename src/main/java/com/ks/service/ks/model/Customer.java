@@ -20,7 +20,9 @@ public class Customer {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) { this.customerId = customerId; }
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
 
     public String getName() {
         return name;
@@ -38,9 +40,13 @@ public class Customer {
         this.address = address;
     }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getPhone() {
         return phone;

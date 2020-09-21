@@ -7,6 +7,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
+    private long customerId;
     private String orderedProducts;
     private double totalPrice;
     @Enumerated(EnumType.ORDINAL)
@@ -18,6 +19,14 @@ public class Order {
 
     public void setOrderId(long orderId) {
         this.orderId = orderId;
+    }
+
+    public long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     public String getOrderedProducts() {
@@ -50,6 +59,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
+                ", customerId=" + customerId +
                 ", orderedProducts='" + orderedProducts + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
