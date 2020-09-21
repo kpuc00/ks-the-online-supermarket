@@ -1,31 +1,29 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.database.FakeDatabase;
+import com.ks.service.ks.database.CategoryRepository;
 import com.ks.service.ks.model.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/categories")
 public class CategoryResources {
-    private static final FakeDatabase fakeDb = new FakeDatabase();
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @PostMapping("/add")
     public ResponseEntity<Category> createCategory (@RequestBody Category category){
-        fakeDb.addCategory(category);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+        categoryRepository.save(category);
+        return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @GetMapping // /categories
-    public ResponseEntity<List<Category>> getAllCategories() {
-        if (fakeDb.getAllCategories() != null)
-            return new ResponseEntity<>(fakeDb.getAllCategories(), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public @ResponseBody Iterable<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable long id) {
         Category category = fakeDb.getCategory(id);
@@ -47,4 +45,6 @@ public class CategoryResources {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+ */
 }

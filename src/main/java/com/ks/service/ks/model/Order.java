@@ -1,27 +1,30 @@
 package com.ks.service.ks.model;
 
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class Order {
-    private final long orderNum;
-    private final long customerId;
-    private List<Product> orderedProducts;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long orderId;
+    private String orderedProducts;
     private double totalPrice;
+    @Enumerated(EnumType.ORDINAL)
     private OrderStatus status;
 
-    public long getOrderNum() {
-        return orderNum;
+    public long getOrderId() {
+        return orderId;
     }
 
-    public long getCustomerId() {
-        return customerId;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
-    public List<Product> getOrderedProducts() {
+    public String getOrderedProducts() {
         return orderedProducts;
     }
 
-    public void setOrderedProducts(List<Product> orderedProducts) {
+    public void setOrderedProducts(String orderedProducts) {
         this.orderedProducts = orderedProducts;
     }
 
@@ -41,20 +44,13 @@ public class Order {
         this.status = status;
     }
 
-    public Order(long orderNum, long customerId, List<Product> orderedProducts, double totalPrice) {
-        this.orderNum = orderNum;
-        this.customerId = customerId;
-        this.orderedProducts = orderedProducts;
-        this.totalPrice = totalPrice;
-        this.status = OrderStatus.Processing;
-    }
+    public Order() {}
 
     @Override
     public String toString() {
         return "Order{" +
-                "orderNum=" + orderNum +
-                ", customerId=" + customerId +
-                ", orderedProducts=" + orderedProducts +
+                "orderId=" + orderId +
+                ", orderedProducts='" + orderedProducts + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
                 '}';

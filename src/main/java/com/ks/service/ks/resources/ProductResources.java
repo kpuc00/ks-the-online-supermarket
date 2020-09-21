@@ -1,32 +1,27 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.database.FakeDatabase;
+import com.ks.service.ks.database.ProductRepository;
 import com.ks.service.ks.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/products")
 public class ProductResources {
-    private static final FakeDatabase fakeDb = new FakeDatabase();
+    private ProductRepository productRepository;
 
     @PostMapping("/add")
     public ResponseEntity<Product> createProduct (@RequestBody Product product){
-        if (fakeDb.addProduct(product))
-            return new ResponseEntity<>(product, HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        productRepository.save(product);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @GetMapping // /products
-    public ResponseEntity<List<Product>> getAllProducts() {
-        if (fakeDb.getAllProducts() != null)
-            return new ResponseEntity<>(fakeDb.getAllProducts(), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public @ResponseBody Iterable<Product> getAllProducts() {
+        return productRepository.findAll();
     }
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
         Product product = fakeDb.getProduct(id);
@@ -48,4 +43,6 @@ public class ProductResources {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+ */
 }

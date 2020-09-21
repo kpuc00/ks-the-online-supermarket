@@ -1,13 +1,27 @@
 package com.ks.service.ks.model;
 
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+
+import javax.persistence.*;
+
+@Entity
 public class Product {
-    private final long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long productId;
     private long categoryId;
     private String name;
     private String description;
     private double price;
 
-    public long getId() { return id; }
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
 
     public long getCategoryId() { return categoryId; }
 
@@ -37,18 +51,12 @@ public class Product {
         this.price = price;
     }
 
-    public Product(long id, long categoryId, String name, String description, double price) {
-        this.id = id;
-        this.categoryId = categoryId;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
+    public Product() {}
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "productId=" + productId +
                 ", categoryId=" + categoryId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

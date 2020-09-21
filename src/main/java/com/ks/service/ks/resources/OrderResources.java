@@ -1,33 +1,29 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.database.FakeDatabase;
+import com.ks.service.ks.database.OrderRepository;
 import com.ks.service.ks.model.Order;
-import com.ks.service.ks.model.OrderStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/orders")
 public class OrderResources {
-    private static final FakeDatabase fakeDb = new FakeDatabase();
+    @Autowired
+    private OrderRepository orderRepository;
 
     @PostMapping("/add")
     public ResponseEntity<Order> createOrder (@RequestBody Order order){
-        if(fakeDb.addOrder(order))
-            return new ResponseEntity<>(order, HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        orderRepository.save(order);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @GetMapping // /orders
-    public ResponseEntity<List<Order>> getAllOrders() {
-        if (fakeDb.getAllOrders() != null)
-            return new ResponseEntity<>(fakeDb.getAllOrders(), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public @ResponseBody Iterable<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable long id) {
         Order order = fakeDb.getOrder(id);
@@ -49,4 +45,6 @@ public class OrderResources {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+ */
 }
