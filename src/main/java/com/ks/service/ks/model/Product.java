@@ -1,14 +1,14 @@
 package com.ks.service.ks.model;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-
-@Entity
+@Entity(name = "PRODUCTS")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private long productId;
     private long categoryId;
     private String name;
