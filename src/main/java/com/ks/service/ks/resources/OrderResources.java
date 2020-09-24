@@ -23,28 +23,32 @@ public class OrderResources {
     public @ResponseBody Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
-/*
+
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable long id) {
-        Order order = fakeDb.getOrder(id);
-        if (order != null)
-            return new ResponseEntity<>(fakeDb.getOrder(id), HttpStatus.OK);
+        if (orderRepository.existsById(id))
+            return new ResponseEntity(orderRepository.findById(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrderStatus(@PathVariable long id, @RequestBody OrderStatus status){
-        if (fakeDb.editOrderStatus(id, status))
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable long id, @RequestBody Order updatedOrderStatus){
+        if (orderRepository.existsById(id)){
+            orderRepository.findById(id).map(order -> {
+                order.setStatus(updatedOrderStatus.getStatus());
+                orderRepository.save(order);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            });
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Order> deleteOrder(@PathVariable long id){
-        if (fakeDb.deleteOrder(id))
+        if (orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
- */
 }

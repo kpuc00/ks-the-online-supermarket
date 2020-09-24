@@ -17,14 +17,6 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public long getProductId() {
         return productId;
     }
@@ -57,6 +49,14 @@ public class Product {
         this.price = price;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Product() {}
 
     @Override
@@ -65,7 +65,7 @@ public class Product {
                 "productId=" + productId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", price=" + price + " €" +
                 ", category=" + category +
                 '}';
     }

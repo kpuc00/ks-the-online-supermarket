@@ -24,27 +24,34 @@ public class CustomerResources {
         return customerRepository.findAll();
     }
 
-    /*
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable long id) {
-        Customer customer = fakeDb.getCustomer(id);
-        if (customer != null)
-            return new ResponseEntity<>(fakeDb.getCustomer(id), HttpStatus.OK);
+        if (customerRepository.existsById(id))
+            return new ResponseEntity(customerRepository.findById(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable long id, @RequestBody Customer customer){
-        if (fakeDb.editCustomer(id, customer))
-            return new ResponseEntity<>(customer, HttpStatus.NO_CONTENT);
+    public ResponseEntity<Customer> updateCustomer(@PathVariable long id, @RequestBody Customer updatedCustomer){
+        if (customerRepository.existsById(id)){
+            customerRepository.findById(id).map(customer -> {
+                customer.setName(updatedCustomer.getName());
+                customer.setAddress(customer.getAddress());
+                customer.setEmail(updatedCustomer.getEmail());
+                customer.setPhone(updatedCustomer.getPhone());
+                customerRepository.save(customer);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            });
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable long id){
-        if (fakeDb.deleteCustomer(id))
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-     */
 }

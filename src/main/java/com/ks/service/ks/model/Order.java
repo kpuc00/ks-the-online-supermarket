@@ -12,7 +12,7 @@ public class Order {
     private String orderedProducts;
     @Column(precision = 2)
     private double totalPrice;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     public long getOrderId() {

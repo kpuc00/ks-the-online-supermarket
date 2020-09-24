@@ -23,28 +23,35 @@ public class ProductResources {
     public @ResponseBody Iterable<Product> getAllProducts() {
         return productRepository.findAll();
     }
-/*
+
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
-        Product product = fakeDb.getProduct(id);
-        if (product != null)
-            return new ResponseEntity<>(fakeDb.getProduct(id), HttpStatus.OK);
+        if (productRepository.existsById(id))
+            return new ResponseEntity(productRepository.findById(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product){
-        if (fakeDb.editProduct(id, product))
-            return new ResponseEntity<>(product, HttpStatus.NO_CONTENT);
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct){
+        if (productRepository.existsById(id)){
+            productRepository.findById(id).map(product -> {
+                product.setName(updatedProduct.getName());
+                product.setDescription(updatedProduct.getDescription());
+                product.setPrice(updatedProduct.getPrice());
+                product.setCategory(updatedProduct.getCategory());
+                productRepository.save(product);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            });
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable long id){
-        if (fakeDb.deleteProduct(id))
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
- */
 }
