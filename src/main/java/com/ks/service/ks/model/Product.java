@@ -10,11 +10,20 @@ public class Product {
     @Column(nullable = false, length = 50)
     private String name;
     private String description;
-    @Column(precision = 2)
+    @Column(nullable = false, precision = 2)
     private double price;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, targetEntity = Category.class)
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public long getProductId() {
         return productId;

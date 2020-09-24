@@ -2,6 +2,7 @@ package com.ks.service.ks.resources;
 
 import com.ks.service.ks.database.ProductRepository;
 import com.ks.service.ks.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/products")
 public class ProductResources {
+    @Autowired
     private ProductRepository productRepository;
 
     @PostMapping("/add")
