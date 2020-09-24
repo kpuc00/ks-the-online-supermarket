@@ -1,18 +1,18 @@
 package com.ks.service.ks.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "ORDERS")
 public class Order {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
     private long customerId;
+    @Lob
     private String orderedProducts;
+    @Column(precision = 2)
     private double totalPrice;
+    @Enumerated
     private OrderStatus status;
 
     public long getOrderId() {

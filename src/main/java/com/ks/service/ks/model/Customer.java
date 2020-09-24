@@ -1,19 +1,21 @@
 package com.ks.service.ks.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "CUSTOMERS")
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long customerId;
+    @Column(nullable = false, length = 50)
     private String name;
+    @Column(length = 90)
     private String address;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String phone;
+    @Column(precision = 2)
     private double totalCosts;
 
     public long getCustomerId() {

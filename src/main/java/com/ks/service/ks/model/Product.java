@@ -1,19 +1,20 @@
 package com.ks.service.ks.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "PRODUCTS")
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
-    private long categoryId;
+    @Column(nullable = false, length = 50)
     private String name;
     private String description;
+    @Column(precision = 2)
     private double price;
+
+    @ManyToOne(optional = false)
+    private Category category;
 
     public long getProductId() {
         return productId;
@@ -21,14 +22,6 @@ public class Product {
 
     public void setProductId(long productId) {
         this.productId = productId;
-    }
-
-    public long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -61,10 +54,10 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", categoryId=" + categoryId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ", category=" + category +
                 '}';
     }
 }
