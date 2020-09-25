@@ -1,5 +1,5 @@
 before_script:
-- set GRADLE_USER_HOME=C:\Users\krist\OneDrive - Office 365 Fontys\Semester 3\its\gradle-6.6.1
+- set GRADLE_USER_HOME=C:\Users\krist\gradle-6.6.1
 - ./gradlew
  
 build:
