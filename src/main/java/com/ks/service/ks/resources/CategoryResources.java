@@ -17,7 +17,7 @@ public class CategoryResources {
     @PostMapping("/add")
     public ResponseEntity<Category> createCategory (@RequestBody Category category){
         categoryRepository.save(category);
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /categories
@@ -38,8 +38,9 @@ public class CategoryResources {
             categoryRepository.findById(id).map(category -> {
                 category.setName(updatedCategory.getName());
                 categoryRepository.save(category);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return updatedCategory;
             });
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

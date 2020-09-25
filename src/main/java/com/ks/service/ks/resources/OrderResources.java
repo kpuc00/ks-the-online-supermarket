@@ -16,7 +16,7 @@ public class OrderResources {
     @PostMapping("/add")
     public ResponseEntity<Order> createOrder (@RequestBody Order order){
         orderRepository.save(order);
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /orders
@@ -37,10 +37,12 @@ public class OrderResources {
             orderRepository.findById(id).map(order -> {
                 order.setStatus(updatedOrderStatus.getStatus());
                 orderRepository.save(order);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return updatedOrderStatus;
             });
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")

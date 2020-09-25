@@ -15,7 +15,7 @@ public class Customer {
     private String email;
     @Column(nullable = false)
     private String phone;
-    @Column(precision = 2)
+    @Column(nullable = false, precision = 2)
     private double totalCosts;
 
     public long getCustomerId() {

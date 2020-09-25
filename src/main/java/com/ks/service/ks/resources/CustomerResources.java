@@ -16,7 +16,7 @@ public class CustomerResources {
     @PostMapping("/add")
     public ResponseEntity<Customer> createCustomer (@RequestBody Customer customer){
         customerRepository.save(customer);
-        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /customers
@@ -40,10 +40,12 @@ public class CustomerResources {
                 customer.setEmail(updatedCustomer.getEmail());
                 customer.setPhone(updatedCustomer.getPhone());
                 customerRepository.save(customer);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return updatedCustomer;
             });
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")

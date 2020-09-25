@@ -10,7 +10,7 @@ public class Order {
     private long customerId;
     @Lob
     private String orderedProducts;
-    @Column(precision = 2)
+    @Column(nullable = false, precision = 2)
     private double totalPrice;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

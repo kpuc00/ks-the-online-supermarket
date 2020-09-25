@@ -16,7 +16,7 @@ public class ProductResources {
     @PostMapping("/add")
     public ResponseEntity<Product> createProduct (@RequestBody Product product){
         productRepository.save(product);
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /products
@@ -40,10 +40,12 @@ public class ProductResources {
                 product.setPrice(updatedProduct.getPrice());
                 product.setCategory(updatedProduct.getCategory());
                 productRepository.save(product);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return updatedProduct;
             });
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
