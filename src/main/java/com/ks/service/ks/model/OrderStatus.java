@@ -2,7 +2,9 @@ package com.ks.service.ks.model;
 
 public enum OrderStatus {
     Processing,
-    Ready,
+    ReadyToGet,
+    OnTheGo,
     Delivered,
+    Finished,
     Cancelled
 }
