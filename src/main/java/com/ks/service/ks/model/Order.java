@@ -7,13 +7,24 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
-    private long customerId;
     @Lob
     private String orderedProducts;
     @Column(nullable = false, precision = 2)
-    private double totalPrice;
+    private double totalPrice = 0;
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.Processing;
+
+    @ManyToOne(optional = false, targetEntity = Customer.class)
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public long getOrderId() {
         return orderId;
@@ -21,14 +32,6 @@ public class Order {
 
     public void setOrderId(long orderId) {
         this.orderId = orderId;
-    }
-
-    public long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
     }
 
     public String getOrderedProducts() {
@@ -61,10 +64,10 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
-                ", customerId=" + customerId +
                 ", orderedProducts='" + orderedProducts + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
+                ", customer=" + customer +
                 '}';
     }
 }

@@ -1,11 +1,13 @@
 package com.ks.service.ks.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "CUSTOMERS")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id")
     private long customerId;
     @Column(nullable = false, length = 50)
     private String name;
@@ -16,7 +18,10 @@ public class Customer {
     @Column(nullable = false)
     private String phone;
     @Column(nullable = false, precision = 2)
-    private double totalCosts;
+    private double totalCosts = 0;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
     public long getCustomerId() {
         return customerId;
