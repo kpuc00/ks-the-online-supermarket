@@ -1,11 +1,26 @@
 package com.ks.service.ks.model;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity(name = "CATEGORIES")
 public class Category {
-    private final long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private long categoryId;
+    @Column(nullable = false, length = 50)
     private String name;
 
-    public long getId() {
-        return id;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -16,15 +31,12 @@ public class Category {
         this.name = name;
     }
 
-    public Category(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    public Category() {}
 
     @Override
     public String toString() {
         return "Category{" +
-                "id=" + id +
+                "categoryId=" + categoryId +
                 ", name='" + name + '\'' +
                 '}';
     }

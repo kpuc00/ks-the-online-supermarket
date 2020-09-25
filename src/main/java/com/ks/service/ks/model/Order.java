@@ -1,27 +1,41 @@
 package com.ks.service.ks.model;
 
-import java.util.List;
+import javax.persistence.*;
 
+@Entity(name = "ORDERS")
 public class Order {
-    private final long orderNum;
-    private final long customerId;
-    private List<Product> orderedProducts;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long orderId;
+    private long customerId;
+    @Lob
+    private String orderedProducts;
+    @Column(precision = 2)
     private double totalPrice;
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    public long getOrderNum() {
-        return orderNum;
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
     public long getCustomerId() {
         return customerId;
     }
 
-    public List<Product> getOrderedProducts() {
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getOrderedProducts() {
         return orderedProducts;
     }
 
-    public void setOrderedProducts(List<Product> orderedProducts) {
+    public void setOrderedProducts(String orderedProducts) {
         this.orderedProducts = orderedProducts;
     }
 
@@ -41,20 +55,14 @@ public class Order {
         this.status = status;
     }
 
-    public Order(long orderNum, long customerId, List<Product> orderedProducts, double totalPrice) {
-        this.orderNum = orderNum;
-        this.customerId = customerId;
-        this.orderedProducts = orderedProducts;
-        this.totalPrice = totalPrice;
-        this.status = OrderStatus.Processing;
-    }
+    public Order() {}
 
     @Override
     public String toString() {
         return "Order{" +
-                "orderNum=" + orderNum +
+                "orderId=" + orderId +
                 ", customerId=" + customerId +
-                ", orderedProducts=" + orderedProducts +
+                ", orderedProducts='" + orderedProducts + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
                 '}';

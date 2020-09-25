@@ -1,17 +1,29 @@
 package com.ks.service.ks.model;
 
+import javax.persistence.*;
+
+@Entity(name = "PRODUCTS")
 public class Product {
-    private final long id;
-    private long categoryId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long productId;
+    @Column(nullable = false, length = 50)
     private String name;
     private String description;
+    @Column(nullable = false, precision = 2)
     private double price;
 
-    public long getId() { return id; }
+    @ManyToOne(optional = false, targetEntity = Category.class)
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Category category;
 
-    public long getCategoryId() { return categoryId; }
+    public long getProductId() {
+        return productId;
+    }
 
-    public void setCategoryId(long categoryId) { this.categoryId = categoryId; }
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
 
     public String getName() {
         return name;
@@ -37,22 +49,24 @@ public class Product {
         this.price = price;
     }
 
-    public Product(long id, long categoryId, String name, String description, double price) {
-        this.id = id;
-        this.categoryId = categoryId;
-        this.name = name;
-        this.description = description;
-        this.price = price;
+    public Category getCategory() {
+        return category;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Product() {}
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
-                ", categoryId=" + categoryId +
+                "productId=" + productId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", price=" + price + " €" +
+                ", category=" + category +
                 '}';
     }
 }

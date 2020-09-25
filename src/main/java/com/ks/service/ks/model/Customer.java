@@ -1,16 +1,29 @@
 package com.ks.service.ks.model;
 
-import java.util.List;
+import javax.persistence.*;
 
+@Entity(name = "CUSTOMERS")
 public class Customer {
-    private final long customerId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long customerId;
+    @Column(nullable = false, length = 50)
     private String name;
+    @Column(length = 90)
     private String address;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
     private String phone;
+    @Column(precision = 2)
     private double totalCosts;
 
     public long getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     public String getName() {
@@ -29,6 +42,14 @@ public class Customer {
         this.address = address;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -45,13 +66,7 @@ public class Customer {
         this.totalCosts = totalCosts;
     }
 
-    public Customer(long customerId, String name, String address, String phone, double totalCosts) {
-        this.customerId = customerId;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.totalCosts = totalCosts;
-    }
+    public Customer() {}
 
     @Override
     public String toString() {
@@ -59,6 +74,7 @@ public class Customer {
                 "customerId=" + customerId +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", totalCosts=" + totalCosts +
                 '}';
