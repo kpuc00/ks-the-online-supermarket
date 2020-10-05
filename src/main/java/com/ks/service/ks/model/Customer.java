@@ -1,6 +1,7 @@
 package com.ks.service.ks.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity(name = "CUSTOMERS")
@@ -14,6 +15,7 @@ public class Customer {
     @Column(length = 90)
     private String address;
     @Column(nullable = false)
+    @Email
     private String email;
     @Column(nullable = false)
     private String phone;
