@@ -36,7 +36,7 @@ public class CustomerResources {
         if (customerRepository.existsById(id)){
             customerRepository.findById(id).map(customer -> {
                 customer.setName(updatedCustomer.getName());
-                customer.setAddress(customer.getAddress());
+                customer.setAddress(updatedCustomer.getAddress());
                 customer.setEmail(updatedCustomer.getEmail());
                 customer.setPhone(updatedCustomer.getPhone());
                 customerRepository.save(customer);
