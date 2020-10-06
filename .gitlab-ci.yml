@@ -1,17 +1,17 @@
 before_script:
 - set GRADLE_USER_HOME=`pwd`/.gradle
-- ./ks-api/gradlew
+- ./gradlew
  
 build:
   script:
-    - ./ks-api/gradlew
+    - ./gradlew
   only:
     - master
  
 test:
   stage: test
   script:
-    - ./ks-api/gradlew
+    - ./gradlew
   only:
     - master
     
