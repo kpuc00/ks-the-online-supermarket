@@ -6,14 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class HelloController {
+public class HomeController {
     @RequestMapping
     public String index() {
-        return "Greetings from Spring Boot!";
-    }
-
-    @GetMapping("hello")
-    public String show() {
-        return "Hello world!";
+        return "KS API";
     }
 }
