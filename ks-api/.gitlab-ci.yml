@@ -1,0 +1,15 @@
+before_script:
+- set GRADLE_USER_HOME=`pwd`/.gradle
+- ./gradlew
+ 
+build:
+  script:
+    - ./gradlew assemble
+ 
+test:
+  stage: test
+  script:
+    - ./gradlew test
+ 
+after_script:
+  - echo "End CI"
