@@ -3,7 +3,7 @@ package com.ks.service.ks.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "CATEGORIES")
+@Etntity(name = "CATEGORIES")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
