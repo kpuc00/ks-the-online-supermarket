@@ -4,14 +4,14 @@ before_script:
  
 build:
   script:
-    - ./gradlew
+    - ./ks-api/gradlew assemble
   only:
     - master
  
 test:
   stage: test
   script:
-    - ./gradlew
+    - ./ks-api/gradlew test
   only:
     - master
     
