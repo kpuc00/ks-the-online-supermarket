@@ -1,18 +1,21 @@
-before_script:
-- ./gradlew
- 
+#before_script:
+#- set GRADLE_USER_HOME=`pwd`/.gradle
+#- ./gradlew
+stages:
+  - build
+  - test
+
 build:
+  stage: build
   script:
     - ./gradlew assemble
-  only:
-    - master
  
 test:
   stage: test
+  dependencies:
+    - build
   script:
     - ./gradlew test
-  only:
-    - master
     
 after_script:
   - echo "End CI"
