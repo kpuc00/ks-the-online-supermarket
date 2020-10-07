@@ -1,0 +1,20 @@
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - cd ./ks-api
+    - ./gradlew assemble
+ 
+test:
+  stage: test
+  dependencies:
+    - build
+  script:
+    - cd ./ks-api
+    - ./gradlew test
+    
+after_script:
+  - echo "End CI"
