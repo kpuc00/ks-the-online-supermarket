@@ -1,5 +1,4 @@
 before_script:
-- set GRADLE_USER_HOME=`pwd`/.gradle
 - ./gradlew
  
 build:
