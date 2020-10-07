@@ -16,7 +16,6 @@ test:
   dependencies:
     - build
   script:
-    - cd ./ks-api
     - ./gradlew test
     
 after_script:
