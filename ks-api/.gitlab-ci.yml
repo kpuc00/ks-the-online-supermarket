@@ -8,14 +8,16 @@ stages:
 build:
   stage: build
   script:
-    - ./ks-api/gradlew assemble
+    - cd ./ks-api
+    - ./gradlew assemble
  
 test:
   stage: test
   dependencies:
     - build
   script:
-    - ./ks-api/gradlew test
+    - cd ./ks-api
+    - ./gradlew test
     
 after_script:
   - echo "End CI"
