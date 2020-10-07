@@ -1,17 +1,17 @@
 before_script:
 - set GRADLE_USER_HOME=`pwd`/.gradle
-- ./ks-api/gradlew
+- cd ./ks-api
  
 build:
   script:
-    - ./ks-api/gradlew assemble
+    - ./gradlew assemble
   only:
     - master
  
 test:
   stage: test
   script:
-    - ./ks-api/gradlew test
+    - ./gradlew test
   only:
     - master
     
