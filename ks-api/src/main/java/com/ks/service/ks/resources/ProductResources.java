@@ -17,7 +17,7 @@ public class ProductResources {
     @PostMapping("/add")
     public ResponseEntity<Product> createProduct (@RequestBody Product product){
         productRepository.save(product);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @GetMapping // /products

@@ -17,7 +17,7 @@ public class OrderResources {
     @PostMapping("/add")
     public ResponseEntity<Order> createOrder (@RequestBody Order order){
         orderRepository.save(order);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @GetMapping // /orders

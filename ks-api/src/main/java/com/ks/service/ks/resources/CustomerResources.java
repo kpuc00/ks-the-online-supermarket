@@ -17,7 +17,7 @@ public class CustomerResources {
     @PostMapping("/add")
     public ResponseEntity<Customer> createCustomer (@RequestBody Customer customer){
         customerRepository.save(customer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
     @GetMapping // /customers
