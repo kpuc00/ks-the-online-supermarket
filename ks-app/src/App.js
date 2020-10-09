@@ -5,10 +5,13 @@ import {
   Route
 } from "react-router-dom";
 import NavigationBar from './components/NavigationBar';
-import Home from './components/Home';
-import Products from './components/Products';
-import Offers from './components/Offers';
-import Order from './components/Order';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import Offers from './pages/Offers';
+import Order from './pages/Order';
+import Customers from './pages/Customers';
+import AddCustomer from "./components/customers/AddCustomer";
+import EditCustomer from "./components/customers/EditCustomer";
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
             <Route path="/products" component={Products} />
             <Route path="/offers" component={Offers} />
             <Route path="/order" component={Order} />
+            <Route path="/customers" component={Customers} />
+            <Route path="/addcustomer" component={AddCustomer} />
+            <Route path="/editcustomer/:id" exact component={EditCustomer} />
           </Switch>
         </Router>
       </div>

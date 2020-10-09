@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function NavigationBar() {
   return (
@@ -22,7 +21,7 @@ function NavigationBar() {
             </Nav.Item>
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/order">Order</Nav.Link>
+            <Nav.Link as={Link} to="/customers">Customers</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import Spinner from 'react-bootstrap/Spinner'
 
 class Products extends Component {
   constructor() {
@@ -32,7 +35,9 @@ class Products extends Component {
           <Row>
             <Col>
               <h3>Products</h3>
-              <h6>Loading...</h6>
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
             </Col>
           </Row>
         </Container>
@@ -44,21 +49,28 @@ class Products extends Component {
           <Row>
             <Col>
               <h3>Products</h3>
-              <ul>
+              <div style={{display: "flex", flexWrap: "wrap"}}>
                 {items.map(item => (
-                  <li key={item.id}>
-                    Name: {item.name} | Price: {item.price}
-                  </li>
+                  <Card key={item.productId} style={{ width: "40%", margin: "5px"}}>
+                    <Card.Img variant="top" src={"/images/product/" + item.image} />
+                    <Card.Body>
+                      <Card.Title>{item.name}</Card.Title>
+                      <Card.Text>
+                        <div>{item.description}</div>
+                        <strong>Category:</strong> {item.category.name}<br />
+                        <strong>Price:</strong> {item.price} €
+                      </Card.Text>
+                      <Button variant="primary">Add to cart</Button>
+                    </Card.Body>
+                  </Card>
                 ))}
-              </ul>
+                </div>
             </Col>
           </Row>
         </Container>
-
       );
     }
   }
-
 }
 
 export default Products;
