@@ -12,6 +12,8 @@ public class Product {
     private String description;
     @Column(nullable = false, precision = 2)
     private double price;
+    @Column(nullable = false)
+    private String image = "default.jpg";
 
     @ManyToOne(optional = false, targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -49,6 +51,14 @@ public class Product {
         this.price = price;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -58,15 +68,4 @@ public class Product {
     }
 
     public Product() {}
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price + " €" +
-                ", category=" + category +
-                '}';
-    }
 }

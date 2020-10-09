@@ -74,16 +74,4 @@ public class Customer {
     }
 
     public Customer() {}
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", totalCosts=" + totalCosts +
-                '}';
-    }
 }

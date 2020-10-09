@@ -59,15 +59,4 @@ public class Order {
     }
 
     public Order() {}
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", orderedProducts='" + orderedProducts + '\'' +
-                ", totalPrice=" + totalPrice +
-                ", status=" + status +
-                ", customer=" + customer +
-                '}';
-    }
 }
