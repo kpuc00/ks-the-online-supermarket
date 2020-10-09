@@ -12,6 +12,9 @@ import Order from './pages/Order';
 import Customers from './pages/Customers';
 import AddCustomer from "./components/customers/AddCustomer";
 import EditCustomer from "./components/customers/EditCustomer";
+import AddProduct from "./components/products/AddProduct";
+import EditProduct from "./components/products/EditProduct";
+import ProductsManager from "./pages/ProductsManager";
 
 function App() {
   return (
@@ -21,8 +24,14 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/products" component={Products} />
+            <Route path="/productsmanager" component={ProductsManager} />
+            <Route path="/addproduct" component={AddProduct} />
+            <Route path="/editproduct/:id" exact component={EditProduct} />
+
             <Route path="/offers" component={Offers} />
+
             <Route path="/order" component={Order} />
+
             <Route path="/customers" component={Customers} />
             <Route path="/addcustomer" component={AddCustomer} />
             <Route path="/editcustomer/:id" exact component={EditCustomer} />

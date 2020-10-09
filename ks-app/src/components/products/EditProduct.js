@@ -2,19 +2,17 @@ import React, { Component } from "react";
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import CustomerForm from './CustomerForm'
+import ProductForm from './ProductForm'
 import Spinner from 'react-bootstrap/Spinner'
 
-class EditCustomer extends Component {
+class EditProduct extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.submitCustomer = this.submitCustomer.bind(this);
+        this.submitProduct = this.submitProduct.bind(this);
         this.state = {
             name: "",
-            address: "",
-            email: "",
-            phone: ""
+            description: "",
         }
     }
 
@@ -26,7 +24,7 @@ class EditCustomer extends Component {
 
     componentDidMount() {
         var id = this.props.match.params.id;
-        fetch('http://localhost:8080/customers/' + { id })
+        fetch('http://localhost:8080/products/' + { id })
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -36,14 +34,15 @@ class EditCustomer extends Component {
             });
     }
 
-    submitCustomer() {
+    submitProduct() {
         const requestOptions = {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state),
         };
+        
         var id = this.props.match.params.id;
-        fetch("http://localhost:8080/customers/" + { id }, requestOptions)
+        fetch("http://localhost:8080/products/"+ { id }, requestOptions)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -61,7 +60,7 @@ class EditCustomer extends Component {
                     <Container>
                         <Row>
                             <Col>
-                                <h3>Edit customer</h3>
+                                <h3>Edit product</h3>
                                 <Spinner animation="border" role="status">
                                     <span className="sr-only">Loading...</span>
                                 </Spinner>
@@ -76,9 +75,9 @@ class EditCustomer extends Component {
                 <Container>
                     <Row>
                         <Col>
-                            <h3>Edit Customer</h3>
+                            <h3>Edit product</h3>
                             {items.map(item => (
-                                <CustomerForm handleChange={this.handleChange} submitCustomer={this.submitCustomer} customer={item} />
+                                <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={item} />
                             ))}
                         </Col>
                     </Row>
@@ -88,4 +87,4 @@ class EditCustomer extends Component {
     }
 }
 
-export default EditCustomer;
+export default EditProduct;
