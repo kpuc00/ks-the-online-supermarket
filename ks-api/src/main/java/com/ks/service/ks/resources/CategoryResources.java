@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/categories")
 public class CategoryResources {
@@ -17,7 +17,7 @@ public class CategoryResources {
     @PostMapping("/add")
     public ResponseEntity<Category> createCategory (@RequestBody Category category){
         categoryRepository.save(category);
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /categories

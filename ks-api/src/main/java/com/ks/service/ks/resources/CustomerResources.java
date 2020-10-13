@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/customers")
 public class CustomerResources {
@@ -17,7 +17,7 @@ public class CustomerResources {
     @PostMapping("/add")
     public ResponseEntity<Customer> createCustomer (@RequestBody Customer customer){
         customerRepository.save(customer);
-        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /customers
