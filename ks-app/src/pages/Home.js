@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col'
 
 function Home() {
     return (
-        <div>
             <Container>
                 <Row>
                     <Col>
@@ -13,8 +12,7 @@ function Home() {
                     </Col>
                 </Row>
             </Container>
-        </div>
-    );
+    )
 }
 
 export default Home;

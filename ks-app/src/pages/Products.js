@@ -56,7 +56,7 @@ class Products extends Component {
                     <Card.Body>
                       <Card.Title>{item.name}</Card.Title>
                       <Card.Text>
-                        <div>{item.description}</div>
+                        {item.description}<br />
                         <strong>Category:</strong> {item.category.name}<br />
                         <strong>Price:</strong> {item.price} €
                       </Card.Text>
