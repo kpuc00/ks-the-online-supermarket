@@ -40,9 +40,9 @@ class EditProduct extends Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state),
         };
-        
+
         var id = this.props.match.params.id;
-        fetch("http://localhost:8080/products/"+ { id }, requestOptions)
+        fetch("http://localhost:8080/products/" + { id }, requestOptions)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -56,33 +56,29 @@ class EditProduct extends Component {
         var { isLoaded, items } = this.state;
         if (!isLoaded) {
             return (
-                <div>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <h3>Edit product</h3>
-                                <Spinner animation="border" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </Spinner>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            )
-        }
-        return (
-            <div>
                 <Container>
                     <Row>
                         <Col>
                             <h3>Edit product</h3>
-                            {items.map(item => (
-                                <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={item} />
-                            ))}
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
                         </Col>
                     </Row>
-                </Container >
-            </div>
+                </Container>
+            )
+        }
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <h3>Edit product</h3>
+                        {items.map(item => (
+                            <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={item} />
+                        ))}
+                    </Col>
+                </Row>
+            </Container >
         )
     }
 }

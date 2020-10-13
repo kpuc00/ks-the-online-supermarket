@@ -20,7 +20,7 @@ class AddCustomer extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
-        });
+        })
     }
 
     submitCustomer() {
@@ -28,29 +28,20 @@ class AddCustomer extends Component {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state),
-        };
+        }
         fetch("http://localhost:8080/customers/add", requestOptions)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    data: responseJson.token
-                });
-                console.log(responseJson);
-            });
     }
 
     render() {
         return (
-            <div>
-                <Container>
-                    <Row>
-                        <Col>
-                            <h3>Add new customer</h3>
-                            <CustomerForm handleChange={this.handleChange} submitCustomer={this.submitCustomer} />
-                        </Col>
-                    </Row>
-                </Container >
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <h3>Add new customer</h3>
+                        <CustomerForm handleChange={this.handleChange} submitCustomer={this.submitCustomer} />
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }

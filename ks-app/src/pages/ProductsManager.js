@@ -35,7 +35,7 @@ class ProductsManager extends Component {
     var { isLoaded, items } = this.state;
 
     if (!isLoaded) {
-      return <div>
+      return (
         <Container>
           <Row>
             <Col>
@@ -46,7 +46,7 @@ class ProductsManager extends Component {
             </Col>
           </Row>
         </Container>
-      </div>
+      )
     }
     else {
       return (
@@ -71,7 +71,7 @@ class ProductsManager extends Component {
                       <Link to={"/editproduct/" + item.productId}>
                         <Button variant="warning">Edit</Button>
                       </Link>
-                      <Button variant="danger" onClick={() =>  this.deleteProduct(item.productId)}>Delete</Button>
+                      <Button variant="danger" onClick={() => this.deleteProduct(item.productId)}>Delete</Button>
                     </Card.Body>
                   </Card>
                 ))}

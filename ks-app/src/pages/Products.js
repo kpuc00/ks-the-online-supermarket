@@ -49,9 +49,9 @@ class Products extends Component {
           <Row>
             <Col>
               <h3>Products</h3>
-              <div style={{display: "flex", flexWrap: "wrap"}}>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {items.map(item => (
-                  <Card key={item.productId} style={{ width: "40%", margin: "5px"}}>
+                  <Card key={item.productId} style={{ width: "40%", margin: "5px" }}>
                     <Card.Img variant="top" src={"/images/product/" + item.image} />
                     <Card.Body>
                       <Card.Title>{item.name}</Card.Title>
@@ -64,7 +64,7 @@ class Products extends Component {
                     </Card.Body>
                   </Card>
                 ))}
-                </div>
+              </div>
             </Col>
           </Row>
         </Container>

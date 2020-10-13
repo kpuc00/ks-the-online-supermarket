@@ -34,7 +34,7 @@ class Customers extends Component {
         var { isLoaded, items } = this.state;
 
         if (!isLoaded) {
-            return <div>
+            return (
                 <Container>
                     <Row>
                         <Col>
@@ -45,7 +45,7 @@ class Customers extends Component {
                         </Col>
                     </Row>
                 </Container>
-            </div>
+            )
         }
         else {
             return (
@@ -64,8 +64,8 @@ class Customers extends Component {
                                         <li>Email: {item.email}</li>
                                         <li>Phone: {item.phone}</li>
                                         <li>Total costs: {item.totalCosts} €</li>
-                                        <Link to={"/editcustomer/"+ item.customerId}>
-                                        <Button variant="warning">Edit</Button>
+                                        <Link to={"/editcustomer/" + item.customerId}>
+                                            <Button variant="warning">Edit</Button>
                                         </Link>
                                         <Button variant="danger" onClick={() => this.deleteCustomer(item.customerId)}>Delete</Button>
                                     </ul>
@@ -74,7 +74,7 @@ class Customers extends Component {
                         </Col>
                     </Row>
                 </Container>
-            );
+            )
         }
     }
 }

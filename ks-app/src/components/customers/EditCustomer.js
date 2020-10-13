@@ -26,7 +26,7 @@ class EditCustomer extends Component {
 
     componentDidMount() {
         var id = this.props.match.params.id;
-        fetch('http://localhost:8080/customers/' + { id })
+        fetch("http://localhost:8080/customers/" + { id })
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -57,33 +57,29 @@ class EditCustomer extends Component {
         var { isLoaded, items } = this.state;
         if (!isLoaded) {
             return (
-                <div>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <h3>Edit customer</h3>
-                                <Spinner animation="border" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </Spinner>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            )
-        }
-        return (
-            <div>
                 <Container>
                     <Row>
                         <Col>
-                            <h3>Edit Customer</h3>
-                            {items.map(item => (
-                                <CustomerForm handleChange={this.handleChange} submitCustomer={this.submitCustomer} customer={item} />
-                            ))}
+                            <h3>Edit customer</h3>
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
                         </Col>
                     </Row>
-                </Container >
-            </div>
+                </Container>
+            )
+        }
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <h3>Edit Customer</h3>
+                        {items.map(item => (
+                            <CustomerForm handleChange={this.handleChange} submitCustomer={this.submitCustomer} customer={item} />
+                        ))}
+                    </Col>
+                </Row>
+            </Container >
         )
     }
 }

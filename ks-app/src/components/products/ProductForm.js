@@ -6,22 +6,26 @@ import { Link } from "react-router-dom";
 const ProductForm = ({ handleChange, submitProduct, product }) => {
     return (
         <Form>
-            <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Group controlId="name">
                 <Form.Label>Name*</Form.Label>
-                <Form.Control id="name" onChange={handleChange} type="name" placeholder="Water" value={product?.name} />
-                <Form.Label>Description</Form.Label>
-                <Form.Control id="description" onChange={handleChange} type="text" placeholder="..." value={product?.description} />
-                <Form.Label>Price*</Form.Label>
-                <Form.Control id="price" onChange={handleChange} type="number" placeholder="0.00" value={product?.price} />
+                <Form.Control name="name" onChange={handleChange} type="name" placeholder="Water" value={product?.name} />
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control name="description" onChange={handleChange} type="text" placeholder="..." value={product?.description} />
+            </Form.Group>
+            <Form.Group controlId="price">
+                <Form.Label>Price*</Form.Label>
+                <Form.Control name="price" onChange={handleChange} type="number" placeholder="0.00" value={product?.price} />
+            </Form.Group>
+            <Form.Group controlId="categoryId">
                 <Form.Label>Select category*</Form.Label>
-                <Form.Control as="select">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <Form.Control as="select" name="categoryId" onChange={handleChange}>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
                 </Form.Control>
             </Form.Group>
             <Link to="/productsmanager">

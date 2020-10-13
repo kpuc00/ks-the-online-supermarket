@@ -12,13 +12,29 @@ class AddProduct extends Component {
         this.state = {
             name: "",
             description: "",
+            price: 0,
+            category: {
+                categoryId: 0
+            }
         }
     }
 
     handleChange = (e) => {
-        this.setState({
-            [e.target.id]: e.target.value
-        });
+        const { name, value } = e.target;
+        if (name === "categoryId") {
+            this.setState(state => ({
+                category: {
+                    ...this.state.category,
+                    [name]: value
+                }
+            }))
+        }
+        else {
+            this.setState({
+                ...this.state,
+                [name]: value
+            });
+        }
     }
 
     submitProduct() {
@@ -27,28 +43,19 @@ class AddProduct extends Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state),
         };
-        fetch("http://localhost:8080/products/add", requestOptions)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    data: responseJson.token
-                });
-                console.log(responseJson);
-            });
+        fetch("http://localhost:8080/products/add", requestOptions);
     }
 
     render() {
         return (
-            <div>
-                <Container>
-                    <Row>
-                        <Col>
-                            <h3>Add new product</h3>
-                            <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} />
-                        </Col>
-                    </Row>
-                </Container >
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <h3>Add new product</h3>
+                        <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={null} />
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }

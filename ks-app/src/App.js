@@ -18,7 +18,6 @@ import ProductsManager from "./pages/ProductsManager";
 
 function App() {
   return (
-      <div>
         <Router>
         <NavigationBar/>
           <Switch>
@@ -34,10 +33,9 @@ function App() {
 
             <Route path="/customers" component={Customers} />
             <Route path="/addcustomer" component={AddCustomer} />
-            <Route path="/editcustomer/:id" exact component={EditCustomer} />
+            <Route path="/editcustomer/:id" component={EditCustomer} />
           </Switch>
         </Router>
-      </div>
   );
 }
 
