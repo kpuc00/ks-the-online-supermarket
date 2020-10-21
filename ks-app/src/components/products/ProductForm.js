@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { Link } from "react-router-dom";
 
-const ProductForm = ({ handleChange, submitProduct, product }) => {
+const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
     return (
         <Form>
             <Form.Group controlId="name">
@@ -20,13 +20,21 @@ const ProductForm = ({ handleChange, submitProduct, product }) => {
             </Form.Group>
             <Form.Group controlId="categoryId">
                 <Form.Label>Select category*</Form.Label>
-                <Form.Control as="select" name="categoryId" onChange={handleChange}>
+                <Form.Control as="select" name="categoryId" value="" onChange={handleChange}>
+                    {/* <option>Uncategorized</option> */}
+                    {categories.map(category => (
+                        <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
+                    ))}
+                    {/* <option value={0}></option>
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>
                     <option value={4}>4</option>
-                    <option value={5}>5</option>
+                    <option value={5}>5</option> */}
                 </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="image">
+                <Form.File name="image" accept="image/png,image/jpeg" label="Upload product image" />
             </Form.Group>
             <Link to="/productsmanager">
                 <Button variant="primary" onClick={submitProduct}>Submit</Button>

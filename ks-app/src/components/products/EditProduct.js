@@ -28,8 +28,17 @@ class EditProduct extends Component {
             .then(res => res.json())
             .then(json => {
                 this.setState({
-                    isLoaded: true,
-                    items: json
+                    productLoaded: true,
+                    product: json
+                })
+            });
+
+        fetch('http://localhost:8080/categories')
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    categoriesLoaded: true,
+                    categories: json
                 })
             });
     }
@@ -53,8 +62,8 @@ class EditProduct extends Component {
     }
 
     render() {
-        var { isLoaded, items } = this.state;
-        if (!isLoaded) {
+        var { productLoaded, categoriesLoaded, product, categories } = this.state;
+        if (!productLoaded || !categoriesLoaded) {
             return (
                 <Container>
                     <Row>
@@ -73,8 +82,8 @@ class EditProduct extends Component {
                 <Row>
                     <Col>
                         <h3>Edit product</h3>
-                        {items.map(item => (
-                            <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={item} />
+                        {product.map(item => (
+                            <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={product} categories={categories} />
                         ))}
                     </Col>
                 </Row>
