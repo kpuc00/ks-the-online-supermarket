@@ -8,20 +8,16 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private long categoryId;
+    private Long categoryId;
     @Column(nullable = false, length = 50)
     private String name;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
-    public long getCategoryId() {
-        return categoryId;
-    }
+    public Long getCategoryId() { return categoryId; }
 
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
-    }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
 
     public String getName() {
         return name;

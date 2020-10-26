@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long productId;
+    private Long productId;
     @Column(nullable = false, length = 50)
     private String name;
     private String description;
@@ -19,13 +19,9 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
-    public long getProductId() {
-        return productId;
-    }
+    public Long getProductId() { return productId; }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
+    public void setProductId(Long productId) { this.productId = productId; }
 
     public String getName() {
         return name;

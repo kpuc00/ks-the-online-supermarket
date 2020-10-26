@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long orderId;
+    private Long orderId;
     @Lob
     private String orderedProducts;
     @Column(nullable = false, precision = 2)
@@ -26,13 +26,9 @@ public class Order {
         this.customer = customer;
     }
 
-    public long getOrderId() {
-        return orderId;
-    }
+    public Long getOrderId() { return orderId; }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
-    }
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
 
     public String getOrderedProducts() {
         return orderedProducts;

@@ -9,7 +9,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private long customerId;
+    private Long customerId;
     @Column(nullable = false, length = 50)
     private String name;
     @Column(length = 90)
@@ -25,13 +25,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
-    public long getCustomerId() {
-        return customerId;
-    }
+    public Long getCustomerId() { return customerId; }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
-    }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public String getName() {
         return name;
