@@ -36,7 +36,7 @@ class ProductsManager extends Component {
 
     if (!isLoaded) {
       return (
-        <Container>
+        <Container className="p-1">
           <Row>
             <Col>
               <h3>Products manager</h3>
@@ -50,7 +50,7 @@ class ProductsManager extends Component {
     }
     else {
       return (
-        <Container>
+        <Container className="p-1">
           <Row>
             <Col>
               <h3>Products manager</h3>

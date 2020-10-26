@@ -35,7 +35,7 @@ class Customers extends Component {
 
         if (!isLoaded) {
             return (
-                <Container>
+                <Container className="p-1">
                     <Row>
                         <Col>
                             <h3>Customers</h3>
@@ -49,7 +49,7 @@ class Customers extends Component {
         }
         else {
             return (
-                <Container>
+                <Container className="p-1">
                     <Row>
                         <Col>
                             <h3>Customers</h3>

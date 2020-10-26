@@ -5,15 +5,13 @@ import Col from 'react-bootstrap/Col'
 
 function Order() {
     return (
-        <div>
-            <Container>
-                <Row>
-                    <Col>
-                        <h3>Order</h3>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <Container className="p-1">
+            <Row>
+                <Col>
+                    <h3>Order</h3>
+                </Col>
+            </Row>
+        </Container>
     );
 }
 

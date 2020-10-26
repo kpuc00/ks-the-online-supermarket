@@ -4,17 +4,15 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 function Offers() {
-  return (
-      <div>
-          <Container>
-                <Row>
-                    <Col>
-                        <h3>Offers</h3>
-                    </Col>
-                </Row>
-            </Container>
-      </div>
-  );
+    return (
+        <Container className="p-1">
+            <Row>
+                <Col>
+                    <h3>Offers</h3>
+                </Col>
+            </Row>
+        </Container>
+    );
 }
 
 export default Offers;
