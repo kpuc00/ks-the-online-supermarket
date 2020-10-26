@@ -15,27 +15,31 @@ import EditCustomer from "./components/customers/EditCustomer";
 import AddProduct from "./components/products/AddProduct";
 import EditProduct from "./components/products/EditProduct";
 import ProductsManager from "./pages/ProductsManager";
+import Footer from "./components/Footer";
+
+import './App.css';
 
 function App() {
   return (
-        <Router>
-        <NavigationBar/>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/products" component={Products} />
-            <Route path="/productsmanager" component={ProductsManager} />
-            <Route path="/addproduct" component={AddProduct} />
-            <Route path="/editproduct/:id" exact component={EditProduct} />
+    <Router>
+      <NavigationBar />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/products" component={Products} />
+          <Route path="/productsmanager" component={ProductsManager} />
+          <Route path="/addproduct" component={AddProduct} />
+          <Route path="/editproduct/:id" exact component={EditProduct} />
 
-            <Route path="/offers" component={Offers} />
+          <Route path="/offers" component={Offers} />
 
-            <Route path="/order" component={Order} />
+          <Route path="/order" component={Order} />
 
-            <Route path="/customers" component={Customers} />
-            <Route path="/addcustomer" component={AddCustomer} />
-            <Route path="/editcustomer/:id" component={EditCustomer} />
-          </Switch>
-        </Router>
+          <Route path="/customers" component={Customers} />
+          <Route path="/addcustomer" component={AddCustomer} />
+          <Route path="/editcustomer/:id" component={EditCustomer} />
+        </Switch>
+      <Footer />
+    </Router>
   );
 }
 
