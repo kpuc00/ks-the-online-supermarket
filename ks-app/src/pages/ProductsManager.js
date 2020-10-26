@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { Link } from "react-router-dom"
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 class ProductsManager extends Component {
   constructor() {
@@ -55,7 +56,7 @@ class ProductsManager extends Component {
             <Col>
               <h3>Products manager</h3>
               <Link to="/addproduct">
-                <Button variant="primary">Add new product</Button>
+                <Button variant="primary"><FaPlus /> Add new product</Button>
               </Link>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {items.map(item => (
@@ -69,9 +70,9 @@ class ProductsManager extends Component {
                         <strong>Price:</strong> {item.price} €
                       </Card.Text>
                       <Link to={"/editproduct/" + item.productId}>
-                        <Button variant="warning">Edit</Button>
+                        <Button variant="warning"><FaEdit /></Button>
                       </Link>
-                      <Button variant="danger" onClick={() => this.deleteProduct(item.productId)}>Delete</Button>
+                      <Button variant="danger" onClick={() => this.deleteProduct(item.productId)}><FaTrash /></Button>
                     </Card.Body>
                   </Card>
                 ))}

@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
+import { FaCartPlus } from 'react-icons/fa';
 
 class Products extends Component {
   constructor() {
@@ -60,7 +61,7 @@ class Products extends Component {
                         <strong>Category:</strong> {item.category.name}<br />
                         <strong>Price:</strong> {item.price} €
                       </Card.Text>
-                      <Button variant="primary">Add to cart</Button>
+                      <Button variant="primary"><FaCartPlus /> Add to cart</Button>
                     </Card.Body>
                   </Card>
                 ))}

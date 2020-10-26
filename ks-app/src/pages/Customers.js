@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { Link } from "react-router-dom"
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 class Customers extends Component {
     constructor() {
@@ -54,7 +55,7 @@ class Customers extends Component {
                         <Col>
                             <h3>Customers</h3>
                             <Link to="/addcustomer">
-                                <Button variant="primary">Add new customer</Button>
+                                <Button variant="primary"><FaPlus /> Add new customer</Button>
                             </Link>
                             {items.map(item => (
                                 <div key={item.customerId}>
@@ -65,9 +66,9 @@ class Customers extends Component {
                                         <li>Phone: {item.phone}</li>
                                         <li>Total costs: {item.totalCosts} €</li>
                                         <Link to={"/editcustomer/" + item.customerId}>
-                                            <Button variant="warning">Edit</Button>
+                                            <Button variant="warning"><FaEdit /></Button>
                                         </Link>
-                                        <Button variant="danger" onClick={() => this.deleteCustomer(item.customerId)}>Delete</Button>
+                                        <Button variant="danger" onClick={() => this.deleteCustomer(item.customerId)}><FaTrash /></Button>
                                     </ul>
                                 </div>
                             ))}
