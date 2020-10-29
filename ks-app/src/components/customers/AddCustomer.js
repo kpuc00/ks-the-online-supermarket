@@ -1,15 +1,13 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CustomerForm from './CustomerForm'
-import Axios from "axios";
 
 class AddCustomer extends Component {
     constructor(props) {
-        super(props);
-        // this.handleChange = this.handleChange.bind(this);
-        // this.submitProduct = this.submitProduct.bind(this);
+        super(props)
         this.state = {
             name: "",
             address: "",
@@ -26,22 +24,18 @@ class AddCustomer extends Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const customer = {
             name: this.state.name,
             address: this.state.address,
             email: this.state.email,
             phone: this.state.phone
         }
-        console.log("state");
-        console.log(this.state);
-        console.log("object");
-        console.log(customer);
 
-        Axios.post(`http://localhost:8080/customers/add`, { customer })
+        Axios.post(`http://localhost:8080/customers/add`, customer)
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                console.log(res)
+                console.log(res.data)
             })
     }
 
@@ -59,4 +53,4 @@ class AddCustomer extends Component {
     }
 }
 
-export default AddCustomer;
+export default AddCustomer

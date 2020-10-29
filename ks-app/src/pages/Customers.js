@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import Container from 'react-bootstrap/Container'
-import Axios from "axios";
+import Axios from "axios"
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { Link } from "react-router-dom"
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
 
 class Customers extends Component {
     constructor() {
-        super();
+        super()
         this.state = {
             customers: [],
             customersLoaded: false
@@ -20,7 +20,7 @@ class Customers extends Component {
     componentDidMount() {
         Axios.get('http://localhost:8080/customers')
             .then(res => {
-                const customers = res.data;
+                const customers = res.data
                 this.setState({
                     customers,
                     customersLoaded: true
@@ -31,13 +31,13 @@ class Customers extends Component {
     deleteCustomer(id) {
         Axios.delete(`http://localhost:8080/customers/${id}`)
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                console.log(res)
+                console.log(res.data)
             })
     }
 
     render() {
-        var { customersLoaded, customers } = this.state;
+        var { customersLoaded, customers } = this.state
 
         if (!customersLoaded) {
             return (
@@ -85,4 +85,4 @@ class Customers extends Component {
     }
 }
 
-export default Customers;
+export default Customers

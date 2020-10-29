@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const CustomerForm = ({ handleChange, submitCustomer, customer }) => {
     return (
@@ -29,4 +29,4 @@ const CustomerForm = ({ handleChange, submitCustomer, customer }) => {
     )
 }
 
-export default CustomerForm;
+export default CustomerForm

@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CustomerForm from './CustomerForm'
 import Spinner from 'react-bootstrap/Spinner'
-import Axios from "axios";
 
 class EditCustomer extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             name: "",
             address: "",
@@ -20,10 +20,10 @@ class EditCustomer extends Component {
     }
 
     componentDidMount() {
-        var id = this.props.match.params.id;
+        var id = this.props.match.params.id
         Axios.get(`http://localhost:8080/customers/${id}`)
             .then(res => {
-                const customer = res.data;
+                const customer = res.data
                 this.setState({
                     name: customer.name,
                     address: customer.address,
@@ -32,34 +32,33 @@ class EditCustomer extends Component {
                     customer,
                     customerLoaded: true
                 })
-            });
+            })
     }
 
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
-        });
-        console.log(this.state)
+        })
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const customer = {
             name: this.state.name,
             address: this.state.address,
             email: this.state.email,
             phone: this.state.phone
         }
-        var id = this.props.match.params.id;
+        var id = this.props.match.params.id
         Axios.put(`http://localhost:8080/customers/${id}`, customer)
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                console.log(res)
+                console.log(res.data)
             })
     }
 
     render() {
-        var { customerLoaded, customer } = this.state;
+        var { customerLoaded, customer } = this.state
         if (!customerLoaded) {
             return (
                 <Container>
@@ -87,4 +86,4 @@ class EditCustomer extends Component {
     }
 }
 
-export default EditCustomer;
+export default EditCustomer
