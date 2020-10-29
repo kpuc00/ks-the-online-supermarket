@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Axios from "axios";
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,8 +9,6 @@ import Spinner from 'react-bootstrap/Spinner'
 class AddProduct extends Component {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.submitProduct = this.submitProduct.bind(this);
         this.state = {
             name: "",
             description: "",
@@ -18,19 +17,19 @@ class AddProduct extends Component {
                 categoryId: 0
             },
             categories: [],
-            isLoaded: false
+            categoriesLoaded: false
         }
     }
 
     componentDidMount() {
-        fetch('http://localhost:8080/categories')
-            .then(res => res.json())
-            .then(json => {
+        Axios.get('http://localhost:8080/categories')
+            .then(res => {
+                const categories = res.data;
                 this.setState({
-                    isLoaded: true,
-                    categories: json
+                    categories,
+                    categoriesLoaded: true
                 })
-            });
+            })
     }
 
     handleChange = (e) => {
@@ -52,19 +51,31 @@ class AddProduct extends Component {
         console.log(this.state)
     }
 
-    submitProduct() {
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.state),
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        const product = {
+            name: this.state.name,
+            description: this.state.description,
+            price: this.state.price,
+            category: {
+                categoryId: this.state.category.categoryId
+            }
         };
-        console.log(this.state);
-        fetch("http://localhost:8080/products/add", requestOptions);
+
+        console.log("Result:");
+        console.log(product);
+
+        Axios.post(`http://localhost:8080/products/add`, { product })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            })
     }
 
     render() {
-        var { isLoaded, categories } = this.state;
-        if (!isLoaded) {
+        var { categoriesLoaded, categories } = this.state;
+        if (!categoriesLoaded) {
             return (
                 <Container>
                     <Row>
@@ -84,7 +95,7 @@ class AddProduct extends Component {
                     <Row>
                         <Col>
                             <h3>Add new product</h3>
-                            <ProductForm handleChange={this.handleChange} submitProduct={this.submitProduct} product={null} categories={categories} />
+                            <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={null} categories={categories} />
                         </Col>
                     </Row>
                 </Container>

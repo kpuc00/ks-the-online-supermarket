@@ -4,33 +4,33 @@ import Button from 'react-bootstrap/Button'
 import { Link } from "react-router-dom";
 
 const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
+    let cbPlaceholder;
+    if (product != null)
+        cbPlaceholder = product?.category.name
+    else
+        cbPlaceholder = 'Select'
+
     return (
         <Form>
             <Form.Group controlId="name">
                 <Form.Label>Name*</Form.Label>
-                <Form.Control name="name" onChange={handleChange} type="name" placeholder="Water" value={product?.name} />
+                <Form.Control name="name" onChange={handleChange} type="name" placeholder={product?.name} />
             </Form.Group>
             <Form.Group controlId="description">
                 <Form.Label>Description</Form.Label>
-                <Form.Control name="description" onChange={handleChange} type="text" placeholder="..." value={product?.description} />
+                <Form.Control name="description" onChange={handleChange} type="text" placeholder={product?.description} />
             </Form.Group>
             <Form.Group controlId="price">
                 <Form.Label>Price*</Form.Label>
-                <Form.Control name="price" onChange={handleChange} type="number" placeholder="0.00" value={product?.price} />
+                <Form.Control name="price" onChange={handleChange} type="number" placeholder={product?.price} />
             </Form.Group>
             <Form.Group controlId="categoryId">
                 <Form.Label>Select category*</Form.Label>
-                <Form.Control as="select" name="categoryId" value="" onChange={handleChange}>
-                    {/* <option>Uncategorized</option> */}
+                <Form.Control as="select" name="categoryId" onChange={handleChange}>
+                    <option selected disabled>{cbPlaceholder}</option>
                     {categories.map(category => (
                         <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
                     ))}
-                    {/* <option value={0}></option>
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option> */}
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="image">

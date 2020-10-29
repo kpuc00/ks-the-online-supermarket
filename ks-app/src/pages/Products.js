@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Axios from "axios";
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -11,26 +12,26 @@ class Products extends Component {
   constructor() {
     super();
     this.state = {
-      items: [],
-      isLoaded: false
+      products: [],
+      productsLoaded: false
     }
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/products')
-      .then(res => res.json())
-      .then(json => {
+    Axios.get('http://localhost:8080/products')
+      .then(res => {
+        const products = res.data;
         this.setState({
-          isLoaded: true,
-          items: json
+          products,
+          productsLoaded: true
         })
-      });
+      })
   }
 
   render() {
-    var { isLoaded, items } = this.state;
+    var { productsLoaded, products } = this.state;
 
-    if (!isLoaded) {
+    if (!productsLoaded) {
       return <div>
         <Container className="p-1">
           <Row>
@@ -51,15 +52,15 @@ class Products extends Component {
             <Col>
               <h3>Products</h3>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {items.map(item => (
-                  <Card key={item.productId} style={{ width: "40%", margin: "5px" }}>
-                    <Card.Img variant="top" src={"/images/product/" + item.image} />
+                {products.map(product => (
+                  <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
+                    <Card.Img variant="top" src={"/images/product/" + product.image} />
                     <Card.Body>
-                      <Card.Title>{item.name}</Card.Title>
+                      <Card.Title>{product.name}</Card.Title>
                       <Card.Text>
-                        {item.description}<br />
-                        <strong>Category:</strong> {item.category.name}<br />
-                        <strong>Price:</strong> {item.price} €
+                        {product.description}<br />
+                        <strong>Category:</strong> {product.category.name}<br />
+                        <strong>Price:</strong> {product.price} €
                       </Card.Text>
                       <Button variant="primary"><FaCartPlus /> Add to cart</Button>
                     </Card.Body>
