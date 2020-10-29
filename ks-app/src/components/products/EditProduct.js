@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Axios from "axios";
+import React, { Component } from "react"
+import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner'
 
 class EditProduct extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             name: "",
             description: "",
@@ -24,19 +24,19 @@ class EditProduct extends Component {
     }
 
     componentDidMount() {
-        var id = this.props.match.params.id;
+        var id = this.props.match.params.id
         Axios.get('http://localhost:8080/categories')
             .then(res => {
-                const categories = res.data;
+                const categories = res.data
                 this.setState({
                     categories,
                     categoriesLoaded: true
                 })
-            });
+            })
 
         Axios.get(`http://localhost:8080/products/${id}`)
             .then(res => {
-                const product = res.data;
+                const product = res.data
                 this.setState({
                     name: product.name,
                     description: product.description,
@@ -47,11 +47,11 @@ class EditProduct extends Component {
                     product,
                     productLoaded: true
                 })
-            });
+            })
     }
 
     handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         if (name === "categoryId") {
             this.setState(state => ({
                 category: {
@@ -64,31 +64,30 @@ class EditProduct extends Component {
             this.setState({
                 ...this.state,
                 [name]: value
-            });
+            })
         }
-        console.log(this.state)
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const product = {
             name: this.state.name,
             description: this.state.description,
             price: this.state.price,
             category: {
                 categoryId: this.state.category.categoryId
-            },
+            }
         }
-        var id = this.props.match.params.id;
+        var id = this.props.match.params.id
         Axios.put(`http://localhost:8080/products/${id}`, product)
             .then(result => {
-                console.log(result);
-                console.log(result.data);
+                console.log(result)
+                console.log(result.data)
             })
     }
 
     render() {
-        var { productLoaded, categoriesLoaded, product, categories } = this.state;
+        var { productLoaded, categoriesLoaded, product, categories } = this.state
         if (!productLoaded || !categoriesLoaded) {
             return (
                 <Container>
@@ -116,4 +115,4 @@ class EditProduct extends Component {
     }
 }
 
-export default EditProduct;
+export default EditProduct

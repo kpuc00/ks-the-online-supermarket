@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Axios from "axios";
+import React, { Component } from "react"
+import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner'
 
 class AddProduct extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             name: "",
             description: "",
@@ -24,7 +24,7 @@ class AddProduct extends Component {
     componentDidMount() {
         Axios.get('http://localhost:8080/categories')
             .then(res => {
-                const categories = res.data;
+                const categories = res.data
                 this.setState({
                     categories,
                     categoriesLoaded: true
@@ -33,7 +33,7 @@ class AddProduct extends Component {
     }
 
     handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         if (name === "categoryId") {
             this.setState(state => ({
                 category: {
@@ -46,14 +46,12 @@ class AddProduct extends Component {
             this.setState({
                 ...this.state,
                 [name]: value
-            });
+            })
         }
-        console.log(this.state)
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
-
+        e.preventDefault()
         const product = {
             name: this.state.name,
             description: this.state.description,
@@ -61,20 +59,17 @@ class AddProduct extends Component {
             category: {
                 categoryId: this.state.category.categoryId
             }
-        };
+        }
 
-        console.log("Result:");
-        console.log(product);
-
-        Axios.post(`http://localhost:8080/products/add`, { product })
+        Axios.post(`http://localhost:8080/products/add`, product)
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                console.log(res)
+                console.log(res.data)
             })
     }
 
     render() {
-        var { categoriesLoaded, categories } = this.state;
+        var { categoriesLoaded, categories } = this.state
         if (!categoriesLoaded) {
             return (
                 <Container>
@@ -104,4 +99,4 @@ class AddProduct extends Component {
     }
 }
 
-export default AddProduct;
+export default AddProduct

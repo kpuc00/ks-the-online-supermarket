@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import Axios from "axios";
+import React, { Component } from "react"
+import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { FaCartPlus } from 'react-icons/fa';
+import { FaCartPlus } from 'react-icons/fa'
 
 class Products extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       products: [],
       productsLoaded: false
@@ -20,7 +20,7 @@ class Products extends Component {
   componentDidMount() {
     Axios.get('http://localhost:8080/products')
       .then(res => {
-        const products = res.data;
+        const products = res.data
         this.setState({
           products,
           productsLoaded: true
@@ -29,7 +29,7 @@ class Products extends Component {
   }
 
   render() {
-    var { productsLoaded, products } = this.state;
+    var { productsLoaded, products } = this.state
 
     if (!productsLoaded) {
       return <div>
@@ -70,9 +70,9 @@ class Products extends Component {
             </Col>
           </Row>
         </Container>
-      );
+      )
     }
   }
 }
 
-export default Products;
+export default Products

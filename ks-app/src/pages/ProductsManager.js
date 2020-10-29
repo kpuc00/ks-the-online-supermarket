@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import Axios from "axios";
+import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
 
 class ProductsManager extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       products: [],
       productsLoaded: false
@@ -21,7 +21,7 @@ class ProductsManager extends Component {
   componentDidMount() {
     Axios.get('http://localhost:8080/products')
       .then(res => {
-        const products = res.data;
+        const products = res.data
         this.setState({
           products,
           productsLoaded: true
@@ -32,13 +32,13 @@ class ProductsManager extends Component {
   deleteProduct(id) {
     Axios.delete(`http://localhost:8080/products/${id}`)
       .then(res => {
-        console.log(res);
-        console.log(res.data);
+        console.log(res)
+        console.log(res.data)
       })
   }
 
   render() {
-    var { productsLoaded, products } = this.state;
+    var { productsLoaded, products } = this.state
 
     if (!productsLoaded) {
       return (
@@ -85,9 +85,9 @@ class ProductsManager extends Component {
             </Col>
           </Row>
         </Container>
-      );
+      )
     }
   }
 }
 
-export default ProductsManager;
+export default ProductsManager
