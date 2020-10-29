@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Container from 'react-bootstrap/Container'
+import Axios from "axios";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
@@ -11,30 +12,34 @@ class Customers extends Component {
     constructor() {
         super();
         this.state = {
-            items: [],
-            isLoaded: false
+            customers: [],
+            customersLoaded: false
         }
     }
 
-    deleteCustomer(id) {
-        fetch("http://localhost:8080/customers/" + { id }, { method: "DELETE" });
+    componentDidMount() {
+        Axios.get('http://localhost:8080/customers')
+            .then(res => {
+                const customers = res.data;
+                this.setState({
+                    customers,
+                    customersLoaded: true
+                })
+            })
     }
 
-    componentDidMount() {
-        fetch('http://localhost:8080/customers')
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    isLoaded: true,
-                    items: json
-                })
-            });
+    deleteCustomer(id) {
+        Axios.delete(`http://localhost:8080/customers/${id}`)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            })
     }
 
     render() {
-        var { isLoaded, items } = this.state;
+        var { customersLoaded, customers } = this.state;
 
-        if (!isLoaded) {
+        if (!customersLoaded) {
             return (
                 <Container className="p-1">
                     <Row>
@@ -57,18 +62,18 @@ class Customers extends Component {
                             <Link to="/addcustomer">
                                 <Button variant="primary"><FaPlus /> Add new customer</Button>
                             </Link>
-                            {items.map(item => (
-                                <div key={item.customerId}>
-                                    <h5>{item.name}</h5>
+                            {customers.map(customer => (
+                                <div key={customer.customerId}>
+                                    <h5>{customer.name}</h5>
                                     <ul>
-                                        <li>Address: {item.address}</li>
-                                        <li>Email: {item.email}</li>
-                                        <li>Phone: {item.phone}</li>
-                                        <li>Total costs: {item.totalCosts} €</li>
-                                        <Link to={"/editcustomer/" + item.customerId}>
+                                        <li>Address: {customer.address}</li>
+                                        <li>Email: {customer.email}</li>
+                                        <li>Phone: {customer.phone}</li>
+                                        <li>Total costs: {customer.totalCosts} €</li>
+                                        <Link to={"/editcustomer/" + customer.customerId}>
                                             <Button variant="warning"><FaEdit /></Button>
                                         </Link>
-                                        <Button variant="danger" onClick={() => this.deleteCustomer(item.customerId)}><FaTrash /></Button>
+                                        <Button variant="danger" onClick={() => this.deleteCustomer(customer.customerId)}><FaTrash /></Button>
                                     </ul>
                                 </div>
                             ))}

@@ -4,58 +4,63 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CustomerForm from './CustomerForm'
 import Spinner from 'react-bootstrap/Spinner'
+import Axios from "axios";
 
 class EditCustomer extends Component {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.submitCustomer = this.submitCustomer.bind(this);
         this.state = {
             name: "",
             address: "",
             email: "",
-            phone: ""
+            phone: "",
+            customer: null,
+            customerLoaded: false
         }
+    }
+
+    componentDidMount() {
+        var id = this.props.match.params.id;
+        Axios.get(`http://localhost:8080/customers/${id}`)
+            .then(res => {
+                const customer = res.data;
+                this.setState({
+                    name: customer.name,
+                    address: customer.address,
+                    email: customer.email,
+                    phone: customer.phone,
+                    customer,
+                    customerLoaded: true
+                })
+            });
     }
 
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         });
+        console.log(this.state)
     }
 
-    componentDidMount() {
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const customer = {
+            name: this.state.name,
+            address: this.state.address,
+            email: this.state.email,
+            phone: this.state.phone
+        }
         var id = this.props.match.params.id;
-        fetch("http://localhost:8080/customers/" + { id })
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    isLoaded: true,
-                    items: json
-                })
-            });
-    }
-
-    submitCustomer() {
-        const requestOptions = {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.state),
-        };
-        var id = this.props.match.params.id;
-        fetch("http://localhost:8080/customers/" + { id }, requestOptions)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    data: responseJson.token
-                });
-                console.log(responseJson);
-            });
+        Axios.put(`http://localhost:8080/customers/${id}`, customer)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            })
     }
 
     render() {
-        var { isLoaded, items } = this.state;
-        if (!isLoaded) {
+        var { customerLoaded, customer } = this.state;
+        if (!customerLoaded) {
             return (
                 <Container>
                     <Row>
@@ -74,9 +79,7 @@ class EditCustomer extends Component {
                 <Row>
                     <Col>
                         <h3>Edit Customer</h3>
-                        {items.map(item => (
-                            <CustomerForm handleChange={this.handleChange} submitCustomer={this.submitCustomer} customer={item} />
-                        ))}
+                        <CustomerForm handleChange={this.handleChange} submitCustomer={this.handleSubmit} customer={customer} />
                     </Col>
                 </Row>
             </Container >
