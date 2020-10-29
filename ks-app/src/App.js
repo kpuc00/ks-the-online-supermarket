@@ -1,23 +1,23 @@
-import React from "react";
+import React from "react"
 import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom";
-import NavigationBar from './components/NavigationBar';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import Offers from './pages/Offers';
-import Order from './pages/Order';
-import Customers from './pages/Customers';
-import AddCustomer from "./components/customers/AddCustomer";
-import EditCustomer from "./components/customers/EditCustomer";
-import AddProduct from "./components/products/AddProduct";
-import EditProduct from "./components/products/EditProduct";
-import ProductsManager from "./pages/ProductsManager";
-import Footer from "./components/Footer";
+} from "react-router-dom"
+import NavigationBar from './components/NavigationBar'
+import Home from './pages/Home'
+import Products from './pages/Products'
+import Offers from './pages/Offers'
+import Order from './pages/Order'
+import Customers from './pages/Customers'
+import AddCustomer from "./components/customers/AddCustomer"
+import EditCustomer from "./components/customers/EditCustomer"
+import AddProduct from "./components/products/AddProduct"
+import EditProduct from "./components/products/EditProduct"
+import ProductsManager from "./pages/ProductsManager"
+import Footer from "./components/Footer"
 
-import './App.css';
+import './App.css'
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
         </Switch>
       <Footer />
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { Carousel, Container } from "react-bootstrap";
+import { Carousel, Container } from "react-bootstrap"
 
 function Home() {
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(0)
 
     const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
-    };
+        setIndex(selectedIndex)
+    }
 
     return (
         <Container fluid>
@@ -59,4 +59,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default Home
