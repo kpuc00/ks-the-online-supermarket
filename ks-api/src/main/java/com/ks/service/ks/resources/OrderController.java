@@ -1,6 +1,6 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.database.OrderRepository;
+import com.ks.service.ks.repository.OrderRepository;
 import com.ks.service.ks.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/orders")
-public class OrderResources {
+public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 

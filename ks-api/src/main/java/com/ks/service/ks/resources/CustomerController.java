@@ -1,6 +1,6 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.database.CustomerRepository;
+import com.ks.service.ks.repository.CustomerRepository;
 import com.ks.service.ks.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/customers")
-public class CustomerResources {
+public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
