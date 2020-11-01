@@ -1,4 +1,4 @@
-package com.ks.service.ks.resources;
+package com.ks.service.ks.controllers;
 
 import com.ks.service.ks.repository.OrderRepository;
 import com.ks.service.ks.model.Order;
