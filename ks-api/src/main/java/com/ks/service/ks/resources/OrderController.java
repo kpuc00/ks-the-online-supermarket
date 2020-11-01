@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/orders")
-public class OrderResources {
+public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 

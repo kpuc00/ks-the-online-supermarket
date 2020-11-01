@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/categories")
-public class CategoryResources {
+public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 

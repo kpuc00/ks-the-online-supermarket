@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/customers")
-public class CustomerResources {
+public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
