@@ -1,6 +1,6 @@
 package com.ks.service.ks.resources;
 
-import com.ks.service.ks.database.ProductRepository;
+import com.ks.service.ks.repository.ProductRepository;
 import com.ks.service.ks.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

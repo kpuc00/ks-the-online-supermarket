@@ -1,4 +1,4 @@
-package com.ks.service.ks.database;
+package com.ks.service.ks.repository;
 
 import com.ks.service.ks.model.Category;
 import org.springframework.data.repository.CrudRepository;
