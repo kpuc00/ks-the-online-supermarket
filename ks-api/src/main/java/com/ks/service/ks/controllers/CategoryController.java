@@ -5,6 +5,7 @@ import com.ks.service.ks.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -14,6 +15,7 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<Category> createCategory (@RequestBody Category category){
         categoryRepository.save(category);
@@ -32,6 +34,7 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable long id, @RequestBody Category updatedCategory){
         if (categoryRepository.existsById(id)){
@@ -45,6 +48,7 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Category> deleteCategory(@PathVariable long id){
         if (categoryRepository.existsById(id)) {
