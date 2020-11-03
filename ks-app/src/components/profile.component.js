@@ -33,11 +33,11 @@ export default class Profile extends Component {
           <strong>Address:</strong>{" "}
           {
             currentUser.address &&
-            <span>Address: {user.address}</span>
+            <span>{currentUser.address}</span>
           }
           {
             !currentUser.address &&
-            <span>Address: Not added</span>
+            <span>Not added</span>
           }
         </p>
         <p>
