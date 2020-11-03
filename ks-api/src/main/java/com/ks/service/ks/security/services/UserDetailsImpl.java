@@ -18,23 +18,48 @@ public class UserDetailsImpl implements UserDetails {
 
     private Long id;
 
-    private String username;
+    private String firstName;
+
+    private String lastName;
 
     private String email;
+
+    private String address;
+
+    private String phone;
+
+    private double totalCosts;
+
+    private String username;
 
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String firstName, String lastName, String email,
+                           String address, String phone, double totalCosts, String username,
+                           String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.totalCosts = totalCosts;
+        this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
+
+//    public UserDetailsImpl(Long id, String username, String email, String password,
+//                           Collection<? extends GrantedAuthority> authorities) {
+//        this.id = id;
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//        this.authorities = authorities;
+//    }
 
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
@@ -43,8 +68,13 @@ public class UserDetailsImpl implements UserDetails {
 
         return new UserDetailsImpl(
                 user.getId(),
-                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getEmail(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getTotalCosts(),
+                user.getUsername(),
                 user.getPassword(),
                 authorities);
     }
@@ -60,6 +90,26 @@ public class UserDetailsImpl implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public double getTotalCosts() {
+        return totalCosts;
     }
 
     @Override
