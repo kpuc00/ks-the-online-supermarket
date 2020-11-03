@@ -91,20 +91,14 @@ export default class Register extends Component {
     constructor(props) {
         super(props);
         this.handleRegister = this.handleRegister.bind(this);
-        this.onChangeFirstName = this.onChangeFirstName.bind(this);
-        this.onChangeLastName = this.onChangeLastName.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangeAddress = this.onChangeAddress.bind(this);
-        //this.onChangePhone = this.onChangePhone(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChange = this.onChange.bind(this);
 
         this.state = {
             firstName: "",
             lastName: "",
             email: "",
             address: "",
-            phone: "+359893455347",
+            phone: "",
             username: "",
             password: "",
             successful: false,
@@ -112,45 +106,9 @@ export default class Register extends Component {
         };
     }
 
-    onChangeFirstName(e) {
+    onChange(e) {
         this.setState({
-            firstName: e.target.value
-        });
-    }
-
-    onChangeLastName(e) {
-        this.setState({
-            lastName: e.target.value
-        });
-    }
-
-    onChangeEmail(e) {
-        this.setState({
-            email: e.target.value
-        });
-    }
-
-    onChangeAddress(e) {
-        this.setState({
-            address: e.target.value
-        });
-    }
-
-    onChangePhone(e) {
-        this.setState({
-            phone: e.target.value
-        });
-    }
-
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value
-        });
-    }
-
-    onChangePassword(e) {
-        this.setState({
-            password: e.target.value
+            [e.target.name]: e.target.value
         });
     }
 
@@ -219,7 +177,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="firstName"
                                             value={this.state.firstName}
-                                            onChange={this.onChangeFirstName}
+                                            onChange={this.onChange}
                                             validations={[required, vfirstname]}
                                         />
                                     </div>
@@ -231,7 +189,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="lastName"
                                             value={this.state.lastName}
-                                            onChange={this.onChangeLastName}
+                                            onChange={this.onChange}
                                             validations={[required, vlastName]}
                                         />
                                     </div>
@@ -243,7 +201,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="email"
                                             value={this.state.email}
-                                            onChange={this.onChangeEmail}
+                                            onChange={this.onChange}
                                             validations={[required, email]}
                                         />
                                     </div>
@@ -255,7 +213,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="address"
                                             value={this.state.address}
-                                            onChange={this.onChangeAddress}
+                                            onChange={this.onChange}
                                             validations={[vaddress]}
                                         />
                                     </div>
@@ -267,7 +225,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="phone"
                                             value={this.state.phone}
-                                            //onChange={this.onChangePhone}
+                                            onChange={this.onChange}
                                             validations={[required, vphone]}
                                         />
                                     </div>
@@ -279,7 +237,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="username"
                                             value={this.state.username}
-                                            onChange={this.onChangeUsername}
+                                            onChange={this.onChange}
                                             validations={[required, vusername]}
                                         />
                                     </div>
@@ -291,7 +249,7 @@ export default class Register extends Component {
                                             className="form-control"
                                             name="password"
                                             value={this.state.password}
-                                            onChange={this.onChangePassword}
+                                            onChange={this.onChange}
                                             validations={[required, vpassword]}
                                         />
                                     </div>
