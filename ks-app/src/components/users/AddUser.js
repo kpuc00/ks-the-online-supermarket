@@ -3,13 +3,14 @@ import Axios from "axios"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import CustomerForm from './CustomerForm'
+import UserForm from './UserForm'
 
 class AddCustomer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: "",
+            firstName: "",
+            lastName: "",
             address: "",
             email: "",
             phone: ""
@@ -45,7 +46,7 @@ class AddCustomer extends Component {
                 <Row>
                     <Col>
                         <h3>Add new customer</h3>
-                        <CustomerForm handleChange={this.handleChange} submitCustomer={this.handleSubmit} />
+                        <UserForm handleChange={this.handleChange} submitCustomer={this.handleSubmit} />
                     </Col>
                 </Row>
             </Container>

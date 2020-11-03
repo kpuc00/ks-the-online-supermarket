@@ -5,9 +5,10 @@ import com.ks.service.ks.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -15,6 +16,7 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> createProduct (@RequestBody Product product){
         productRepository.save(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -33,6 +35,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct){
         if (productRepository.existsById(id)){
             productRepository.findById(id).map(product -> {
@@ -50,6 +53,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> deleteProduct(@PathVariable long id){
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);

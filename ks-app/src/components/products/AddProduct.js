@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Axios from "axios"
+import authHeader from '../../services/auth-header'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -61,11 +62,30 @@ class AddProduct extends Component {
             }
         }
 
-        Axios.post(`http://localhost:8080/products/add`, product)
+        Axios.post(`http://localhost:8080/products/add`, product, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 console.log(res.data)
             })
+            .then(
+                () => {
+                    this.props.history.push("/productsmanager");
+                    window.location.reload();
+                },
+                error => {
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+
+                    this.setState({
+                        loading: false,
+                        message: resMessage
+                    });
+                }
+            )
     }
 
     render() {
