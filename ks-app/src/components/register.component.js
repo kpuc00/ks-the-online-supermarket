@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
+import autoBind from "react-autobind";
 
 import AuthService from "../services/auth-service";
 import { Card, Container } from "react-bootstrap";
@@ -90,8 +91,7 @@ const vpassword = value => {
 export default class Register extends Component {
     constructor(props) {
         super(props);
-        this.handleRegister = this.handleRegister.bind(this);
-        this.onChange = this.onChange.bind(this);
+        autoBind(this);
 
         this.state = {
             firstName: "",

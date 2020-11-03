@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import autoBind from "react-autobind";
 
 import AuthService from "../services/auth-service";
 import { Card, Container } from "react-bootstrap";
@@ -19,9 +20,7 @@ const required = value => {
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+        autoBind(this);
 
         this.state = {
             username: "",

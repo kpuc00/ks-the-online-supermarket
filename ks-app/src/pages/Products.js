@@ -13,44 +13,66 @@ class Products extends Component {
     super()
     this.state = {
       products: [],
-      productsLoaded: false
+      productsLoaded: false,
+      content: ""
     }
   }
 
   componentDidMount() {
-    Axios.get('http://localhost:8080/products')
-      .then(res => {
+    Axios.get('http://localhost:8080/products').then(
+      res => {
         const products = res.data
         this.setState({
           products,
           productsLoaded: true
         })
-      })
+      },
+      error => {
+        this.setState({
+          content:
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString()
+        });
+      }
+    )
   }
 
   render() {
     var { productsLoaded, products } = this.state
 
-    if (!productsLoaded) {
-      return <div>
-        <Container className="p-1">
+    return (
+      <Container className="p-1">
+        <Row>
+          <h3>Products</h3>
+        </Row>
+
+        {
+          (!productsLoaded && !this.state.content) &&
           <Row>
             <Col>
-              <h3>Products</h3>
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
             </Col>
           </Row>
-        </Container>
-      </div>
-    }
-    else {
-      return (
-        <Container className="p-1">
+        }
+        {
+          this.state.content &&
           <Row>
             <Col>
-              <h3>Products</h3>
+              <header className="jumbotron">
+                <h3>{this.state.content}</h3>
+              </header>
+            </Col>
+          </Row>
+        }
+        {
+          (productsLoaded && !this.state.content) &&
+          <Row>
+            <Col>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {products.map(product => (
                   <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
@@ -69,9 +91,9 @@ class Products extends Component {
               </div>
             </Col>
           </Row>
-        </Container>
-      )
-    }
+        }
+      </Container>
+    )
   }
 }
 

@@ -31,7 +31,14 @@ export default class Profile extends Component {
         </p>
         <p>
           <strong>Address:</strong>{" "}
-          {currentUser.address}
+          {
+            currentUser.address &&
+            <span>Address: {user.address}</span>
+          }
+          {
+            !currentUser.address &&
+            <span>Address: Not added</span>
+          }
         </p>
         <p>
           <strong>Phone:</strong>{" "}

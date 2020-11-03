@@ -1,7 +1,6 @@
 import React from "react"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { Link } from "react-router-dom"
 
 const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
     let cbPlaceholder
@@ -36,9 +35,7 @@ const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
             <Form.Group controlId="image">
                 <Form.File name="image" accept="image/png,image/jpeg" label="Upload product image" />
             </Form.Group>
-            <Link to="/productsmanager">
-                <Button variant="primary" onClick={submitProduct}>Submit</Button>
-            </Link>
+            <Button variant="primary" onClick={submitProduct}>Submit</Button>
         </Form>
     )
 }
