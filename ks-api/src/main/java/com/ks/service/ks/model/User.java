@@ -1,5 +1,7 @@
 package com.ks.service.ks.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -22,6 +24,7 @@ public class User {
     @Size(max = 20)
     private String username;
 
+    @JsonIgnore
     @NotBlank
     @Size(max = 120)
     private String password;
