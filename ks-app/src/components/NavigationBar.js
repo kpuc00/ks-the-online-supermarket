@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import { NavDropdown } from "react-bootstrap"
 
 const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut }) => {
   return (
@@ -36,17 +37,20 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
             </Nav.Item> */}
           </Nav>
 
-          {/* <Nav.Link as={Link} to="/productsmanager">Products manager</Nav.Link>
-            <Nav.Link as={Link} to="/customers">Customers</Nav.Link> */}
-
           {currentUser ? (
             <Nav>
-              <Nav.Link as={Link} to="/profile">{currentUser.username}</Nav.Link>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={logOut}>
-                  Logout
-                </a>
-              </li>
+              <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
+                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                {showAdminBoard && (
+                  <React.Fragment>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/productsmanager">Products manager</NavDropdown.Item>
+                    <NavDropdown.Item href="/customers">Customers</NavDropdown.Item>
+                  </React.Fragment>
+                )}
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/" onClick={logOut}>Logout</NavDropdown.Item>
+              </NavDropdown>
             </Nav>
           ) : (
               <Nav>

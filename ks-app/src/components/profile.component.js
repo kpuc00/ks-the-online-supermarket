@@ -18,9 +18,29 @@ export default class Profile extends Component {
       <Container>
         <header className="jumbotron">
           <h3>
-            <strong>{currentUser.username}</strong> Profile
+            <strong>{currentUser.firstName} {currentUser.lastName}</strong> Profile
           </h3>
         </header>
+        <p>
+          <strong>Username:</strong>{" "}
+          {currentUser.username}
+        </p>
+        <p>
+          <strong>Email:</strong>{" "}
+          {currentUser.email}
+        </p>
+        <p>
+          <strong>Address:</strong>{" "}
+          {currentUser.address}
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          {currentUser.phone}
+        </p>
+        <p>
+          <strong>Total costs:</strong>{" "}
+          {currentUser.totalCosts} €
+        </p>
         <p>
           <strong>Token:</strong>{" "}
           {currentUser.accessToken.substring(0, 20)} ...{" "}
@@ -29,10 +49,6 @@ export default class Profile extends Component {
         <p>
           <strong>Id:</strong>{" "}
           {currentUser.id}
-        </p>
-        <p>
-          <strong>Email:</strong>{" "}
-          {currentUser.email}
         </p>
         <strong>Authorities:</strong>
         <ul>

@@ -56,7 +56,7 @@ export default class Login extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             AuthService.login(this.state.username, this.state.password).then(
                 () => {
-                    this.props.history.push("/profile");
+                    this.props.history.push("/");
                     window.location.reload();
                 },
                 error => {
@@ -84,7 +84,7 @@ export default class Login extends Component {
         return (
             <Container>
                 <Card>
-                    <Card.Img variant="top" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" />
+                    {/* <Card.Img variant="top" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" /> */}
                     <Card.Body>
                         <Form
                             onSubmit={this.handleLogin}
