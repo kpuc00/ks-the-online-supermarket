@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/products")
@@ -23,7 +25,13 @@ public class ProductController {
     }
 
     @GetMapping // /products
-    public @ResponseBody Iterable<Product> getAllProducts() {
+    public @ResponseBody List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody List<Product> getAllProductsInAdmin() {
         return productRepository.findAll();
     }
 

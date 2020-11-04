@@ -20,7 +20,7 @@ class UsersManager extends Component {
     }
 
     componentDidMount() {
-        Axios.get('http://localhost:8080/users').then(
+        Axios.get('http://localhost:8080/users', { headers: authHeader() }).then(
             res => {
                 const users = res.data
                 this.setState({

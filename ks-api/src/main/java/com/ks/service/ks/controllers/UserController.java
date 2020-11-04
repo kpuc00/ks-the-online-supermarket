@@ -9,14 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/users")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<User> createUser (@RequestBody User user){
         userRepository.save(user);
@@ -24,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping // /Users
-    public @ResponseBody Iterable<User> getAllUsers() {
+    public @ResponseBody List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -35,7 +37,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User updatedUser){
         if (userRepository.existsById(id)){
@@ -54,7 +55,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable long id){
         if (userRepository.existsById(id)) {

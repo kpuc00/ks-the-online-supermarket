@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/orders")
@@ -24,7 +26,7 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping // /orders
-    public @ResponseBody Iterable<Order> getAllOrders() {
+    public @ResponseBody List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 

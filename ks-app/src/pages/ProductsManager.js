@@ -21,7 +21,7 @@ class ProductsManager extends Component {
   }
 
   componentDidMount() {
-    Axios.get('http://localhost:8080/products').then(
+    Axios.get('http://localhost:8080/products/admin', { headers: authHeader() }).then(
       res => {
         const products = res.data
         this.setState({
