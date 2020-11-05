@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - sonarqube
 
 build:
   stage: build
@@ -15,6 +16,14 @@ test:
   script:
     - cd ./ks-api
     - ./gradlew test
+
+sonarqube:
+  stage: sonarqube
+  dependencies:
+    - test
+  script:
+    - cd ./ks-api
+    - ./gradlew sonarqube
     
 after_script:
   - echo "End CI"
