@@ -24,7 +24,7 @@ class EditCustomer extends Component {
 
     componentDidMount() {
         var id = this.props.match.params.id
-        Axios.get(`http://localhost:8080/users/${id}`)
+        Axios.get(`http://localhost:8080/users/${id}`, { headers: authHeader() })
             .then(res => {
                 const user = res.data
                 this.setState({

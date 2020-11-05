@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import UserForm from './UserForm'
+import authHeader from '../../services/auth-header'
 
 class AddCustomer extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class AddCustomer extends Component {
             phone: this.state.phone
         }
 
-        Axios.post(`http://localhost:8080/customers/add`, customer)
+        Axios.post(`http://localhost:8080/customers/add`, customer, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 console.log(res.data)
