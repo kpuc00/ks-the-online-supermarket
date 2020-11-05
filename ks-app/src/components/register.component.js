@@ -3,7 +3,6 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-import autoBind from "react-autobind";
 
 import AuthService from "../services/auth-service";
 import { Card, Container } from "react-bootstrap";
@@ -89,9 +88,9 @@ const vpassword = value => {
 };
 
 export default class Register extends Component {
+    state = {}
     constructor(props) {
         super(props);
-        autoBind(this);
 
         this.state = {
             firstName: "",
@@ -106,13 +105,13 @@ export default class Register extends Component {
         };
     }
 
-    onChange(e) {
+    onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
-    handleRegister(e) {
+    handleRegister = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -157,7 +156,7 @@ export default class Register extends Component {
 
     render() {
         return (
-            <Container>
+            <Container className="p-5">
                 <Card>
                     {/* <Card.Img variant="top" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" /> */}
                     <Card.Body>
@@ -171,7 +170,7 @@ export default class Register extends Component {
                             {!this.state.successful && (
                                 <div>
                                     <div className="form-group">
-                                        <label htmlFor="firstName">First name</label>
+                                        <label htmlFor="firstName">First name*</label>
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -183,7 +182,7 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="lastName">Last name</label>
+                                        <label htmlFor="lastName">Last name*</label>
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -195,7 +194,7 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="email">Email</label>
+                                        <label htmlFor="email">Email*</label>
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -219,7 +218,7 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="phone">Phone</label>
+                                        <label htmlFor="phone">Phone*</label>
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -231,7 +230,7 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="username">Username</label>
+                                        <label htmlFor="username">Username*</label>
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -243,7 +242,7 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="password">Password</label>
+                                        <label htmlFor="password">Password*</label>
                                         <Input
                                             type="password"
                                             className="form-control"

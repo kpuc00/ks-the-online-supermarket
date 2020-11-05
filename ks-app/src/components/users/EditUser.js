@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import Axios from "axios"
 import authHeader from '../../services/auth-header';
-import autoBind from "react-autobind";
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -11,7 +10,6 @@ import Spinner from 'react-bootstrap/Spinner'
 class EditCustomer extends Component {
     constructor(props) {
         super(props)
-        autoBind(this)
         this.state = {
             name: "",
             address: "",

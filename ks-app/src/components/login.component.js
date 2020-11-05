@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import autoBind from "react-autobind";
 
 import AuthService from "../services/auth-service";
 import { Card, Container } from "react-bootstrap";
@@ -20,7 +19,6 @@ const required = value => {
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        autoBind(this);
 
         this.state = {
             username: "",
@@ -30,19 +28,19 @@ export default class Login extends Component {
         };
     }
 
-    onChangeUsername(e) {
+    onChangeUsername = (e) => {
         this.setState({
             username: e.target.value
         });
     }
 
-    onChangePassword(e) {
+    onChangePassword = (e) => {
         this.setState({
             password: e.target.value
         });
     }
 
-    handleLogin(e) {
+    handleLogin = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -81,7 +79,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Container>
+            <Container className="p-5">
                 <Card>
                     {/* <Card.Img variant="top" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" /> */}
                     <Card.Body>
