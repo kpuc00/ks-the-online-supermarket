@@ -1,7 +1,6 @@
 package com.ks.service.ks.controllers;
 
 import com.ks.service.ks.model.User;
-import com.ks.service.ks.model.User;
 import com.ks.service.ks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

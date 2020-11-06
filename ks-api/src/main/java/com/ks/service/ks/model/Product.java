@@ -21,46 +21,54 @@ public class Product {
 
     public Long getProductId() { return productId; }
 
-    public void setProductId(Long productId) { this.productId = productId; }
+    public Product setProductId(Long productId) {
+        this.productId = productId;
+        return this;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Product setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Product setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public Product setPrice(double price) {
         this.price = price;
+        return this;
     }
 
     public String getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public Product setImage(String image) {
         this.image = image;
+        return this;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public Product setCategory(Category category) {
         this.category = category;
+        return this;
     }
 
     public Product() {}
