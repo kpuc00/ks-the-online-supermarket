@@ -8,12 +8,12 @@ import NavigationBar from './components/NavigationBar'
 
 import AuthService from "./services/auth-service";
 
-import Login from "./components/login.component";
-import Register from "./components/register.component";
-import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
-import BoardModerator from "./components/board-moderator.component";
-import BoardAdmin from "./components/board-admin.component";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import Profile from "./pages/ProfilePage";
+import BoardUser from "./pages/UserPage";
+import BoardModerator from "./pages/ModeratorPage";
+import BoardAdmin from "./pages/AdminPage";
 
 import Home from './pages/Home'
 import Products from './pages/Products'
