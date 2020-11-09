@@ -64,10 +64,16 @@ export default class Login extends Component {
                         error.message ||
                         error.toString();
 
-                    this.setState({
-                        loading: false,
-                        message: resMessage
-                    });
+                    if (resMessage === "Error: Unauthorized")
+                        this.setState({
+                            loading: false,
+                            message: "Wrong username/password!"
+                        });
+                    else
+                        this.setState({
+                            loading: false,
+                            message: resMessage
+                        });
                 }
             );
         } else {
