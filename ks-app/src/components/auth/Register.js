@@ -136,6 +136,7 @@ export default class Register extends Component {
                         message: response.data.message,
                         successful: true
                     });
+                    this.handleLogin();
                 },
                 error => {
                     const resMessage =
@@ -152,6 +153,33 @@ export default class Register extends Component {
                 }
             );
         }
+    }
+
+    handleLogin() {
+        this.setState({
+            message: "",
+            successful: false
+        });
+
+        AuthService.login(this.state.username, this.state.password).then(
+            () => {
+                this.props.history.push("/");
+                window.location.reload();
+            },
+            error => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                this.setState({
+                    successful: false,
+                    message: resMessage
+                });
+            }
+        );
     }
 
     render() {
