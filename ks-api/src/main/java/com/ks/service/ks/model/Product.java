@@ -1,11 +1,13 @@
 package com.ks.service.ks.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "PRODUCTS")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long productId;
     @Column(nullable = false, length = 50)
     private String name;
@@ -18,6 +20,9 @@ public class Product {
     @ManyToOne(optional = false, targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetails> orderDetails;
 
     public Long getProductId() { return productId; }
 
@@ -69,6 +74,14 @@ public class Product {
     public Product setCategory(Category category) {
         this.category = category;
         return this;
+    }
+
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     public Product() {}
