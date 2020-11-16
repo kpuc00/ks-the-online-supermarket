@@ -13,7 +13,7 @@ public class JwtResponse {
     private String phone;
     private double totalCosts;
     private String username;
-    private List<String> roles;
+    private final List<String> roles;
 
     public JwtResponse(String accessToken, Long id, String firstName, String lastName, String email,
                        String address, String phone, double totalCosts, String username, List<String> roles) {
