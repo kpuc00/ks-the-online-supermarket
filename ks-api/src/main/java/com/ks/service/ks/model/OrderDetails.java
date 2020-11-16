@@ -14,13 +14,16 @@ public class OrderDetails {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne(optional = false, targetEntity = Order.class)
+    @ManyToOne(targetEntity = Order.class)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
 
     @ManyToOne(optional = false, targetEntity = Product.class)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
+
+    public OrderDetails() {
+    }
 
     public Long getId() {
         return id;
@@ -69,6 +72,4 @@ public class OrderDetails {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-    public OrderDetails() {}
 }

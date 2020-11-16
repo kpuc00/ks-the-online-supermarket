@@ -24,7 +24,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<OrderDetails> orderDetails;
 
-    public Long getProductId() { return productId; }
+    public Product() {
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
 
     public Product setProductId(Long productId) {
         this.productId = productId;
@@ -83,6 +88,4 @@ public class Product {
     public void setOrderDetails(List<OrderDetails> orderDetails) {
         this.orderDetails = orderDetails;
     }
-
-    public Product() {}
 }
