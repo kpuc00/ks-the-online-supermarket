@@ -14,13 +14,17 @@ public class OrderDetails {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne(targetEntity = Order.class)
+    @ManyToOne(optional = false, targetEntity = Order.class)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
 
     @ManyToOne(optional = false, targetEntity = Product.class)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
+
+    @ManyToOne(optional = false, targetEntity = User.class)
+    @JoinColumn(name = "buyer_id", referencedColumnName = "id")
+    private User buyer;
 
     public OrderDetails() {
     }
@@ -71,5 +75,13 @@ public class OrderDetails {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
     }
 }

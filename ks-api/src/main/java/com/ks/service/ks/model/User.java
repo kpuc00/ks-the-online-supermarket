@@ -19,6 +19,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank
@@ -60,8 +61,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "buyer")
+    private List<OrderDetails> boughtProducts;
 
     public User() {
     }
