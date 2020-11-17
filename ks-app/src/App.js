@@ -18,7 +18,8 @@ import BoardAdmin from "./pages/AdminPage";
 import Home from './pages/Home'
 import Products from './pages/Products'
 import Offers from './pages/Offers'
-import Order from './pages/Order'
+import Order from './pages/Orders'
+import Cart from './pages/Cart'
 import UsersManager from './pages/UsersManager'
 import AddUser from "./components/users/AddUser"
 import EditUser from "./components/users/EditUser"
@@ -38,6 +39,7 @@ class App extends Component {
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
+      cartCount: 0
     };
   }
 
@@ -57,11 +59,11 @@ class App extends Component {
     AuthService.logout();
   }
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard, cartCount } = this.state;
 
     return (
       <Router>
-        <NavigationBar currentUser={currentUser} showModeratorBoard={showModeratorBoard} showAdminBoard={showAdminBoard} logOut={this.logOut} />
+        <NavigationBar currentUser={currentUser} showModeratorBoard={showModeratorBoard} showAdminBoard={showAdminBoard} logOut={this.logOut} cartCount={cartCount} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/products" component={Products} />

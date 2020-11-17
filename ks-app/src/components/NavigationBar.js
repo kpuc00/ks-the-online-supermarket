@@ -2,9 +2,10 @@ import React from "react"
 import { Link } from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import { NavDropdown } from "react-bootstrap"
+import { Badge, NavDropdown } from "react-bootstrap"
+import { FaShoppingCart } from 'react-icons/fa'
 
-const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut }) => {
+const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut, cartCount }) => {
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -39,6 +40,11 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
 
           {currentUser ? (
             <Nav>
+              <Nav.Item>
+                <Nav.Link as={Link} to="/cart">
+                  <FaShoppingCart /> Cart <Badge variant="light">{cartCount}</Badge>
+                </Nav.Link>
+              </Nav.Item>
               <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 {showAdminBoard && (
