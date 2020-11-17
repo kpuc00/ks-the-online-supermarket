@@ -72,6 +72,7 @@ class App extends Component {
           <Route path="/offers" component={Offers} />
 
           <Route path="/order" component={Order} />
+          <Route path="/cart" component={Cart} />
 
           <Route exact path="/usersmanager" component={UsersManager} />
           <Route path="/usersmanager/adduser" component={AddUser} />

@@ -34,7 +34,11 @@ public class OrderDetailsController {
 
     @GetMapping("/{id}/details")
     public ResponseEntity<OrderDetails> getDetailsOfOrderById(@PathVariable long id) {
-        return new ResponseEntity(orderDetailsRepository.getOrderDetailsByOrder_OrderId(id), HttpStatus.OK);
+        if (orderRepository.existsById(id)) {
+            if (orderDetailsRepository.getOrderDetailsByOrder_OrderId(id).size() != 0)
+                return new ResponseEntity(orderDetailsRepository.getOrderDetailsByOrder_OrderId(id), HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/addProduct")
