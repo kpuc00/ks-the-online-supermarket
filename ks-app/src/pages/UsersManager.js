@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { Link } from "react-router-dom"
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import { Modal } from "react-bootstrap";
 
 class UsersManager extends Component {
     constructor() {
@@ -15,7 +16,10 @@ class UsersManager extends Component {
         this.state = {
             users: [],
             usersLoaded: false,
-            content: ""
+            content: "",
+            showDialog: false,
+            setShowDialog: false,
+            selectedUser: null
         }
     }
 
@@ -58,6 +62,19 @@ class UsersManager extends Component {
                 });
             }
         )
+        this.handleCloseDialog()
+    }
+
+    handleCloseDialog = () => {
+        this.setState({
+            setShowDialog: false
+        })
+    }
+    handleShowDialog = (user) => {
+        this.setState({
+            selectedUser: user,
+            setShowDialog: true
+        })
     }
 
     render() {
@@ -120,13 +137,25 @@ class UsersManager extends Component {
                                         <Link to={"/usersmanager/edituser/" + user.id}>
                                             <Button variant="warning"><FaEdit /></Button>
                                         </Link>
-                                        <Button variant="danger" onClick={() => this.deleteUser(user.id)}><FaTrash /></Button>
+                                        <Button variant="danger" onClick={() => this.handleShowDialog(user)}><FaTrash /></Button>
                                     </ul>
                                 </div>
                             ))}
                         </Col>
                     </Row>
                 }
+
+                <Modal show={this.state.setShowDialog} onHide={this.handleCloseDialog}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Are you sure you want to delete?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{this.state.selectedUser?.firstName} {this.state.selectedUser?.lastName}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => this.deleteUser(this.state.selectedUser.id)}>
+                            <FaTrash /> Delete
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
             </Container>
         )

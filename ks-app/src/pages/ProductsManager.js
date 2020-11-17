@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
+import { Modal } from "react-bootstrap";
 
 class ProductsManager extends Component {
   constructor() {
@@ -16,7 +17,10 @@ class ProductsManager extends Component {
     this.state = {
       products: [],
       productsLoaded: false,
-      content: ""
+      content: "",
+      showDialog: false,
+      setShowDialog: false,
+      selectedProduct: null
     }
   }
 
@@ -48,6 +52,19 @@ class ProductsManager extends Component {
         console.log(res)
         console.log(res.data)
       })
+    this.handleCloseDialog()
+  }
+
+  handleCloseDialog = () => {
+    this.setState({
+      setShowDialog: false
+    })
+  }
+  handleShowDialog = (product) => {
+    this.setState({
+      selectedProduct: product,
+      setShowDialog: true
+    })
   }
 
   render() {
@@ -100,7 +117,7 @@ class ProductsManager extends Component {
                       <Link to={"/productsmanager/editproduct/" + product.productId}>
                         <Button variant="warning"><FaEdit /></Button>
                       </Link>
-                      <Button variant="danger" onClick={() => this.deleteProduct(product.productId)}><FaTrash /></Button>
+                      <Button variant="danger" onClick={() => this.handleShowDialog(product)}><FaTrash /></Button>
                     </Card.Body>
                   </Card>
                 ))}
@@ -108,6 +125,19 @@ class ProductsManager extends Component {
             </Col>
           </Row>
         }
+
+        <Modal show={this.state.setShowDialog} onHide={this.handleCloseDialog}>
+          <Modal.Header closeButton>
+            <Modal.Title>Are you sure you want to delete?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body><strong>Product:</strong> {this.state.selectedProduct?.name}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={() => this.deleteProduct(this.state.selectedProduct.productId)}>
+              <FaTrash /> Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
       </Container>
     )
   }
