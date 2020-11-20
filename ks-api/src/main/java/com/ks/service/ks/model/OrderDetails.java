@@ -22,9 +22,7 @@ public class OrderDetails {
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
 
-    @ManyToOne(optional = false, targetEntity = User.class)
-    @JoinColumn(name = "buyer_id", referencedColumnName = "id")
-    private User buyer;
+    private Long buyerId;
 
     public OrderDetails() {
     }
@@ -77,11 +75,11 @@ public class OrderDetails {
         this.product = product;
     }
 
-    public User getBuyer() {
-        return buyer;
+    public Long getBuyerId() {
+        return buyerId;
     }
 
-    public void setBuyer(User buyer) {
-        this.buyer = buyer;
+    public void setBuyerId(Long buyerId) {
+        this.buyerId = buyerId;
     }
 }

@@ -23,7 +23,7 @@ class AddProduct extends Component {
     }
 
     componentDidMount() {
-        Axios.get('http://localhost:8080/categories')
+        Axios.get('/categories')
             .then(res => {
                 const categories = res.data
                 this.setState({
@@ -62,7 +62,7 @@ class AddProduct extends Component {
             }
         }
 
-        Axios.post(`http://localhost:8080/products/add`, product, { headers: authHeader() })
+        Axios.post(`/products/add`, product, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 console.log(res.data)
@@ -89,7 +89,7 @@ class AddProduct extends Component {
     }
 
     render() {
-        var { categoriesLoaded, categories } = this.state
+        let { categoriesLoaded, categories } = this.state
         if (!categoriesLoaded) {
             return (
                 <Container>

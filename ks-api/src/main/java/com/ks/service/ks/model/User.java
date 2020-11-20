@@ -65,10 +65,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "buyer")
-    private List<OrderDetails> boughtProducts;
-
     public User() {
     }
 

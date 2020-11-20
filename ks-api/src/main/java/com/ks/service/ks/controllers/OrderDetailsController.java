@@ -2,8 +2,11 @@ package com.ks.service.ks.controllers;
 
 import com.ks.service.ks.model.Order;
 import com.ks.service.ks.model.OrderDetails;
+import com.ks.service.ks.model.Product;
+import com.ks.service.ks.model.User;
 import com.ks.service.ks.repository.OrderDetailsRepository;
 import com.ks.service.ks.repository.OrderRepository;
+import com.ks.service.ks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +27,7 @@ public class OrderDetailsController {
     private OrderRepository orderRepository;
 
     @Autowired
-    private OrderController orderController;
+    private UserRepository userRepository;
 
     @GetMapping("/allOrderDetails")
     public @ResponseBody
@@ -42,16 +45,36 @@ public class OrderDetailsController {
     }
 
     @PostMapping("/addProduct")
-    public ResponseEntity<OrderDetails> addProductToOrder(@RequestBody OrderDetails orderDetails) {
-        if (orderDetails.getOrder() == null) {
-            Order order = new Order();
-            order.setUser(orderDetails.getBuyer());
-            orderController.createOrder(order);
+    public ResponseEntity<OrderDetails> addProductToCart(@RequestBody OrderDetails orderDetails) {
+        User buyer = userRepository.findById(orderDetails.getBuyerId()).get();
+        Order cart = orderRepository.getUserShoppingCart(orderDetails.getBuyerId());
+        if (cart == null) {
+            cart = new Order();
+            cart.setUser(buyer);
+            orderRepository.save(cart);
         }
-        orderDetails.setOrder(orderRepository.getOrderByUser_Id(orderDetails.getBuyer().getId()));
+        orderDetails.setPrice(orderDetails.getProduct().getPrice());
         double amount = orderDetails.getPrice() * orderDetails.getQuantity();
         orderDetails.setAmount(amount);
+        orderDetails.setOrder(cart);
+        double orderTotalPrice = cart.getTotalPrice() + orderDetails.getAmount();
+        cart.setTotalPrice(orderTotalPrice);
+        orderRepository.save(cart);
         orderDetailsRepository.save(orderDetails);
-        return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+        return new ResponseEntity(orderDetails, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable long id) {
+        if (orderDetailsRepository.existsById(id)) {
+            OrderDetails orderDetails = orderDetailsRepository.getOne(id);
+            Order order = orderDetails.getOrder();
+            double newOrderTotalPrice = order.getTotalPrice() - orderDetails.getAmount();
+            order.setTotalPrice(newOrderTotalPrice);
+            orderRepository.save(order);
+            orderDetailsRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

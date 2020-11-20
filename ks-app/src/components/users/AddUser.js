@@ -34,7 +34,7 @@ class AddCustomer extends Component {
             phone: this.state.phone
         }
 
-        Axios.post(`http://localhost:8080/customers/add`, customer, { headers: authHeader() })
+        Axios.post(`/customers/add`, customer, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 console.log(res.data)

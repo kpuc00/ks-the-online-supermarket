@@ -24,7 +24,7 @@ class UsersManager extends Component {
     }
 
     componentDidMount() {
-        Axios.get('http://localhost:8080/users', { headers: authHeader() }).then(
+        Axios.get('/users', { headers: authHeader() }).then(
             res => {
                 const users = res.data
                 this.setState({
@@ -46,7 +46,7 @@ class UsersManager extends Component {
     }
 
     deleteUser(id) {
-        Axios.delete(`http://localhost:8080/users/${id}`, { headers: authHeader() }).then(
+        Axios.delete(`/users/${id}`, { headers: authHeader() }).then(
             res => {
                 console.log(res)
                 console.log(res.data)
@@ -78,7 +78,7 @@ class UsersManager extends Component {
     }
 
     render() {
-        var { usersLoaded, users } = this.state
+        let { usersLoaded, users } = this.state
 
         return (
             <Container className="p-1">

@@ -25,8 +25,8 @@ class EditProduct extends Component {
     }
 
     componentDidMount() {
-        var id = this.props.match.params.id
-        Axios.get('http://localhost:8080/categories')
+        let id = this.props.match.params.id
+        Axios.get('/categories')
             .then(res => {
                 const categories = res.data
                 this.setState({
@@ -35,7 +35,7 @@ class EditProduct extends Component {
                 })
             })
 
-        Axios.get(`http://localhost:8080/products/${id}`)
+        Axios.get(`/products/${id}`)
             .then(res => {
                 const product = res.data
                 this.setState({
@@ -79,8 +79,8 @@ class EditProduct extends Component {
                 categoryId: this.state.category.categoryId
             }
         }
-        var id = this.props.match.params.id
-        Axios.put(`http://localhost:8080/products/${id}`, product, { headers: authHeader() })
+        let id = this.props.match.params.id
+        Axios.put(`/products/${id}`, product, { headers: authHeader() })
             .then(result => {
                 console.log(result)
                 console.log(result.data)
@@ -107,7 +107,7 @@ class EditProduct extends Component {
     }
 
     render() {
-        var { productLoaded, categoriesLoaded, product, categories } = this.state
+        let { productLoaded, categoriesLoaded, product, categories } = this.state
         if (!productLoaded || !categoriesLoaded) {
             return (
                 <Container>

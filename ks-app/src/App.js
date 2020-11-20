@@ -5,8 +5,10 @@ import {
   Route
 } from "react-router-dom"
 import NavigationBar from './components/NavigationBar'
+import Axios from "axios"
 
 import AuthService from "./services/auth-service";
+import authHeader from "./services/auth-header";
 
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -52,6 +54,31 @@ class App extends Component {
         showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
+      
+      const givenUser = {
+        id: user.id
+      }
+
+      Axios.post(`/orders/cart/count`, givenUser, { headers: authHeader() }).then(
+        res => {
+          if (res.status === 200) {
+            const num = res.data;
+            this.setState({
+              cartCount: num
+            })
+          }
+        },
+        error => {
+          this.setState({
+            content:
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          });
+        }
+      )
     }
   }
 

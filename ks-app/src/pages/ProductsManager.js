@@ -20,12 +20,12 @@ class ProductsManager extends Component {
       content: "",
       showDialog: false,
       setShowDialog: false,
-      selectedProduct: null
+      selectedProduct: {}
     }
   }
 
   componentDidMount() {
-    Axios.get('http://localhost:8080/products/admin', { headers: authHeader() }).then(
+    Axios.get('/products/admin', { headers: authHeader() }).then(
       res => {
         const products = res.data
         this.setState({
@@ -47,7 +47,7 @@ class ProductsManager extends Component {
   }
 
   deleteProduct(id) {
-    Axios.delete(`http://localhost:8080/products/${id}`, { headers: authHeader() })
+    Axios.delete(`/products/${id}`, { headers: authHeader() })
       .then(res => {
         console.log(res)
         console.log(res.data)
@@ -68,7 +68,7 @@ class ProductsManager extends Component {
   }
 
   render() {
-    var { productsLoaded, products } = this.state
+    let { productsLoaded, products } = this.state
 
     return (
       <Container className="p-1">

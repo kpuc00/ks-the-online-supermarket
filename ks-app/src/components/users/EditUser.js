@@ -23,8 +23,8 @@ class EditCustomer extends Component {
     }
 
     componentDidMount() {
-        var id = this.props.match.params.id
-        Axios.get(`http://localhost:8080/users/${id}`, { headers: authHeader() })
+        let id = this.props.match.params.id
+        Axios.get(`/users/${id}`, { headers: authHeader() })
             .then(res => {
                 const user = res.data
                 this.setState({
@@ -58,8 +58,8 @@ class EditCustomer extends Component {
             email: this.state.email,
             phone: this.state.phone
         }
-        var id = this.props.match.params.id
-        Axios.put(`http://localhost:8080/users/${id}`, user, { headers: authHeader() }).then(
+        let id = this.props.match.params.id
+        Axios.put(`/users/${id}`, user, { headers: authHeader() }).then(
             res => {
                 console.log(res)
                 console.log(res.data)
@@ -86,7 +86,7 @@ class EditCustomer extends Component {
     }
 
     render() {
-        var { userLoaded, user } = this.state
+        let { userLoaded, user } = this.state
         if (!userLoaded) {
             return (
                 <Container>

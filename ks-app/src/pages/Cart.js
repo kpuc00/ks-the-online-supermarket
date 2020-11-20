@@ -8,7 +8,6 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-//import { FaCartPlus } from 'react-icons/fa'
 
 export default class Cart extends Component {
     constructor() {
@@ -32,7 +31,7 @@ export default class Cart extends Component {
             id: this.state.currentUser.id
         }
         let t = this
-        Axios.post(`http://localhost:8080/orders/cart`, userId, { headers: authHeader() }).then(
+        Axios.post(`/orders/cart`, userId, { headers: authHeader() }).then(
             resCart => {
                 if (resCart.status === 204) {
                     this.setState({
@@ -44,7 +43,7 @@ export default class Cart extends Component {
                     this.setState({
                         order: cart
                     })
-                    Axios.get(`http://localhost:8080/orders/${this.state.order.orderId}/details`, { headers: authHeader() }).then(
+                    Axios.get(`/orders/${this.state.order.orderId}/details`, { headers: authHeader() }).then(
                         resDetails => {
                             if (resDetails.status === 204) {
                                 this.setState({
@@ -89,8 +88,37 @@ export default class Cart extends Component {
         })
     }
 
+    deleteProduct(id) {
+        Axios.delete(`/orders/deleteProduct/${id}`, { headers: authHeader() })
+            .then(res => {
+                console.log(res)
+                console.log(res.data)
+            })
+    }
+
+    submitOrder() {
+        console.log(this.state.order)
+        Axios.put(`/orders/cart`, this.state.order, { headers: authHeader() }).then(
+            res => {
+                if (res.status === 200) {
+                    console.log("Order sent")
+                }
+            },
+            error => {
+                this.setState({
+                    content:
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString()
+                });
+            }
+        )
+    }
+
     render() {
-        var { cartEmpty, loaded, order, orderDetails } = this.state
+        let { cartEmpty, loaded, order, orderDetails } = this.state
         console.log(order)
         console.log(orderDetails)
         console.log(loaded)
@@ -136,120 +164,23 @@ export default class Cart extends Component {
                                                 <Card.Title>{details.product.name}</Card.Title>
                                                 <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
                                                 <Card.Subtitle>{details.amount} €</Card.Subtitle>
-                                                <Card.Link href="#">Remove</Card.Link>
+                                                <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
                                             </Card.Body>
                                         </Card>
                                     ))
                                 }
-                                <Card className="mt-5">
+                                <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
+                                <Card className="p-3">
                                     <Card.Body>
                                         <Card.Title>Total:</Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted">{cartEmpty && "0.00"}{!cartEmpty && order.totalPrice} €</Card.Subtitle>
-                                        <Button disabled={cartEmpty} onClick={() => console.log("Order sent")}>Purchase</Button>
+                                        <Button disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
                                     </Card.Body>
                                 </Card>
                             </Card>
                         </Col>
                     </Row>
                 }
-
-                {/* 
-                
-                {
-          (!productsLoaded && !this.state.content) &&
-          <Row>
-            <Col>
-              <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            </Col>
-          </Row>
-        }
-        {
-          this.state.content &&
-          <Row>
-            <Col>
-              <header className="jumbotron">
-                <h3>{this.state.content}</h3>
-              </header>
-            </Col>
-          </Row>
-        }
-        {
-          (productsLoaded && !this.state.content) &&
-          <Row>
-            <Col>
-              <Link to="/productsmanager/addproduct">
-                <Button variant="primary"><FaPlus /> Add new product</Button>
-              </Link>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {products.map(product => (
-                  <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
-                    <Card.Img variant="top" src={"/images/product/" + product.image} />
-                    <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
-                      <Card.Text>
-                        {product.description}<br />
-                        <strong>Category:</strong> {product.category.name}<br />
-                        <strong>Price:</strong> {product.price} €
-                      </Card.Text>
-                      <Link to={"/productsmanager/editproduct/" + product.productId}>
-                        <Button variant="warning"><FaEdit /></Button>
-                      </Link>
-                      <Button variant="danger" onClick={() => this.handleShowDialog(product)}><FaTrash /></Button>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </div>
-            </Col>
-          </Row>
-        }
-
-                */}
-
-                {/* {
-                    (!productsLoaded && !this.state.content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                }
-                {
-                    this.state.content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{this.state.content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
-                }
-                {
-                    (productsLoaded && !this.state.content) &&
-                    <Row>
-                        <Col>
-                            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                                {products.map(product => (
-                                    <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
-                                        <Card.Img variant="top" src={"/images/product/" + product.image} />
-                                        <Card.Body>
-                                            <Card.Title>{product.name}</Card.Title>
-                                            <Card.Text>
-                                                {product.description}<br />
-                                                <strong>Category:</strong> {product.category.name}<br />
-                                                <strong>Price:</strong> {product.price} €
-                      </Card.Text>
-                                            <Button variant="primary"><FaCartPlus /> Add to cart</Button>
-                                        </Card.Body>
-                                    </Card>
-                                ))}
-                            </div>
-                        </Col>
-                    </Row>
-                } */}
             </Container>
         )
     }
