@@ -109,7 +109,8 @@ export default class Cart extends Component {
         Axios.put(`/orders/cart`, this.state.order, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
-                    console.log("Order sent")
+                    this.props.history.push("/orders/" + this.state.order.orderId);
+                    window.location.reload();
                 }
             },
             error => {

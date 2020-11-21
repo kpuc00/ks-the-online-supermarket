@@ -5,7 +5,6 @@ import authHeader from '../services/auth-header';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { Card } from "react-bootstrap";
 
@@ -17,28 +16,28 @@ export default class OrderDetails extends Component {
             order: {},
             orderDetails: {},
             loaded: false,
+            details: false,
             content: ""
         }
     }
 
     componentDidMount() {
-        const user = {
-            id: this.state.currentUser.id
-        }
-        Axios.get(`/orders/`, { headers: authHeader() }).then(
+        let id = this.props.match.params.id
+        Axios.get(`/orders/${id}`, { headers: authHeader() }).then(
             resOrder => {
                 if (resOrder.status === 200) {
                     const o = resOrder.data;
                     this.setState({
                         order: o
                     })
-                    Axios.get(`/orders/${this.state.order.orderId}/details`, { headers: authHeader() }).then(
+                    Axios.get(`/orders/${id}/details`, { headers: authHeader() }).then(
                         resDetails => {
                             if (resDetails.status === 200) {
                                 const orderDetails = resDetails.data
                                 this.setState({
                                     orderDetails,
-                                    loaded: true
+                                    loaded: true,
+                                    details: true
                                 })
                             }
                         },
@@ -54,6 +53,10 @@ export default class OrderDetails extends Component {
                         }
                     )
                 }
+                else if (resOrder.status === 403) {
+                    this.props.history.push("/orders");
+                    window.location.reload();
+                }
             },
             error => {
                 this.setState({
@@ -66,14 +69,14 @@ export default class OrderDetails extends Component {
                 });
             }
         )
-
+        let t = this
         t.setState({
             loaded: true
         })
     }
 
     render() {
-        let { order, orderDetails, loaded, content } = this.state
+        let { order, orderDetails, details, loaded, content } = this.state
         return (
             <Container className="p-1">
                 <Row>
@@ -101,29 +104,37 @@ export default class OrderDetails extends Component {
                         </Col>
                     </Row>
                 }
-                {
-                    (loaded && !content) &&
-                    <Row>
-                        <Col>
-                            <Card className="p-3">
-                                {/* {orders &&
-                                    orders.map(order => (
-                                        <Card key={order.orderId}>
-                                            <Card.Body>
-                                                <Card.Title>Order № {order.orderId}</Card.Title>
-                                                <Card.Subtitle className="mb-2 text-muted">Date: {order.orderDate}</Card.Subtitle>
-                                                <Card.Subtitle className="mb-2">Total price: {order.totalPrice} €</Card.Subtitle>
-                                                <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>
+                <Row>
+                    <Col>
+                        <Card className="p-3">
+                            {
+                                (loaded && !content) &&
+                                <>
 
-                                                <Button variant="link" onClick={() => this.showOrderProducts(order)}>See more</Button>
-                                            </Card.Body>
-                                        </Card>
-                                    ))
-                                } */}
-                            </Card>
-                        </Col>
-                    </Row>
-                }
+                                    <Card.Title>Order № {order.orderId}</Card.Title>
+                                    <Card.Subtitle className="mb-2 text-muted">Date: {order.orderDate}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>
+                                    <Card.Text>Ordered products:</Card.Text>
+                                </>
+                            }
+                            {
+                                (loaded && details && !content) &&
+                                orderDetails.map(details => (
+                                    <Card className="mb-3" key={details.id}>
+                                        <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
+                                        <Card.Body>
+                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                            {
+                                (loaded && !content) &&
+                                <Card.Subtitle className="mb-2">Total price: {order.totalPrice} €</Card.Subtitle>
+                            }
+                        </Card>
+                    </Col>
+                </Row>
             </Container>
         )
     }

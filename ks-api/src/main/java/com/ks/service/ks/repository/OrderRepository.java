@@ -9,8 +9,11 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+    List<Order> getAllByUser_Id(Long id);
+
     @Query(value = "SELECT * FROM ORDERS WHERE user_id = ?1 AND status = 'NOT_CONFIRMED_BY_USER'", nativeQuery = true)
     Order getUserShoppingCart(Long id);
 
-    List<Order> getAllByUser_Id(Long id);
+    @Query(value = "SELECT * FROM ORDERS WHERE user_id = ?1 AND NOT status = 'NOT_CONFIRMED_BY_USER'", nativeQuery = true)
+    List<Order> getAllSubmittedOrdersByUserId(Long id);
 }

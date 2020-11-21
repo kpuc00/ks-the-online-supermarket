@@ -21,6 +21,7 @@ import Home from './pages/Home'
 import Products from './pages/Products'
 import Offers from './pages/Offers'
 import Orders from './pages/Orders'
+import OrderDetails from "./pages/OrderDetails";
 import Cart from './pages/Cart'
 import UsersManager from './pages/UsersManager'
 import AddUser from "./components/users/AddUser"
@@ -100,7 +101,8 @@ class App extends Component {
 
           <Route path="/offers" component={Offers} />
 
-          <Route path="/orders" component={Orders} />
+          <Route exact path="/orders" component={Orders} />
+          <Route path="/orders/:id" component={OrderDetails} />
           <Route path="/cart" component={Cart} />
 
           <Route exact path="/usersmanager" component={UsersManager} />

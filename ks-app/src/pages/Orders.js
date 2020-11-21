@@ -45,10 +45,6 @@ export default class Orders extends Component {
         )
     }
 
-    showOrderProducts(order) {
-        console.log(order)
-    }
-
     render() {
         let { ordersLoaded, orders, content } = this.state
         return (
@@ -87,12 +83,12 @@ export default class Orders extends Component {
                                     orders.map(order => (
                                         <Card className="mb-3" key={order.orderId}>
                                             <Card.Header>Order № {order.orderId}</Card.Header>
-                                            <Card.Body>                                                
+                                            <Card.Body>
                                                 <Card.Subtitle className="mb-2 text-muted">Date: {order.orderDate}</Card.Subtitle>
                                                 <Card.Subtitle className="mb-2">Total price: {order.totalPrice} €</Card.Subtitle>
                                                 <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>
 
-                                                <Button variant="link" onClick={() => this.showOrderProducts(order)}>See more</Button>
+                                                <Button variant="link" href={"/orders/" + order.orderId}>See more</Button>
                                             </Card.Body>
                                         </Card>
                                     ))

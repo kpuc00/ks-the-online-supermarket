@@ -38,24 +38,21 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable long id) {
         if (orderRepository.existsById(id))
-            return new ResponseEntity(orderRepository.findById(id), HttpStatus.OK);
+            if (orderRepository.findById(id).isPresent())
+                return new ResponseEntity(orderRepository.findById(id), HttpStatus.OK);
+            else return new ResponseEntity(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/user")
     public @ResponseBody
-    List<Order> getAllOrdersByUser(@RequestBody User user) {
-        return orderRepository.getAllByUser_Id(user.getId());
+    List<Order> getAllSubmittedOrdersByUser(@RequestBody User user) {
+        return orderRepository.getAllSubmittedOrdersByUserId(user.getId());
     }
 
     @PostMapping("/cart")
     public ResponseEntity<Order> getCart(@RequestBody User user) {
-        List<Order> orders = orderRepository.getAllByUser_Id(user.getId());
-        Order cart = null;
-        for (Order o : orders) {
-            if (o.getStatus() == OrderStatus.NOT_CONFIRMED_BY_USER)
-                cart = o;
-        }
+        Order cart = orderRepository.getUserShoppingCart(user.getId());
         if (cart != null)
             return new ResponseEntity<Order>(cart, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -72,19 +69,14 @@ public class OrderController {
             user.setTotalCosts(user.getTotalCosts() + order.getTotalPrice());
             userRepository.save(user);
             orderRepository.save(order);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cart/count")
     public ResponseEntity countItemsInCart(@RequestBody User givenUser) {
         User user = userRepository.findById(givenUser.getId()).get();
-        List<Order> orders = orderRepository.getAllByUser_Id(user.getId());
-        Order cart = null;
-        for (Order o : orders) {
-            if (o.getStatus() == OrderStatus.NOT_CONFIRMED_BY_USER)
-                cart = o;
-        }
+        Order cart = orderRepository.getUserShoppingCart(user.getId());
         int numCartItems;
         if (cart != null) {
             numCartItems = cart.getOrderDetails().size();
