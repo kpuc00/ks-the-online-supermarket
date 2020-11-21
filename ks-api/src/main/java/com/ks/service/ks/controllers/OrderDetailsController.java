@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/orders")
@@ -28,12 +26,6 @@ public class OrderDetailsController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @GetMapping("/allOrderDetails")
-    public @ResponseBody
-    List<OrderDetails> getAllOrderDetails() {
-        return orderDetailsRepository.findAll();
-    }
 
     @GetMapping("/{id}/details")
     public ResponseEntity<OrderDetails> getDetailsOfOrderById(@PathVariable long id) {

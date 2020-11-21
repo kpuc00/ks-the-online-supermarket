@@ -3,6 +3,7 @@ package com.ks.service.ks.controllers;
 import com.ks.service.ks.model.Order;
 import com.ks.service.ks.model.OrderStatus;
 import com.ks.service.ks.model.User;
+import com.ks.service.ks.repository.OrderDetailsRepository;
 import com.ks.service.ks.repository.OrderRepository;
 import com.ks.service.ks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @PostMapping
@@ -31,9 +35,16 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable long id) {
+        if (orderRepository.existsById(id))
+            return new ResponseEntity(orderRepository.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/user")
     public @ResponseBody
-    List<Order> getUserAllOrders(@RequestBody User user) {
+    List<Order> getAllOrdersByUser(@RequestBody User user) {
         return orderRepository.getAllByUser_Id(user.getId());
     }
 
@@ -81,10 +92,12 @@ public class OrderController {
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable long id) {
-        if (orderRepository.existsById(id))
-            return new ResponseEntity(orderRepository.findById(id), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/cart/{id}")
+    public ResponseEntity clearCart(@PathVariable long id) {
+        System.out.println(id);
+        if (orderRepository.existsById(id)) {
+            orderDetailsRepository.deleteOrderDetailsByOrder_OrderId(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

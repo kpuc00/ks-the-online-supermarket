@@ -49,6 +49,7 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
               }
               <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
                 {showAdminBoard && (
                   <React.Fragment>
                     <NavDropdown.Divider />

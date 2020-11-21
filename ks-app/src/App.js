@@ -20,7 +20,7 @@ import BoardAdmin from "./pages/AdminPage";
 import Home from './pages/Home'
 import Products from './pages/Products'
 import Offers from './pages/Offers'
-import Order from './pages/Orders'
+import Orders from './pages/Orders'
 import Cart from './pages/Cart'
 import UsersManager from './pages/UsersManager'
 import AddUser from "./components/users/AddUser"
@@ -100,7 +100,7 @@ class App extends Component {
 
           <Route path="/offers" component={Offers} />
 
-          <Route path="/order" component={Order} />
+          <Route path="/orders" component={Orders} />
           <Route path="/cart" component={Cart} />
 
           <Route exact path="/usersmanager" component={UsersManager} />

@@ -96,6 +96,14 @@ export default class Cart extends Component {
             })
     }
 
+    clearCart(id) {
+        Axios.delete(`/orders/cart/${id}`, { headers: authHeader() })
+            .then(res => {
+                console.log(res)
+                console.log(res.data)
+            })
+    }
+
     submitOrder() {
         console.log(this.state.order)
         Axios.put(`/orders/cart`, this.state.order, { headers: authHeader() }).then(
@@ -118,11 +126,7 @@ export default class Cart extends Component {
     }
 
     render() {
-        let { cartEmpty, loaded, order, orderDetails } = this.state
-        console.log(order)
-        console.log(orderDetails)
-        console.log(loaded)
-        console.log(cartEmpty)
+        let { cartEmpty, loaded, content, order, orderDetails } = this.state
 
         return (
             <Container className="p-1">
@@ -130,7 +134,7 @@ export default class Cart extends Component {
                     <h3>Your shopping cart</h3>
                 </Row>
                 {
-                    (!loaded && !this.state.content) &&
+                    (!loaded && !content) &&
                     <Row>
                         <Col>
                             <Spinner animation="border" role="status">
@@ -140,17 +144,17 @@ export default class Cart extends Component {
                     </Row>
                 }
                 {
-                    this.state.content &&
+                    content &&
                     <Row>
                         <Col>
                             <header className="jumbotron">
-                                <h3>{this.state.content}</h3>
+                                <h3>{content}</h3>
                             </header>
                         </Col>
                     </Row>
                 }
                 {
-                    (loaded && !this.state.content) &&
+                    (loaded && !content) &&
                     <Row>
                         <Col>
                             <Card className="p-3">
@@ -159,17 +163,23 @@ export default class Cart extends Component {
                                 }
                                 {!cartEmpty &&
                                     orderDetails.map(details => (
-                                        <Card key={details.id}>
+                                        <Card className="mb-3" key={details.id}>
+                                            <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
                                             <Card.Body>
-                                                <Card.Title>{details.product.name}</Card.Title>
                                                 <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
-                                                <Card.Subtitle>{details.amount} €</Card.Subtitle>
                                                 <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
                                             </Card.Body>
                                         </Card>
                                     ))
                                 }
+                                {!cartEmpty &&
+                                    <Card.Body>
+                                        <Button variant="link" onClick={() => this.clearCart(order.orderId)}>Clear cart</Button>
+                                    </Card.Body>
+                                }
+
                                 <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
+
                                 <Card className="p-3">
                                     <Card.Body>
                                         <Card.Title>Total:</Card.Title>
