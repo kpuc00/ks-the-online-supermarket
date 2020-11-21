@@ -46,8 +46,11 @@ public class OrderController {
 
     @PostMapping("/user")
     public @ResponseBody
-    List<Order> getAllSubmittedOrdersByUser(@RequestBody User user) {
-        return orderRepository.getAllSubmittedOrdersByUserId(user.getId());
+    ResponseEntity<List<Order>> getAllSubmittedOrdersByUser(@RequestBody User user) {
+        List<Order> orders = orderRepository.getAllSubmittedOrdersByUserId(user.getId());
+        if (orders.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        else return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @PostMapping("/cart")
@@ -64,8 +67,6 @@ public class OrderController {
             order.setOrderDate(LocalDateTime.now());
             order.setStatus(OrderStatus.PROCESSING);
             User user = userRepository.findById(order.getUser().getId()).get();
-
-            System.out.println(user);
             user.setTotalCosts(user.getTotalCosts() + order.getTotalPrice());
             userRepository.save(user);
             orderRepository.save(order);
@@ -89,6 +90,9 @@ public class OrderController {
         System.out.println(id);
         if (orderRepository.existsById(id)) {
             orderDetailsRepository.deleteOrderDetailsByOrder_OrderId(id);
+            Order order = orderRepository.findById(id).get();
+            order.setTotalPrice(0);
+            orderRepository.save(order);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

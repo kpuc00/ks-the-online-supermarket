@@ -115,7 +115,7 @@ class Products extends Component {
   }
 
   render() {
-    let { productsLoaded, products, currentUser } = this.state
+    let { productsLoaded, products, currentUser, content } = this.state
 
     return (
       <Container className="p-1">
@@ -124,7 +124,7 @@ class Products extends Component {
         </Row>
 
         {
-          (!productsLoaded && !this.state.content) &&
+          (!productsLoaded && !content) &&
           <Row>
             <Col>
               <Spinner animation="border" role="status">
@@ -134,17 +134,17 @@ class Products extends Component {
           </Row>
         }
         {
-          this.state.content &&
+          content &&
           <Row>
             <Col>
               <header className="jumbotron">
-                <h3>{this.state.content}</h3>
+                <h3>{content}</h3>
               </header>
             </Col>
           </Row>
         }
         {
-          (productsLoaded && !this.state.content) &&
+          (productsLoaded && !content) &&
           <Row>
             <Col>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -158,7 +158,7 @@ class Products extends Component {
                         <strong>Category:</strong> {product.category.name}<br />
                         <strong>Price:</strong> {product.price} €
                       </Card.Text>
-                      <Button variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
+                      <Button disabled={!currentUser} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
                     </Card.Body>
                   </Card>
                 ))}

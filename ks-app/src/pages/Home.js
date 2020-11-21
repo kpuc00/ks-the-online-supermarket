@@ -11,51 +11,43 @@ function Home() {
     }
 
     return (
-        <Container fluid>
-            <Row>
-                <Col>
-                    <div className="slideshow">
-                        <Carousel activeIndex={index} onSelect={handleSelect}>
-                            <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src="/images/supermarket.jpg"
-                                    alt="First slide"
-                                />
-                                <Carousel.Caption>
-                                    <h3>Stay fresh</h3>
-                                    <p>Our products are fresh everyday.</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src="/images/market.jpg"
-                                    alt="Second slide"
-                                />
+        <Carousel activeIndex={index} onSelect={handleSelect}>
+            <Carousel.Item>
+                <img
+                    className="d-block w-100"
+                    src="/images/supermarket.jpg"
+                    alt="First slide"
+                />
+                <Carousel.Caption>
+                    <h3>Stay fresh</h3>
+                    <p>Our products are fresh everyday.</p>
+                </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+                <img
+                    className="d-block w-100"
+                    src="/images/market.jpg"
+                    alt="Second slide"
+                />
 
-                                <Carousel.Caption>
-                                    <h3>The best choice</h3>
-                                    <p>You will find a good selection of products in our store.</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src="/images/countryside.jpg"
-                                    alt="Third slide"
-                                />
+                <Carousel.Caption>
+                    <h3>The best choice</h3>
+                    <p>You will find a good selection of products in our store.</p>
+                </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+                <img
+                    className="d-block w-100"
+                    src="/images/countryside.jpg"
+                    alt="Third slide"
+                />
 
-                                <Carousel.Caption>
-                                    <h3>Homemade is better</h3>
-                                    <p>Try fresh food right from our farm.</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        </Carousel>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
+                <Carousel.Caption>
+                    <h3>Homemade is better</h3>
+                    <p>Try fresh food right from our farm.</p>
+                </Carousel.Caption>
+            </Carousel.Item>
+        </Carousel>
     )
 }
 

@@ -30,7 +30,6 @@ export default class Cart extends Component {
         const userId = {
             id: this.state.currentUser.id
         }
-        let t = this
         Axios.post(`/orders/cart`, userId, { headers: authHeader() }).then(
             resCart => {
                 if (resCart.status === 204) {
@@ -82,8 +81,7 @@ export default class Cart extends Component {
                 });
             }
         )
-
-        t.setState({
+        this.setState({
             loaded: true
         })
     }
@@ -93,6 +91,7 @@ export default class Cart extends Component {
             .then(res => {
                 console.log(res)
                 console.log(res.data)
+                window.location.reload();
             })
     }
 
@@ -175,7 +174,7 @@ export default class Cart extends Component {
                                 }
                                 {!cartEmpty &&
                                     <Card.Body>
-                                        <Button variant="link" onClick={() => this.clearCart(order.orderId)}>Clear cart</Button>
+                                        <Button disabled={true} variant="link" onClick={() => this.clearCart(order.orderId)}>Clear cart</Button>
                                     </Card.Body>
                                 }
 

@@ -33,9 +33,6 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
                 <Nav.Link as={Link} to="/user">User</Nav.Link>
               </Nav.Item>
             )}
-            {/* <Nav.Item>
-              <Nav.Link as={Link} to="/offers">Offers</Nav.Link>
-            </Nav.Item> */}
           </Nav>
 
           {currentUser ? (
@@ -43,7 +40,7 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
               {cartCount > 0 &&
                 <Nav.Item>
                   <Nav.Link as={Link} to="/cart">
-                    <FaShoppingCart /> Cart <Badge variant="light">{cartCount}</Badge>
+                    <FaShoppingCart /> Cart <Badge variant="secondary">{cartCount}</Badge>
                   </Nav.Link>
                 </Nav.Item>
               }

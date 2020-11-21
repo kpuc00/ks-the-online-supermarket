@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
-import { Card } from "react-bootstrap";
+import { Breadcrumb, Card } from "react-bootstrap";
 
 export default class OrderDetails extends Component {
     constructor() {
@@ -82,6 +82,10 @@ export default class OrderDetails extends Component {
                 <Row>
                     <Col>
                         <h3>Order details</h3>
+                        <Breadcrumb>
+                            <Breadcrumb.Item href="/orders">Orders</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Order details</Breadcrumb.Item>
+                        </Breadcrumb>
                     </Col>
                 </Row>
                 {

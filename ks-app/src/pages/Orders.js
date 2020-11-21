@@ -16,6 +16,7 @@ export default class Orders extends Component {
             currentUser: AuthService.getCurrentUser(),
             orders: {},
             ordersLoaded: false,
+            empty: false,
             content: ""
         }
     }
@@ -26,11 +27,18 @@ export default class Orders extends Component {
         }
         Axios.post('/orders/user', user, { headers: authHeader() }).then(
             res => {
-                const orders = res.data
-                this.setState({
-                    orders,
-                    ordersLoaded: true
-                })
+                if (res.status === 200) {
+                    const orders = res.data
+                    this.setState({
+                        orders,
+                        ordersLoaded: true
+                    })
+                }
+                else if (res.status === 204) {
+                    this.setState({
+                        empty: true
+                    })
+                }
             },
             error => {
                 this.setState({
@@ -46,7 +54,7 @@ export default class Orders extends Component {
     }
 
     render() {
-        let { ordersLoaded, orders, content } = this.state
+        let { ordersLoaded, orders, content, empty } = this.state
         return (
             <Container className="p-1">
                 <Row>
@@ -58,9 +66,13 @@ export default class Orders extends Component {
                     (!ordersLoaded && !content) &&
                     <Row>
                         <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
+                            {(empty && <h5>Nothing here. Start shopping now.</h5>)}
+                            {
+                                !empty &&
+                                <Spinner animation="border" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </Spinner>
+                            }
                         </Col>
                     </Row>
                 }
