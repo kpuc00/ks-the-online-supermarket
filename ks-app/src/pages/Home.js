@@ -1,7 +1,5 @@
 import React, { useState } from "react"
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import { Carousel, Container } from "react-bootstrap"
+import { Carousel } from "react-bootstrap"
 
 function Home() {
     const [index, setIndex] = useState(0)
