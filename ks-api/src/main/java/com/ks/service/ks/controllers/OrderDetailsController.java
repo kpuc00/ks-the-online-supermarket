@@ -38,22 +38,24 @@ public class OrderDetailsController {
 
     @PostMapping("/addProduct")
     public ResponseEntity<OrderDetails> addProductToCart(@RequestBody OrderDetails orderDetails) {
-        User buyer = userRepository.findById(orderDetails.getBuyerId()).get();
-        Order cart = orderRepository.getUserShoppingCart(orderDetails.getBuyerId());
-        if (cart == null) {
-            cart = new Order();
-            cart.setUser(buyer);
+        if (userRepository.existsById(orderDetails.getBuyerId())) {
+            User buyer = userRepository.getOne(orderDetails.getBuyerId());
+            Order cart = orderRepository.getUserShoppingCart(orderDetails.getBuyerId());
+            if (cart == null) {
+                cart = new Order();
+                cart.setUser(buyer);
+                orderRepository.save(cart);
+            }
+            orderDetails.setPrice(orderDetails.getProduct().getPrice());
+            double amount = orderDetails.getPrice() * orderDetails.getQuantity();
+            orderDetails.setAmount(amount);
+            orderDetails.setOrder(cart);
+            double orderTotalPrice = cart.getTotalPrice() + orderDetails.getAmount();
+            cart.setTotalPrice(orderTotalPrice);
             orderRepository.save(cart);
-        }
-        orderDetails.setPrice(orderDetails.getProduct().getPrice());
-        double amount = orderDetails.getPrice() * orderDetails.getQuantity();
-        orderDetails.setAmount(amount);
-        orderDetails.setOrder(cart);
-        double orderTotalPrice = cart.getTotalPrice() + orderDetails.getAmount();
-        cart.setTotalPrice(orderTotalPrice);
-        orderRepository.save(cart);
-        orderDetailsRepository.save(orderDetails);
-        return new ResponseEntity(orderDetails, HttpStatus.OK);
+            orderDetailsRepository.save(orderDetails);
+            return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/deleteProduct/{id}")

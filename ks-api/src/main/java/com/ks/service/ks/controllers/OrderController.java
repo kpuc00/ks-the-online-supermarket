@@ -112,7 +112,7 @@ public class OrderController {
     public ResponseEntity clearCart(@RequestBody User user) {
         if (orderRepository.existsById(orderRepository.getUserShoppingCart(user.getId()).getOrderId())) {
             Order order = orderRepository.getUserShoppingCart(user.getId());
-            if (order.getUser().getId() == user.getId()) {
+            if (order.getUser().getId().equals(user.getId())) {
                 orderDetailsRepository.deleteAllByOrder_OrderId(order.getOrderId());
                 order.setTotalPrice(0);
                 orderRepository.save(order);

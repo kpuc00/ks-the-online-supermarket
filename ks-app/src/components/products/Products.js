@@ -90,18 +90,17 @@ class Products extends Component {
     Axios.post(`/orders/addProduct`, item, { headers: authHeader() }).then(
       res => {
         if (res.status === 200) {
-          console.log(res)
-          console.log("success")
           this.props.history.push("/cart");
           window.location.reload();
         }
-        if (res.status === 500) {
-          this.setState({
-            content: "Something went wrong! Please try again later."
-          });
-        }
+      },
+      error => {
+        this.setState({
+          content: "Something went wrong! Please try again later."
+        });
       }
     )
+    this.handleCloseDialog()
   }
 
   render() {

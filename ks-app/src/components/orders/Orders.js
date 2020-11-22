@@ -89,7 +89,7 @@ export default class Orders extends Component {
                 {(!ordersLoaded && !content) &&
                     <Row>
                         <Col>
-                            {empty ? <h5>Nothing here. Start shopping now.</h5>
+                            {empty ? <h5>You have not ordered yet.</h5>
                                 :
                                 <Spinner animation="border" role="status">
                                     <span className="sr-only">Loading...</span>

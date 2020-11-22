@@ -47,7 +47,7 @@ public class UserController {
                 user.setEmail(updatedUser.getEmail());
                 user.setPhone(updatedUser.getPhone());
                 userRepository.save(user);
-                return updatedUser;
+                return null;
             });
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else

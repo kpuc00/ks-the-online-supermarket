@@ -54,7 +54,7 @@ public class ProductController {
                 product.setPrice(updatedProduct.getPrice());
                 product.setCategory(updatedProduct.getCategory());
                 productRepository.save(product);
-                return updatedProduct;
+                return null;
             });
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else

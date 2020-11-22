@@ -44,7 +44,7 @@ public class CategoryController {
             categoryRepository.findById(id).map(category -> {
                 category.setName(updatedCategory.getName());
                 categoryRepository.save(category);
-                return updatedCategory;
+                return null;
             });
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
