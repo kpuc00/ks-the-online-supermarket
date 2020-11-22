@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Container from 'react-bootstrap/Container'
 import Axios from "axios"
-import authHeader from '../services/auth-header';
+import authHeader from '../../services/auth-header';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
@@ -82,7 +82,7 @@ class UsersManager extends Component {
 
         return (
             <Container className="p-1">
-                <Row><h3>Users Manager</h3></Row>
+                <Row><Col><h3>Users Manager</h3></Col></Row>
 
                 {
                     (!usersLoaded && !this.state.content) &&

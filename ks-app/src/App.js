@@ -4,31 +4,34 @@ import {
   Switch,
   Route
 } from "react-router-dom"
-import NavigationBar from './components/NavigationBar'
 import Axios from "axios"
+
+import Home from './HomePage'
+import NavigationBar from './components/NavigationBar'
 
 import AuthService from "./services/auth-service";
 import authHeader from "./services/auth-header";
-
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import Profile from "./pages/ProfilePage";
+
+import Profile from "./components/users/ProfilePage";
 import BoardUser from "./pages/UserPage";
 import BoardModerator from "./pages/ModeratorPage";
 import BoardAdmin from "./pages/AdminPage";
 
-import Home from './pages/Home'
-import Products from './pages/Products'
-import Offers from './pages/Offers'
-import Orders from './pages/Orders'
-import OrderDetails from "./pages/OrderDetails";
-import Cart from './pages/Cart'
-import UsersManager from './pages/UsersManager'
-import AddUser from "./components/users/AddUser"
-import EditUser from "./components/users/EditUser"
 import AddProduct from "./components/products/AddProduct"
 import EditProduct from "./components/products/EditProduct"
-import ProductsManager from "./pages/ProductsManager"
+import ProductsManager from "./components/products/ProductsManager"
+import Products from './components/products/Products'
+
+import Orders from './components/orders/Orders'
+import OrderDetails from "./components/orders/OrderDetails";
+import Cart from './components/orders/Cart'
+
+import UsersManager from './components/users/UsersManager'
+import AddUser from "./components/users/AddUser"
+import EditUser from "./components/users/EditUser"
+
 import Footer from "./components/Footer"
 
 import './App.css'
@@ -68,16 +71,6 @@ class App extends Component {
               cartCount: num
             })
           }
-        },
-        error => {
-          this.setState({
-            content:
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString()
-          });
         }
       )
     }
@@ -87,7 +80,7 @@ class App extends Component {
     AuthService.logout();
   }
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard, cartCount } = this.state;
+    let { currentUser, showModeratorBoard, showAdminBoard, cartCount } = this.state;
 
     return (
       <Router>
@@ -98,8 +91,6 @@ class App extends Component {
           <Route exact path="/productsmanager" component={ProductsManager} />
           <Route path="/productsmanager/addproduct" component={AddProduct} />
           <Route path="/productsmanager/editproduct/:id" component={EditProduct} />
-
-          <Route path="/offers" component={Offers} />
 
           <Route exact path="/orders" component={Orders} />
           <Route path="/orders/:id" component={OrderDetails} />

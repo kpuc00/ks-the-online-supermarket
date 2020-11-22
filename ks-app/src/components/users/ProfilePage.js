@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-import AuthService from "../services/auth-service";
+import AuthService from "../../services/auth-service";
 
 export default class Profile extends Component {
   constructor(props) {
