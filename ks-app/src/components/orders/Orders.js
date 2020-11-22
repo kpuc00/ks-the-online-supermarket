@@ -54,6 +54,29 @@ export default class Orders extends Component {
         )
     }
 
+    cancelOrder(id) {
+        const user = {
+            id: this.state.currentUser.id
+        }
+        Axios.post(`/orders/${id}/cancel`, user, { headers: authHeader() }).then(
+            res => {
+                if (res.status === 200) {
+                    window.location.reload();
+                }
+            },
+            error => {
+                this.setState({
+                    content:
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString()
+                });
+            }
+        )
+    }
+
     render() {
         let { ordersLoaded, orders, content, empty } = this.state
         return (
@@ -63,13 +86,11 @@ export default class Orders extends Component {
                         <h3>My orders</h3>
                     </Col>
                 </Row>
-                {
-                    (!ordersLoaded && !content) &&
+                {(!ordersLoaded && !content) &&
                     <Row>
                         <Col>
-                            {(empty && <h5>Nothing here. Start shopping now.</h5>)}
-                            {
-                                !empty &&
+                            {empty ? <h5>Nothing here. Start shopping now.</h5>
+                                :
                                 <Spinner animation="border" role="status">
                                     <span className="sr-only">Loading...</span>
                                 </Spinner>
@@ -77,8 +98,7 @@ export default class Orders extends Component {
                         </Col>
                     </Row>
                 }
-                {
-                    content &&
+                {content &&
                     <Row>
                         <Col>
                             <header className="jumbotron">
@@ -87,8 +107,7 @@ export default class Orders extends Component {
                         </Col>
                     </Row>
                 }
-                {
-                    (ordersLoaded && !content) &&
+                {(ordersLoaded) &&
                     <Row>
                         <Col>
                             <Card className="p-3">
@@ -107,6 +126,9 @@ export default class Orders extends Component {
                                                         <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
                                                     </Col>
                                                     <Col>
+                                                        {(order.status === "PROCESSING") &&
+                                                            <Button className="float-right" variant="danger" onClick={() => this.cancelOrder(order.orderId)}>Cancel order</Button>
+                                                        }
                                                         <Button className="float-right" variant="link" href={"/orders/" + order.orderId}>See more</Button>
                                                     </Col>
                                                 </Row>

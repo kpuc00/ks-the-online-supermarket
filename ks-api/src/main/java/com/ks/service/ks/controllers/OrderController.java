@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,12 +54,27 @@ public class OrderController {
         else return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity cancelOrder(@PathVariable long id, @RequestBody User user) {
+        if (orderRepository.existsById(id)) {
+            long userId = user.getId();
+            Order order = orderRepository.getOne(id);
+            if (order.getUser().getId() == userId) {
+                order.setStatus(OrderStatus.CANCELLED);
+                orderRepository.save(order);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/cart")
     public ResponseEntity<Order> getCart(@RequestBody User user) {
         Order cart = orderRepository.getUserShoppingCart(user.getId());
-        if (cart != null)
-            return new ResponseEntity<Order>(cart, HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (cart.getUser().getId() == user.getId()) {
+            if (cart != null)
+                return new ResponseEntity<Order>(cart, HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/cart")
@@ -85,15 +101,17 @@ public class OrderController {
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/cart/{id}")
-    public ResponseEntity clearCart(@PathVariable long id) {
-        System.out.println(id);
-        if (orderRepository.existsById(id)) {
-            orderDetailsRepository.deleteOrderDetailsByOrder_OrderId(id);
-            Order order = orderRepository.findById(id).get();
-            order.setTotalPrice(0);
-            orderRepository.save(order);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PostMapping("/cart/clear")
+    @Transactional
+    public ResponseEntity clearCart(@RequestBody User user) {
+        if (orderRepository.existsById(orderRepository.getUserShoppingCart(user.getId()).getOrderId())) {
+            Order order = orderRepository.getUserShoppingCart(user.getId());
+            if (order.getUser().getId() == user.getId()) {
+                orderDetailsRepository.deleteAllByOrder_OrderId(order.getOrderId());
+                order.setTotalPrice(0);
+                orderRepository.save(order);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
-    List<OrderDetails> getOrderDetailsByOrder_OrderId(Long id);
+    List<OrderDetails> getAllByOrder_OrderId(Long id);
 
-    void deleteOrderDetailsByOrder_OrderId(Long id);
+    void deleteAllByOrder_OrderId(Long id);
 }

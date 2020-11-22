@@ -31,21 +31,18 @@ class Products extends Component {
   componentDidMount() {
     Axios.get('/products').then(
       res => {
-        const products = res.data
-        this.setState({
-          products,
-          productsLoaded: true
-        })
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
+        if (res.status === 200) {
+          const products = res.data
+          this.setState({
+            products,
+            productsLoaded: true
+          })
+        }
+        if (res.status === 500) {
+          this.setState({
+            content: "Something went wrong! Please try again later."
+          });
+        }
       }
     )
   }
@@ -100,16 +97,11 @@ class Products extends Component {
           this.props.history.push("/cart");
           window.location.reload();
         }
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
+        if (res.status === 500) {
+          this.setState({
+            content: "Something went wrong! Please try again later."
+          });
+        }
       }
     )
   }
@@ -123,8 +115,7 @@ class Products extends Component {
           <h3>Products</h3>
         </Row>
 
-        {
-          (!productsLoaded && !content) &&
+        {(!productsLoaded && !content) &&
           <Row>
             <Col>
               <Spinner animation="border" role="status">
@@ -133,8 +124,7 @@ class Products extends Component {
             </Col>
           </Row>
         }
-        {
-          content &&
+        {content &&
           <Row>
             <Col>
               <header className="jumbotron">
@@ -143,8 +133,7 @@ class Products extends Component {
             </Col>
           </Row>
         }
-        {
-          (productsLoaded && !content) &&
+        {productsLoaded &&
           <Row>
             <Col>
               <div style={{ display: "flex", flexWrap: "wrap" }}>

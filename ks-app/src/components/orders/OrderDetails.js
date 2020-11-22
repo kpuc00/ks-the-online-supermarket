@@ -41,16 +41,11 @@ export default class OrderDetails extends Component {
                                     details: true
                                 })
                             }
-                        },
-                        error => {
-                            this.setState({
-                                content:
-                                    (error.response &&
-                                        error.response.data &&
-                                        error.response.data.message) ||
-                                    error.message ||
-                                    error.toString()
-                            });
+                            if (resDetails.status === 500) {
+                                this.setState({
+                                    content: "Something went wrong! Please try again later."
+                                });
+                            }
                         }
                     )
                 }
@@ -61,12 +56,7 @@ export default class OrderDetails extends Component {
             },
             error => {
                 this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
+                    content: "Something went wrong! Please try again later."
                 });
             }
         )
@@ -89,8 +79,7 @@ export default class OrderDetails extends Component {
                         </Breadcrumb>
                     </Col>
                 </Row>
-                {
-                    (!loaded && !content) &&
+                {(!loaded && !content) &&
                     <Row>
                         <Col>
                             <Spinner animation="border" role="status">
@@ -99,8 +88,7 @@ export default class OrderDetails extends Component {
                         </Col>
                     </Row>
                 }
-                {
-                    content &&
+                {content &&
                     <Row>
                         <Col>
                             <header className="jumbotron">
@@ -111,8 +99,7 @@ export default class OrderDetails extends Component {
                 }
                 <Row>
                     <Col>
-                        {(loaded && !content) &&
-
+                        {loaded &&
                             <Card>
                                 <Card.Header>
                                     <Card.Title>Order № {order.orderId}</Card.Title>
@@ -122,7 +109,7 @@ export default class OrderDetails extends Component {
                                     <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>
                                     <Card.Text>Ordered products:</Card.Text>
 
-                                    {(details) &&
+                                    {details &&
                                         orderDetails.map(details => (
                                             <Card className="mb-3" key={details.id}>
                                                 <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
