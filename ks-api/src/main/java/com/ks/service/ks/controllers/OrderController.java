@@ -69,12 +69,14 @@ public class OrderController {
 
     @PostMapping("/cart")
     public ResponseEntity<Order> getCart(@RequestBody User user) {
-        Order cart = orderRepository.getUserShoppingCart(user.getId());
-        if (cart.getUser().getId() == user.getId()) {
-            if (cart != null)
-                return new ResponseEntity<Order>(cart, HttpStatus.OK);
-            else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (orderRepository.getUserShoppingCart(user.getId()) == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        else {
+            Order cart = orderRepository.getUserShoppingCart(user.getId());
+            if (cart.getUser().getId().equals(user.getId())) {
+                return new ResponseEntity<>(cart, HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     @PutMapping("/cart")
@@ -82,7 +84,7 @@ public class OrderController {
         if (orderRepository.existsById(order.getOrderId())) {
             order.setOrderDate(LocalDateTime.now());
             order.setStatus(OrderStatus.PROCESSING);
-            User user = userRepository.findById(order.getUser().getId()).get();
+            User user = userRepository.getOne(order.getUser().getId());
             user.setTotalCosts(user.getTotalCosts() + order.getTotalPrice());
             userRepository.save(user);
             orderRepository.save(order);
@@ -92,13 +94,17 @@ public class OrderController {
 
     @PostMapping("/cart/count")
     public ResponseEntity countItemsInCart(@RequestBody User givenUser) {
-        User user = userRepository.findById(givenUser.getId()).get();
-        Order cart = orderRepository.getUserShoppingCart(user.getId());
-        int numCartItems;
-        if (cart != null) {
-            numCartItems = cart.getOrderDetails().size();
-            return new ResponseEntity<>(numCartItems, HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (userRepository.existsById(givenUser.getId())) {
+            User user = userRepository.getOne(givenUser.getId());
+            Order cart = orderRepository.getUserShoppingCart(user.getId());
+            int numCartItems;
+            if (cart == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                numCartItems = cart.getOrderDetails().size();
+                return new ResponseEntity<>(numCartItems, HttpStatus.OK);
+            }
+        } else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cart/clear")
