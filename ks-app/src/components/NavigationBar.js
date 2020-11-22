@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import { Badge, NavDropdown } from "react-bootstrap"
+import { Badge, NavDropdown, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { FaShoppingCart } from 'react-icons/fa'
 
 const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut, cartCount }) => {
@@ -38,11 +38,20 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
           {currentUser ? (
             <Nav>
               {cartCount > 0 &&
-                <Nav.Item>
-                  <Nav.Link as={Link} to="/cart">
-                    <FaShoppingCart /> Cart <Badge variant="secondary">{cartCount}</Badge>
-                  </Nav.Link>
-                </Nav.Item>
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={
+                    <Tooltip id={`tooltip-bottom`}>
+                      {`${cartCount} items in your cart`}
+                    </Tooltip>
+                  }
+                >
+                  <Nav.Item>
+                    <Nav.Link as={Link} to="/cart">
+                      <FaShoppingCart /> Cart <Badge variant="secondary">{cartCount}</Badge>
+                    </Nav.Link>
+                  </Nav.Item>
+                </OverlayTrigger>
               }
               <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
