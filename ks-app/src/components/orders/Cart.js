@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
+import { Image } from "react-bootstrap";
 
 export default class Cart extends Component {
     constructor() {
@@ -37,7 +38,7 @@ export default class Cart extends Component {
                         cartEmpty: true
                     })
                 }
-                else if (resCart.status === 200) {
+                if (resCart.status === 200) {
                     const cart = resCart.data;
                     this.setState({
                         order: cart
@@ -88,41 +89,52 @@ export default class Cart extends Component {
 
     deleteProduct(id) {
         Axios.delete(`/orders/deleteProduct/${id}`, { headers: authHeader() })
-            .then(res => {
-                console.log(res)
-                console.log(res.data)
-                window.location.reload();
-            })
+            .then(
+                res => {
+                    if (res.status === 200)
+                        window.location.reload();
+                    if (res.status === 500) {
+                        this.setState({
+                            content: "Something went wrong! Please try again later."
+                        });
+                    }
+                }
+            )
     }
 
-    clearCart(id) {
-        Axios.delete(`/orders/cart/${id}`, { headers: authHeader() })
-            .then(res => {
-                console.log(res)
-                console.log(res.data)
-            })
+    clearCart() {
+        const user = {
+            id: this.state.currentUser.id
+        }
+        Axios.post(`/orders/cart/clear`, user, { headers: authHeader() })
+            .then(
+                res => {
+                    if (res.status === 200)
+                        window.location.reload();
+                    if (res.status === 500) {
+                        this.setState({
+                            content: "Something went wrong! Please try again later."
+                        });
+                    }
+                }
+            )
     }
 
     submitOrder() {
-        console.log(this.state.order)
-        Axios.put(`/orders/cart`, this.state.order, { headers: authHeader() }).then(
-            res => {
-                if (res.status === 200) {
-                    this.props.history.push("/orders/" + this.state.order.orderId);
-                    window.location.reload();
+        Axios.put(`/orders/cart`, this.state.order, { headers: authHeader() })
+            .then(
+                res => {
+                    if (res.status === 200) {
+                        this.props.history.push("/orders/" + this.state.order.orderId);
+                        window.location.reload();
+                    }
+                    if (res.status === 500) {
+                        this.setState({
+                            content: "Something went wrong! Please try again later."
+                        });
+                    }
                 }
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        )
+            )
     }
 
     render() {
@@ -130,11 +142,8 @@ export default class Cart extends Component {
 
         return (
             <Container className="p-1">
-                <Row>
-                    <h3>Your shopping cart</h3>
-                </Row>
-                {
-                    (!loaded && !content) &&
+                <Row><Col><h3>Your shopping cart</h3></Col></Row>
+                {(!loaded && !content) &&
                     <Row>
                         <Col>
                             <Spinner animation="border" role="status">
@@ -143,8 +152,7 @@ export default class Cart extends Component {
                         </Col>
                     </Row>
                 }
-                {
-                    content &&
+                {content &&
                     <Row>
                         <Col>
                             <header className="jumbotron">
@@ -153,42 +161,48 @@ export default class Cart extends Component {
                         </Col>
                     </Row>
                 }
-                {
-                    (loaded && !content) &&
+                {loaded &&
                     <Row>
                         <Col>
-                            <Card>
+                            <Card className="m-5">
                                 <Card.Body>
-                                    {cartEmpty &&
-                                        <h5>Empty</h5>
-                                    }
-                                    {!cartEmpty &&
+                                    {cartEmpty ? <h5>Empty</h5>
+                                        :
                                         orderDetails.map(details => (
                                             <Card className="mb-3" key={details.id}>
-                                                <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
+                                                <Card.Header>
+                                                    <Card.Title className="m-0">{details.product.name}</Card.Title>
+                                                </Card.Header>
                                                 <Card.Body>
-                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
+                                                    <Row>
+                                                        <Col xs={6} md={4}>
+                                                            <Image src={"/images/product/" + details.product.image} width="50%" rounded />
+                                                        </Col>
+                                                        <Col className="text-right">
+                                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
+                                                            <Card.Subtitle>Total: {details.amount} €</Card.Subtitle>
+                                                        </Col>
+                                                    </Row>
                                                     <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
                                                 </Card.Body>
                                             </Card>
                                         ))
                                     }
-                                    {!cartEmpty &&
-                                        <Card.Body>
-                                            <Button className="float-right" disabled={true} variant="link" onClick={() => this.clearCart(order.orderId)}>Clear cart</Button>
-                                        </Card.Body>
-                                    }
-
-                                    <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
-
-                                    <Card className="p-3">
-                                        <Card.Body>
-                                            <Card.Title>Total:</Card.Title>
-                                            <Card.Subtitle className="mb-2 text-muted">{cartEmpty && "0.00"}{!cartEmpty && order.totalPrice} €</Card.Subtitle>
-                                            <Button disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
-                                        </Card.Body>
-                                    </Card>
+                                    <Row><Col>
+                                        {!cartEmpty &&
+                                            <Button className="float-right" variant="link" onClick={() => this.clearCart()}>Clear cart</Button>
+                                        }
+                                        <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
+                                    </Col></Row>
                                 </Card.Body>
+
+                                <Card.Header>
+                                    <Card.Title className="m-0 float-right">Total price: {cartEmpty ? "0.00" : order.totalPrice} €</Card.Title>
+                                </Card.Header>
+                                <Card.Body>
+                                    <Button className="float-right" disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
+                                </Card.Body>
+
                             </Card>
                         </Col>
                     </Row>
