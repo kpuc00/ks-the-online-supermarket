@@ -157,36 +157,38 @@ export default class Cart extends Component {
                     (loaded && !content) &&
                     <Row>
                         <Col>
-                            <Card className="p-3">
-                                {cartEmpty &&
-                                    <h5>Empty</h5>
-                                }
-                                {!cartEmpty &&
-                                    orderDetails.map(details => (
-                                        <Card className="mb-3" key={details.id}>
-                                            <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
-                                            <Card.Body>
-                                                <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
-                                                <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
-                                            </Card.Body>
-                                        </Card>
-                                    ))
-                                }
-                                {!cartEmpty &&
-                                    <Card.Body>
-                                        <Button disabled={true} variant="link" onClick={() => this.clearCart(order.orderId)}>Clear cart</Button>
-                                    </Card.Body>
-                                }
+                            <Card>
+                                <Card.Body>
+                                    {cartEmpty &&
+                                        <h5>Empty</h5>
+                                    }
+                                    {!cartEmpty &&
+                                        orderDetails.map(details => (
+                                            <Card className="mb-3" key={details.id}>
+                                                <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
+                                                <Card.Body>
+                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
+                                                    <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
+                                                </Card.Body>
+                                            </Card>
+                                        ))
+                                    }
+                                    {!cartEmpty &&
+                                        <Card.Body>
+                                            <Button className="float-right" disabled={true} variant="link" onClick={() => this.clearCart(order.orderId)}>Clear cart</Button>
+                                        </Card.Body>
+                                    }
 
-                                <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
+                                    <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
 
-                                <Card className="p-3">
-                                    <Card.Body>
-                                        <Card.Title>Total:</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">{cartEmpty && "0.00"}{!cartEmpty && order.totalPrice} €</Card.Subtitle>
-                                        <Button disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
-                                    </Card.Body>
-                                </Card>
+                                    <Card className="p-3">
+                                        <Card.Body>
+                                            <Card.Title>Total:</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">{cartEmpty && "0.00"}{!cartEmpty && order.totalPrice} €</Card.Subtitle>
+                                            <Button disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
+                                        </Card.Body>
+                                    </Card>
+                                </Card.Body>
                             </Card>
                         </Col>
                     </Row>

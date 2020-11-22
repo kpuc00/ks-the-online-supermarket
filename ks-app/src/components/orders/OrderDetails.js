@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
+import Moment from 'moment';
 import { Breadcrumb, Card } from "react-bootstrap";
 
 export default class OrderDetails extends Component {
@@ -83,7 +84,7 @@ export default class OrderDetails extends Component {
                     <Col>
                         <h3>Order details</h3>
                         <Breadcrumb>
-                            <Breadcrumb.Item href="/orders">Orders</Breadcrumb.Item>
+                            <Breadcrumb.Item href="/orders">My orders</Breadcrumb.Item>
                             <Breadcrumb.Item active>Order details</Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
@@ -110,33 +111,31 @@ export default class OrderDetails extends Component {
                 }
                 <Row>
                     <Col>
-                        <Card className="p-3">
-                            {
-                                (loaded && !content) &&
-                                <>
+                        {(loaded && !content) &&
 
+                            <Card>
+                                <Card.Header>
                                     <Card.Title>Order № {order.orderId}</Card.Title>
-                                    <Card.Subtitle className="mb-2 text-muted">Date: {order.orderDate}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                </Card.Header>
+                                <Card.Body>
                                     <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>
                                     <Card.Text>Ordered products:</Card.Text>
-                                </>
-                            }
-                            {
-                                (loaded && details && !content) &&
-                                orderDetails.map(details => (
-                                    <Card className="mb-3" key={details.id}>
-                                        <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
-                                        <Card.Body>
-                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
-                                        </Card.Body>
-                                    </Card>
-                                ))
-                            }
-                            {
-                                (loaded && !content) &&
-                                <Card.Subtitle className="mb-2">Total price: {order.totalPrice} €</Card.Subtitle>
-                            }
-                        </Card>
+
+                                    {(details) &&
+                                        orderDetails.map(details => (
+                                            <Card className="mb-3" key={details.id}>
+                                                <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
+                                                <Card.Body>
+                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
+                                                </Card.Body>
+                                            </Card>
+                                        ))
+                                    }
+                                    <Card.Subtitle className="float-right">Total price: {order.totalPrice} €</Card.Subtitle>
+                                </Card.Body>
+                            </Card>
+                        }
                     </Col>
                 </Row>
             </Container>

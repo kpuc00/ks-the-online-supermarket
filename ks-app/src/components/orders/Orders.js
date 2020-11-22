@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
+import Moment from 'moment';
 import { Card } from "react-bootstrap";
 
 export default class Orders extends Component {
@@ -94,13 +95,21 @@ export default class Orders extends Component {
                                 {orders &&
                                     orders.map(order => (
                                         <Card className="mb-3" key={order.orderId}>
-                                            <Card.Header>Order № {order.orderId}</Card.Header>
-                                            <Card.Body>
-                                                <Card.Subtitle className="mb-2 text-muted">Date: {order.orderDate}</Card.Subtitle>
-                                                <Card.Subtitle className="mb-2">Total price: {order.totalPrice} €</Card.Subtitle>
-                                                <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>
+                                            <Card.Header>
+                                                <Card.Title>Order № {order.orderId}</Card.Title>
+                                                <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                            </Card.Header>
 
-                                                <Button variant="link" href={"/orders/" + order.orderId}>See more</Button>
+                                            <Card.Body>
+                                                <Row>
+                                                    <Col>
+                                                        <Card.Subtitle className="m-1">Total price: {order.totalPrice} €</Card.Subtitle>
+                                                        <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
+                                                    </Col>
+                                                    <Col>
+                                                        <Button className="float-right" variant="link" href={"/orders/" + order.orderId}>See more</Button>
+                                                    </Col>
+                                                </Row>
                                             </Card.Body>
                                         </Card>
                                     ))
