@@ -87,8 +87,6 @@ class Products extends Component {
       quantity: this.state.productQuantity,
       buyerId: currentUser.id
     }
-    console.log("added")
-    console.log(item)
     Axios.post(`/orders/addProduct`, item, { headers: authHeader() }).then(
       res => {
         if (res.status === 200) {
@@ -107,7 +105,7 @@ class Products extends Component {
   }
 
   render() {
-    let { productsLoaded, products, currentUser, content } = this.state
+    let { productsLoaded, products, productQuantity, invalidQuantity, amount, currentUser, content, setShowDialog, selectedProduct } = this.state
 
     return (
       <Container className="p-1">
@@ -156,19 +154,19 @@ class Products extends Component {
           </Row>
         }
 
-        <Modal show={this.state.setShowDialog} onHide={this.handleCloseDialog}>
+        <Modal show={setShowDialog} onHide={this.handleCloseDialog}>
           <Modal.Header closeButton>
-            <Modal.Title>{this.state.selectedProduct?.name} - {this.state.selectedProduct?.price} €</Modal.Title>
+            <Modal.Title>{selectedProduct?.name} - {selectedProduct?.price} €</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group controlId="productQuantity">
               <Form.Label>Quantity</Form.Label>
-              <Form.Control name="productQuantity" onChange={this.handleChangeProductQuantity} type="number" value={this.state.productQuantity} />
+              <Form.Control name="productQuantity" onChange={this.handleChangeProductQuantity} type="number" value={productQuantity} />
             </Form.Group>
-            <strong>Total:</strong> {this.state.amount} €
+            <strong>Total:</strong> {amount} €
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" disabled={this.state.invalidQuantity} onClick={() => this.handleAddToCart(this.state.selectedProduct, currentUser)}>
+            <Button variant="primary" disabled={invalidQuantity} onClick={() => this.handleAddToCart(selectedProduct, currentUser)}>
               <FaCartPlus /> Add to cart
             </Button>
           </Modal.Footer>
