@@ -1,14 +1,14 @@
 import React, { Component } from "react"
 import Axios from "axios"
-import AuthService from "../../services/auth-service";
-import authHeader from '../../services/auth-header';
+import AuthService from "../../services/auth-service"
+import authHeader from '../../services/auth-header'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { Image } from "react-bootstrap";
+import { Image } from "react-bootstrap"
 
 export default class Cart extends Component {
     constructor() {
@@ -180,8 +180,8 @@ export default class Cart extends Component {
                                                             <Image src={"/images/product/" + details.product.image} width="50%" rounded />
                                                         </Col>
                                                         <Col className="text-right">
-                                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
-                                                            <Card.Subtitle>Total: {details.amount} €</Card.Subtitle>
+                                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
+                                                            <Card.Subtitle>Total: {details.amount.toFixed(2)} €</Card.Subtitle>
                                                         </Col>
                                                     </Row>
                                                     <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
@@ -198,7 +198,7 @@ export default class Cart extends Component {
                                 </Card.Body>
 
                                 <Card.Header>
-                                    <Card.Title className="m-0 float-right">Total price: {cartEmpty ? "0.00" : order.totalPrice} €</Card.Title>
+                                    <Card.Title className="m-0 float-right">Total price: {cartEmpty ? "0.00" : order.totalPrice?.toFixed(2)} €</Card.Title>
                                 </Card.Header>
                                 <Card.Body>
                                     <Button className="float-right" disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>

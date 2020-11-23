@@ -112,14 +112,14 @@ export default class OrderDetails extends Component {
                                     {details &&
                                         orderDetails.map(details => (
                                             <Card className="mb-3" key={details.id}>
-                                                <Card.Header>{details.product.name} - {details.amount} €</Card.Header>
+                                                <Card.Header>{details.product.name} - {details.amount.toFixed(2)} €</Card.Header>
                                                 <Card.Body>
-                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price} €</Card.Subtitle>
+                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
                                                 </Card.Body>
                                             </Card>
                                         ))
                                     }
-                                    <Card.Subtitle className="float-right">Total price: {order.totalPrice} €</Card.Subtitle>
+                                    <Card.Subtitle className="float-right">Total price: {order.totalPrice?.toFixed(2)} €</Card.Subtitle>
                                 </Card.Body>
                             </Card>
                         }

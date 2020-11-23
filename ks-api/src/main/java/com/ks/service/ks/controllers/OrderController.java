@@ -30,12 +30,6 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        orderRepository.save(order);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable long id) {
         if (orderRepository.existsById(id))

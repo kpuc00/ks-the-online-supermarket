@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaCartPlus } from 'react-icons/fa'
-import { Form, Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap"
 
 class Products extends Component {
   constructor() {
@@ -142,7 +142,7 @@ class Products extends Component {
                       <Card.Text>
                         {product.description}<br />
                         <strong>Category:</strong> {product.category.name}<br />
-                        <strong>Price:</strong> {product.price} €
+                        <strong>Price:</strong> {product.price.toFixed(2)} €
                       </Card.Text>
                       <Button disabled={!currentUser} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
                     </Card.Body>
@@ -155,14 +155,14 @@ class Products extends Component {
 
         <Modal show={setShowDialog} onHide={this.handleCloseDialog}>
           <Modal.Header closeButton>
-            <Modal.Title>{selectedProduct?.name} - {selectedProduct?.price} €</Modal.Title>
+            <Modal.Title>{selectedProduct?.name} - {selectedProduct?.price?.toFixed(2)} €</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group controlId="productQuantity">
               <Form.Label>Quantity</Form.Label>
               <Form.Control name="productQuantity" onChange={this.handleChangeProductQuantity} type="number" value={productQuantity} />
             </Form.Group>
-            <strong>Total:</strong> {amount} €
+            <strong>Total:</strong> {amount?.toFixed(2)} €
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" disabled={invalidQuantity} onClick={() => this.handleAddToCart(selectedProduct, currentUser)}>

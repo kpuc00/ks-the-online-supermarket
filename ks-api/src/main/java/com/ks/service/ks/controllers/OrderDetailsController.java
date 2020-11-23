@@ -47,10 +47,10 @@ public class OrderDetailsController {
                 orderRepository.save(cart);
             }
             orderDetails.setPrice(orderDetails.getProduct().getPrice());
-            double amount = orderDetails.getPrice() * orderDetails.getQuantity();
+            double amount = Math.round((orderDetails.getPrice() * orderDetails.getQuantity()) * 100.0) / 100.0;
             orderDetails.setAmount(amount);
             orderDetails.setOrder(cart);
-            double orderTotalPrice = cart.getTotalPrice() + orderDetails.getAmount();
+            double orderTotalPrice = Math.round((cart.getTotalPrice() + amount) * 100.0) / 100.0;
             cart.setTotalPrice(orderTotalPrice);
             orderRepository.save(cart);
             orderDetailsRepository.save(orderDetails);

@@ -108,9 +108,6 @@ class UsersManager extends Component {
                     (usersLoaded && !this.state.content) &&
                     <Row>
                         <Col>
-                            {/* <Link to="/usersmanager/adduser">
-                                <Button variant="primary"><FaPlus /> Add new user</Button>
-                            </Link> */}
                             {users.map(user => (
                                 <div key={user.id}>
                                     <h5>{user.firstName} {user.lastName}</h5>
@@ -125,7 +122,7 @@ class UsersManager extends Component {
                                         }
                                         <li>Email: {user.email}</li>
                                         <li>Phone: {user.phone}</li>
-                                        <li>Total costs: {user.totalCosts} €</li>
+                                        <li>Total costs: {user.totalCosts.toFixed(2)} €</li>
                                         <li>Roles:</li>
                                         <ul>
                                             {user.roles &&

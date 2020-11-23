@@ -112,7 +112,7 @@ class ProductsManager extends Component {
                       <Card.Text>
                         {product.description}<br />
                         <strong>Category:</strong> {product.category.name}<br />
-                        <strong>Price:</strong> {product.price} €
+                        <strong>Price:</strong> {product.price.toFixed(2)} €
                       </Card.Text>
                       <Link to={"/productsmanager/editproduct/" + product.productId}>
                         <Button variant="warning"><FaEdit /></Button>

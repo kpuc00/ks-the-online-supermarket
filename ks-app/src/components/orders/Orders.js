@@ -135,7 +135,7 @@ export default class Orders extends Component {
                                             <Card.Body>
                                                 <Row>
                                                     <Col>
-                                                        <Card.Subtitle className="m-1">Total price: {order.totalPrice} €</Card.Subtitle>
+                                                        <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
                                                         <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
                                                     </Col>
                                                     <Col>
