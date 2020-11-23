@@ -9,23 +9,23 @@ import Axios from "axios"
 import Home from './HomePage'
 import NavigationBar from './components/NavigationBar'
 
-import AuthService from "./services/auth-service";
-import authHeader from "./services/auth-header";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
+import AuthService from "./services/auth-service"
+import authHeader from "./services/auth-header"
+import Login from "./components/auth/Login"
+import Register from "./components/auth/Register"
 
-import Profile from "./components/users/ProfilePage";
-import BoardUser from "./pages/UserPage";
-import BoardModerator from "./pages/ModeratorPage";
-import BoardAdmin from "./pages/AdminPage";
+import Profile from "./components/users/ProfilePage"
+import BoardUser from "./pages/UserPage"
+import BoardModerator from "./pages/ModeratorPage"
+import BoardAdmin from "./pages/AdminPage"
 
 import AddProduct from "./components/products/AddProduct"
 import EditProduct from "./components/products/EditProduct"
-import ProductsManager from "./components/products/StockManager"
+import StockManager from "./components/products/StockManager"
 import Products from './components/products/Products'
 
 import Orders from './components/orders/Orders'
-import OrderDetails from "./components/orders/OrderDetails";
+import OrderDetails from "./components/orders/OrderDetails"
 import Cart from './components/orders/Cart'
 
 import UsersManager from './components/users/UsersManager'
@@ -58,7 +58,7 @@ class App extends Component {
         showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
-      
+
       const givenUser = {
         id: user.id
       }
@@ -88,9 +88,9 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/products" component={Products} />
-          <Route exact path="/productsmanager" component={ProductsManager} />
-          <Route path="/productsmanager/addproduct" component={AddProduct} />
-          <Route path="/productsmanager/editproduct/:id" component={EditProduct} />
+          <Route exact path="/stockmanager" component={StockManager} />
+          <Route path="/stockmanager/addproduct" component={AddProduct} />
+          <Route path="/stockmanager/editproduct/:id" component={EditProduct} />
 
           <Route exact path="/orders" component={Orders} />
           <Route path="/orders/:id" component={OrderDetails} />

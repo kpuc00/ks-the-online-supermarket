@@ -66,7 +66,7 @@ class AddProduct extends Component {
             .then(
                 res => {
                     if (res.status === 201) {
-                        this.props.history.push("/productsmanager");
+                        this.props.history.push("/stockmanager");
                         window.location.reload();
                     }
                 },

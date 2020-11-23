@@ -11,7 +11,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
 import { Form, Modal } from "react-bootstrap";
 
-class ProductsManager extends Component {
+export default class StockManager extends Component {
   constructor() {
     super()
     this.state = {
@@ -233,7 +233,7 @@ class ProductsManager extends Component {
         {productsLoaded &&
           <Row>
             <Col>
-              <Link to="/productsmanager/addproduct">
+              <Link to="/stockmanager/addproduct">
                 <Button variant="primary"><FaPlus /> Add new product</Button>
               </Link>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -247,7 +247,7 @@ class ProductsManager extends Component {
                         <strong>Category:</strong> {product.category.name}<br />
                         <strong>Price:</strong> {product.price.toFixed(2)} €
                       </Card.Text>
-                      <Link to={"/productsmanager/editproduct/" + product.productId}>
+                      <Link to={"/stockmanager/editproduct/" + product.productId}>
                         <Button variant="warning"><FaEdit /></Button>
                       </Link>
                       <Button variant="danger" onClick={() => this.handleShowProductDialog(product)}><FaTrash /></Button>
@@ -307,5 +307,3 @@ class ProductsManager extends Component {
     )
   }
 }
-
-export default ProductsManager

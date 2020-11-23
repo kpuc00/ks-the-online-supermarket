@@ -87,7 +87,7 @@ class EditProduct extends Component {
             })
             .then(
                 () => {
-                    this.props.history.push("/productsmanager");
+                    this.props.history.push("/stockmanager");
                     window.location.reload();
                 },
                 error => {

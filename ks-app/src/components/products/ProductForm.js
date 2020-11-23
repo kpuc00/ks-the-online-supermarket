@@ -21,7 +21,7 @@ const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
             </Form.Group>
             <Form.Group controlId="price">
                 <Form.Label>Price*</Form.Label>
-                <Form.Control name="price" min="0" onChange={handleChange} type="number" placeholder={product?.price.toFixed(2) + " €"} />
+                <Form.Control name="price" min="0" onChange={handleChange} type="number" placeholder={product && product.price.toFixed(2) + " €"} />
             </Form.Group>
             <Form.Group controlId="categoryId">
                 <Form.Label>Select category*</Form.Label>
