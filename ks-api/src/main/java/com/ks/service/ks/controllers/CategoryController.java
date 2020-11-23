@@ -17,8 +17,8 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         categoryRepository.save(category);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getProductById(@PathVariable long id) {
+    public ResponseEntity<Category> getCategoryById(@PathVariable long id) {
         if (categoryRepository.existsById(id))
             return new ResponseEntity(categoryRepository.findById(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

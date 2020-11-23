@@ -63,14 +63,12 @@ class AddProduct extends Component {
         }
 
         Axios.post(`/products/add`, product, { headers: authHeader() })
-            .then(res => {
-                console.log(res)
-                console.log(res.data)
-            })
             .then(
-                () => {
-                    this.props.history.push("/productsmanager");
-                    window.location.reload();
+                res => {
+                    if (res.status === 201) {
+                        this.props.history.push("/productsmanager");
+                        window.location.reload();
+                    }
                 },
                 error => {
                     const resMessage =

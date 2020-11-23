@@ -21,7 +21,7 @@ import BoardAdmin from "./pages/AdminPage";
 
 import AddProduct from "./components/products/AddProduct"
 import EditProduct from "./components/products/EditProduct"
-import ProductsManager from "./components/products/ProductsManager"
+import ProductsManager from "./components/products/StockManager"
 import Products from './components/products/Products'
 
 import Orders from './components/orders/Orders'
