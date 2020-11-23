@@ -87,7 +87,6 @@ export default class Login extends Component {
         return (
             <Container className="p-5">
                 <Card>
-                    {/* <Card.Img variant="top" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" /> */}
                     <Card.Body>
                         <Form
                             onSubmit={this.handleLogin}

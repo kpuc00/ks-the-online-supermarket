@@ -186,9 +186,8 @@ export default class Register extends Component {
         return (
             <Container className="p-5">
                 <Card>
-                    {/* <Card.Img variant="top" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" /> */}
                     <Card.Body>
-
+                        <Card.Text className="small text-muted">Entries with "*" are required!</Card.Text>
                         <Form
                             onSubmit={this.handleRegister}
                             ref={c => {
