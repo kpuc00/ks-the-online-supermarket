@@ -197,9 +197,9 @@ export default class Cart extends Component {
                                     </Col></Row>
                                 </Card.Body>
 
-                                <Card.Header>
+                                <Card.Footer>
                                     <Card.Title className="m-0 float-right">Total price: {cartEmpty ? "0.00" : order.totalPrice?.toFixed(2)} €</Card.Title>
-                                </Card.Header>
+                                </Card.Footer>
                                 <Card.Body>
                                     <Button className="float-right" disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
                                 </Card.Body>

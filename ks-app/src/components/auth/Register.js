@@ -5,7 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../../services/auth-service";
-import { Card, Container } from "react-bootstrap";
+import { Button, Card, Container } from "react-bootstrap";
 
 const required = value => {
     if (!value) {
@@ -307,6 +307,7 @@ export default class Register extends Component {
                                 }}
                             />
                         </Form>
+                        <Card.Text className="small text-center">Already have an account? <Button variant="link" href="/login">Login</Button></Card.Text>
                     </Card.Body>
                 </Card>
             </Container>
