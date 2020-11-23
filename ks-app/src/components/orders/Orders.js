@@ -68,6 +68,7 @@ export default class Orders extends Component {
         Axios.post(`/orders/${id}/cancel`, user, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
+                    this.props.history.push("/orders");
                     window.location.reload();
                 }
             },

@@ -91,8 +91,9 @@ export default class Cart extends Component {
         Axios.delete(`/orders/deleteProduct/${id}`, { headers: authHeader() })
             .then(
                 res => {
-                    if (res.status === 200)
-                        window.location.reload();
+                    console.log(res.status)
+                    if (res.status === 204)
+                        window.location.reload()
                     if (res.status === 500) {
                         this.setState({
                             content: "Something went wrong! Please try again later."
