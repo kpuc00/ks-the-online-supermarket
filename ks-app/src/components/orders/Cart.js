@@ -125,7 +125,7 @@ export default class Cart extends Component {
             .then(
                 res => {
                     if (res.status === 200) {
-                        this.props.history.push("/orders/" + this.state.order.orderId);
+                        this.props.history.push("/orders?orderPlaced=true");
                         window.location.reload();
                     }
                     if (res.status === 500) {

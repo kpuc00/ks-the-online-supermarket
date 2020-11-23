@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment';
-import { Card } from "react-bootstrap";
+import { Alert, Card } from "react-bootstrap";
 
 export default class Orders extends Component {
     constructor() {
@@ -18,11 +18,18 @@ export default class Orders extends Component {
             orders: {},
             ordersLoaded: false,
             empty: false,
-            content: ""
+            content: "",
+            orderPlaced: false
         }
     }
 
     componentDidMount() {
+        const orderPlaced = new URLSearchParams(this.props.location.search).get('orderPlaced')
+        const value = (orderPlaced === undefined || orderPlaced?.toLowerCase() === 'true' ? true : false)
+        this.setState({
+            orderPlaced: value
+        })
+
         const user = {
             id: this.state.currentUser.id
         }
@@ -78,7 +85,7 @@ export default class Orders extends Component {
     }
 
     render() {
-        let { ordersLoaded, orders, content, empty } = this.state
+        let { ordersLoaded, orders, content, empty, orderPlaced } = this.state
         return (
             <Container className="p-1">
                 <Row>
@@ -107,7 +114,12 @@ export default class Orders extends Component {
                         </Col>
                     </Row>
                 }
-                {(ordersLoaded) &&
+                {orderPlaced &&
+                    <Alert variant="success">
+                        Your order has been placed!
+                    </Alert>
+                }
+                {ordersLoaded &&
                     <Row>
                         <Col>
                             <Card className="p-3">
