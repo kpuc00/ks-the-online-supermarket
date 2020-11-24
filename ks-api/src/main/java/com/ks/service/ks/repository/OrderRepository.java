@@ -16,4 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query(value = "SELECT * FROM ORDERS WHERE user_id = ?1 AND NOT status = 'NOT_CONFIRMED_BY_USER' ORDER BY order_date DESC", nativeQuery = true)
     List<Order> getAllSubmittedOrdersByUserId(Long id);
+
+    @Query(value = "SELECT * FROM ORDERS WHERE status = 'PROCESSING' ORDER BY order_date", nativeQuery = true)
+    List<Order> getAllProcessingOrders();
 }

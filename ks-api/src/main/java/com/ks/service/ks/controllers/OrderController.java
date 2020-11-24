@@ -30,6 +30,12 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/processing")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public List<Order> getAllProcessingOrders() {
+        return orderRepository.getAllProcessingOrders();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable long id) {
         if (orderRepository.existsById(id))

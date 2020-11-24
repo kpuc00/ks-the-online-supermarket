@@ -27,6 +27,7 @@ import Products from './components/products/Products'
 import Orders from './components/orders/Orders'
 import OrderDetails from "./components/orders/OrderDetails"
 import Cart from './components/orders/Cart'
+import OrdersManager from './components/orders/OrdersManager'
 
 import UsersManager from './components/users/UsersManager'
 import AddUser from "./components/users/AddUser"
@@ -95,6 +96,7 @@ class App extends Component {
           <Route exact path="/orders" component={Orders} />
           <Route path="/orders/:id" component={OrderDetails} />
           <Route path="/cart" component={Cart} />
+          <Route path="/ordersmanager" component={OrdersManager} />
 
           <Route exact path="/usersmanager" component={UsersManager} />
           <Route path="/usersmanager/adduser" component={AddUser} />

@@ -60,6 +60,7 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
                   <React.Fragment>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/stockmanager">Stock manager</NavDropdown.Item>
+                    <NavDropdown.Item href="/ordersmanager">Orders manager</NavDropdown.Item>
                     <NavDropdown.Item href="/usersmanager">Users manager</NavDropdown.Item>
                   </React.Fragment>
                 )}
