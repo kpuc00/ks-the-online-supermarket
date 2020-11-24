@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment';
 import { Breadcrumb, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default class OrderDetails extends Component {
     constructor() {
@@ -70,15 +71,13 @@ export default class OrderDetails extends Component {
         let { order, orderDetails, details, loaded, content } = this.state
         return (
             <Container className="p-1">
-                <Row>
-                    <Col>
-                        <h3>Order details</h3>
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/orders">My orders</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Order details</Breadcrumb.Item>
-                        </Breadcrumb>
-                    </Col>
-                </Row>
+                <Row><Col>
+                    <h3>Order details</h3>
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="/orders">My orders</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Order details</Breadcrumb.Item>
+                    </Breadcrumb>
+                </Col></Row>
                 {(!loaded && !content) &&
                     <Row>
                         <Col>
@@ -112,7 +111,9 @@ export default class OrderDetails extends Component {
                                     {details &&
                                         orderDetails.map(details => (
                                             <Card className="mb-3" key={details.id}>
-                                                <Card.Header>{details.product.name} - {details.amount.toFixed(2)} €</Card.Header>
+                                                <Card.Header>
+                                                    <Card.Subtitle as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name} - {details.amount.toFixed(2)} €</Card.Subtitle>
+                                                </Card.Header>
                                                 <Card.Body>
                                                     <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
                                                 </Card.Body>

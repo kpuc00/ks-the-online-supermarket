@@ -241,7 +241,7 @@ export default class StockManager extends Component {
                   <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
                     <Card.Img variant="top" src={"/images/product/" + product.image} />
                     <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
+                      <big><Card.Title as={Link} variant="link" to={"/products/" + product.productId}>{product.name}</Card.Title></big>
                       <Card.Text>
                         {product.description}<br />
                         <strong>Category:</strong> {product.category.name}<br />

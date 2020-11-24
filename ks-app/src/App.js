@@ -23,6 +23,7 @@ import AddProduct from "./components/products/AddProduct"
 import EditProduct from "./components/products/EditProduct"
 import StockManager from "./components/products/StockManager"
 import Products from './components/products/Products'
+import ProductDetails from './components/products/ProductDetails'
 
 import Orders from './components/orders/Orders'
 import OrderDetails from "./components/orders/OrderDetails"
@@ -89,6 +90,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/products" component={Products} />
+          <Route path="/products/:id" component={ProductDetails} />
           <Route exact path="/stockmanager" component={StockManager} />
           <Route path="/stockmanager/addproduct" component={AddProduct} />
           <Route path="/stockmanager/editproduct/:id" component={EditProduct} />

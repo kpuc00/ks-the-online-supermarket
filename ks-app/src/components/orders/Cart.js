@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { Image } from "react-bootstrap"
+import { Link } from "react-router-dom"
 
 export default class Cart extends Component {
     constructor() {
@@ -172,7 +173,7 @@ export default class Cart extends Component {
                                         orderDetails.map(details => (
                                             <Card className="mb-3" key={details.id}>
                                                 <Card.Header>
-                                                    <Card.Title className="m-0">{details.product.name}</Card.Title>
+                                                    <big><Card.Title className="m-0" as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name}</Card.Title></big>
                                                 </Card.Header>
                                                 <Card.Body>
                                                     <Row>
