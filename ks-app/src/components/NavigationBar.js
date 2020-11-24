@@ -56,13 +56,18 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
               <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Item href="/orders">My orders</NavDropdown.Item>
+                {showModeratorBoard && (
+                  <>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/ordersmanager">Orders manager</NavDropdown.Item>
+                  </>
+                )}
                 {showAdminBoard && (
-                  <React.Fragment>
+                  <>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/stockmanager">Stock manager</NavDropdown.Item>
-                    <NavDropdown.Item href="/ordersmanager">Orders manager</NavDropdown.Item>
                     <NavDropdown.Item href="/usersmanager">Users manager</NavDropdown.Item>
-                  </React.Fragment>
+                  </>
                 )}
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/" onClick={logOut}>Logout</NavDropdown.Item>
