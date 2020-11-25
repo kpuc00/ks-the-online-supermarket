@@ -53,6 +53,7 @@ public class ProductController {
                 product.setDescription(updatedProduct.getDescription());
                 product.setPrice(updatedProduct.getPrice());
                 product.setCategory(updatedProduct.getCategory());
+                product.setImage(updatedProduct.getImage());
                 productRepository.save(product);
                 return null;
             });

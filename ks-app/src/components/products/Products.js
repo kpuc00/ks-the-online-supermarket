@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaCartPlus } from 'react-icons/fa'
-import { Form, Modal } from "react-bootstrap"
+import { Form, Image, Modal } from "react-bootstrap"
 import { Link } from "react-router-dom";
 
 class Products extends Component {
@@ -134,22 +134,44 @@ class Products extends Component {
         {productsLoaded &&
           <Row>
             <Col>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {products.map(product => (
-                  <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
-                    <Card.Img variant="top" src={"/images/product/" + product.image} />
-                    <Card.Body>
-                      <big><Card.Title as={Link} variant="link" to={"/products/" + product.productId}>{product.name}</Card.Title></big>
-                      <Card.Text>
-                        {product.description}<br />
-                        <strong>Category:</strong> {product.category.name}<br />
-                        <strong>Price:</strong> {product.price.toFixed(2)} €
-                      </Card.Text>
-                      <Button disabled={!currentUser} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </div>
+              {products.map(product => (
+                <Card key={product.productId} className="m-3">
+                  <Card.Header>
+                    <big><Card.Title as={Link} variant="link" to={"/products/" + product.productId}>{product.name}</Card.Title></big>
+                  </Card.Header>
+                  <Card.Body>
+                    <Row>
+                      <Col className="col-4">
+                        <div className="product-image">
+                          <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                        </div>
+                      </Col>
+                      <Col>
+                        <Card.Body>
+                          <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
+                          <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
+                          <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
+                        </Card.Body>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Button className="float-right" onClick={() => this.handleShowDialog(product)} variant="primary" disabled={!currentUser}><FaCartPlus /> Buy</Button>
+                  </Card.Footer>
+                </Card>
+                // <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
+                //   <Card.Img variant="top" src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                //   <Card.Body>
+                //     <big><Card.Title as={Link} variant="link" to={"/products/" + product.productId}>{product.name}</Card.Title></big>
+                //     <Card.Text>
+                //       {product.description}<br />
+                //       <strong>Category:</strong> {product.category.name}<br />
+                //       <strong>Price:</strong> {product.price.toFixed(2)} €
+                //     </Card.Text>
+                //     <Button disabled={!currentUser} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
+                //   </Card.Body>
+                // </Card>
+              ))}
             </Col>
           </Row>
         }

@@ -16,8 +16,8 @@ public class Product {
     private String description;
     @Column(nullable = false, precision = 2)
     private double price;
-    @Column(nullable = false)
-    private String image = "default.jpg";
+    @Lob
+    private String image;
 
     @ManyToOne(optional = false, targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")

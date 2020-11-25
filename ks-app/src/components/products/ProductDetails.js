@@ -142,14 +142,16 @@ export default class ProductDetails extends Component {
                                 </Card.Header>
                                 <Card.Body>
                                     <Row>
-                                        <Col xs={6} md={4}>
-                                            <Image src={"/images/product/" + product.image} width="100%" rounded />
+                                        <Col className="col-4">
+                                            <div className="product-image">
+                                                <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                                            </div>
                                         </Col>
                                         <Col >
                                             <Card.Body>
                                                 <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
-                                                <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
                                                 <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
+                                                <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
                                             </Card.Body>
                                         </Col>
                                     </Row>

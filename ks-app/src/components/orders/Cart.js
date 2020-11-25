@@ -177,8 +177,10 @@ export default class Cart extends Component {
                                                 </Card.Header>
                                                 <Card.Body>
                                                     <Row>
-                                                        <Col xs={6} md={4}>
-                                                            <Image src={"/images/product/" + details.product.image} width="50%" rounded />
+                                                        <Col className="col-4">
+                                                            <div className="product-image">
+                                                                <Image src={details.product.image ? (`data:image/png;base64,${details.product.image}`) : ("/images/product/default.jpg")} />
+                                                            </div>
                                                         </Col>
                                                         <Col className="text-right">
                                                             <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>

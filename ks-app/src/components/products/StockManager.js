@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
-import { Form, Modal } from "react-bootstrap";
+import { Form, Image, Modal } from "react-bootstrap";
 
 export default class StockManager extends Component {
   constructor() {
@@ -236,25 +236,34 @@ export default class StockManager extends Component {
               <Link to="/stockmanager/addproduct">
                 <Button variant="primary"><FaPlus /> Add new product</Button>
               </Link>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {products.map(product => (
-                  <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
-                    <Card.Img variant="top" src={"/images/product/" + product.image} />
-                    <Card.Body>
-                      <big><Card.Title as={Link} variant="link" to={"/products/" + product.productId}>{product.name}</Card.Title></big>
-                      <Card.Text>
-                        {product.description}<br />
-                        <strong>Category:</strong> {product.category.name}<br />
-                        <strong>Price:</strong> {product.price.toFixed(2)} €
-                      </Card.Text>
-                      <Link to={"/stockmanager/editproduct/" + product.productId}>
-                        <Button variant="warning"><FaEdit /></Button>
-                      </Link>
-                      <Button variant="danger" onClick={() => this.handleShowProductDialog(product)}><FaTrash /></Button>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </div>
+
+              {products.map(product => (
+                <Card key={product.productId} className="m-3">
+                  <Card.Header>
+                    <Card.Title className="m-0">{product.name}</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    <Row>
+                      <Col className="col-4">
+                        <div className="product-image">
+                          <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                        </div>
+                      </Col>
+                      <Col>
+                        <Card.Body>
+                          <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
+                          <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
+                          <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
+                        </Card.Body>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Button as={Link} to={"/stockmanager/editproduct/" + product.productId} variant="warning"><FaEdit /> Edit</Button>
+                    <Button className="float-right" onClick={() => this.handleShowProductDialog(product)} variant="danger"><FaTrash /> Delete</Button>
+                  </Card.Footer>
+                </Card>
+              ))}
             </Col>
           </Row>
         }

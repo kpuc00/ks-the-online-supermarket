@@ -1,8 +1,9 @@
 import React from "react"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { Alert } from "react-bootstrap"
 
-const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
+const ProductForm = ({ handleChange, submitProduct, product, categories, fileInput, fileError }) => {
     let cbPlaceholder
     if (product != null)
         cbPlaceholder = product?.category.name
@@ -33,9 +34,12 @@ const ProductForm = ({ handleChange, submitProduct, product, categories }) => {
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="image">
-                <Form.File name="image" accept="image/png,image/jpeg" label="Upload product image" />
+                {fileError &&
+                    <Alert variant="danger">{fileError}</Alert>
+                }
+                <Form.File name="image" accept="image/png,image/jpeg" label="Upload product image. Accepts .jpg/.png, max 1 MB" ref={fileInput} onChange={handleChange} />
             </Form.Group>
-            <Button variant="primary" onClick={submitProduct}>Submit</Button>
+            <Button disabled={fileError} variant="primary" onClick={submitProduct}>Submit</Button>
         </Form>
     )
 }

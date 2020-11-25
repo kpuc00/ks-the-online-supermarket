@@ -7,9 +7,10 @@ import Col from 'react-bootstrap/Col'
 import ProductForm from './ProductForm'
 import Spinner from 'react-bootstrap/Spinner'
 
-class EditProduct extends Component {
+export default class EditProduct extends Component {
     constructor(props) {
         super(props)
+        this.fileInput = React.createRef();
         this.state = {
             name: "",
             description: "",
@@ -20,7 +21,10 @@ class EditProduct extends Component {
             categories: [],
             product: null,
             productLoaded: false,
-            categoriesLoaded: false
+            categoriesLoaded: false,
+            content: null,
+            base64TextString: "",
+            fileError: null
         }
     }
 
@@ -51,15 +55,50 @@ class EditProduct extends Component {
             })
     }
 
+    _handleReaderLoaded = (readerEvt) => {
+        let binaryString = readerEvt.target.result
+        this.setState({
+            base64TextString: btoa(binaryString)
+        })
+    }
+
     handleChange = (e) => {
         const { name, value } = e.target
         if (name === "categoryId") {
-            this.setState(state => ({
+            this.setState({
                 category: {
                     ...this.state.category,
                     [name]: value
                 }
-            }))
+            })
+        }
+        else if (name === "image") {
+            const file = e.target.files[0]
+            if (file && ((file.type === "image/jpeg") || (file.type === "image/png")) && file.size <= 1048576) {
+                const reader = new FileReader()
+                reader.onload = this._handleReaderLoaded.bind(this)
+                reader.readAsBinaryString(file)
+                this.setState({
+                    fileError: null
+                })
+            }
+            else {
+                if (file.type !== ("image/jpeg" || "image/png")) {
+                    this.setState({
+                        fileError: "Unsupported file type."
+                    })
+                }
+                else if (file.size > 1048576) {
+                    this.setState({
+                        fileError: "File too large!"
+                    })
+                }
+                else {
+                    this.setState({
+                        fileError: "File error!"
+                    })
+                }
+            }
         }
         else {
             this.setState({
@@ -77,18 +116,17 @@ class EditProduct extends Component {
             price: this.state.price,
             category: {
                 categoryId: this.state.category.categoryId
-            }
+            },
+            image: this.state.base64TextString
         }
         let id = this.props.match.params.id
         Axios.put(`/products/${id}`, product, { headers: authHeader() })
-            .then(result => {
-                console.log(result)
-                console.log(result.data)
-            })
             .then(
-                () => {
-                    this.props.history.push("/stockmanager");
-                    window.location.reload();
+                res => {
+                    if (res.status === 204) {
+                        this.props.history.push("/stockmanager");
+                        window.location.reload();
+                    }
                 },
                 error => {
                     const resMessage =
@@ -100,39 +138,46 @@ class EditProduct extends Component {
 
                     this.setState({
                         loading: false,
-                        message: resMessage
+                        content: resMessage
                     });
                 }
             )
     }
 
     render() {
-        let { productLoaded, categoriesLoaded, product, categories } = this.state
-        if (!productLoaded || !categoriesLoaded) {
-            return (
-                <Container>
+        let { productLoaded, categoriesLoaded, product, categories, content, fileError } = this.state
+        return (
+            <Container className="p-1">
+                <Row>
+                    <h3>Edit product</h3>
+                </Row>
+
+                {((!productLoaded || !categoriesLoaded) && !content) &&
                     <Row>
                         <Col>
-                            <h3>Edit product</h3>
                             <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
                         </Col>
                     </Row>
-                </Container>
-            )
-        }
-        return (
-            <Container>
-                <Row>
-                    <Col>
-                        <h3>Edit product</h3>
-                        <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={product} categories={categories} />
-                    </Col>
-                </Row>
-            </Container >
+                }
+                {content &&
+                    <Row>
+                        <Col>
+                            <header className="jumbotron">
+                                <h3>{content}</h3>
+                            </header>
+                        </Col>
+                    </Row>
+                }
+                {(productLoaded && categoriesLoaded) &&
+                    <Row>
+                        <Col>
+                            <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={product} categories={categories} fileInput={this.fileInput} fileError={fileError} />
+                        </Col>
+                    </Row>
+                }
+            </Container>
         )
     }
 }
-
-export default EditProduct

@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col'
 import ProductForm from './ProductForm'
 import Spinner from 'react-bootstrap/Spinner'
 
-class AddProduct extends Component {
+export default class AddProduct extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -18,7 +18,10 @@ class AddProduct extends Component {
                 categoryId: 0
             },
             categories: [],
-            categoriesLoaded: false
+            categoriesLoaded: false,
+            content: null,
+            base64TextString: "",
+            fileError: null
         }
     }
 
@@ -33,6 +36,13 @@ class AddProduct extends Component {
             })
     }
 
+    _handleReaderLoaded = (readerEvt) => {
+        let binaryString = readerEvt.target.result
+        this.setState({
+            base64TextString: btoa(binaryString)
+        })
+    }
+
     handleChange = (e) => {
         const { name, value } = e.target
         if (name === "categoryId") {
@@ -42,6 +52,34 @@ class AddProduct extends Component {
                     [name]: value
                 }
             }))
+        }
+        else if (name === "image") {
+            const file = e.target.files[0]
+            if (file && ((file.type === "image/jpeg") || (file.type === "image/png")) && file.size <= 1048576) {
+                const reader = new FileReader()
+                reader.onload = this._handleReaderLoaded.bind(this)
+                reader.readAsBinaryString(file)
+                this.setState({
+                    fileError: null
+                })
+            }
+            else {
+                if (file.type !== ("image/jpeg" || "image/png")) {
+                    this.setState({
+                        fileError: "Unsupported file type."
+                    })
+                }
+                else if (file.size > 1048576) {
+                    this.setState({
+                        fileError: "File too large!"
+                    })
+                }
+                else {
+                    this.setState({
+                        fileError: "File error!"
+                    })
+                }
+            }
         }
         else {
             this.setState({
@@ -59,7 +97,8 @@ class AddProduct extends Component {
             price: this.state.price,
             category: {
                 categoryId: this.state.category.categoryId
-            }
+            },
+            image: this.state.base64TextString
         }
 
         Axios.post(`/products/add`, product, { headers: authHeader() })
@@ -87,34 +126,40 @@ class AddProduct extends Component {
     }
 
     render() {
-        let { categoriesLoaded, categories } = this.state
-        if (!categoriesLoaded) {
-            return (
-                <Container>
+        let { categoriesLoaded, categories, content, fileError } = this.state
+        return (
+            <Container>
+                <Row>
+                    <h3>Add product</h3>
+                </Row>
+
+                {(!categoriesLoaded && !content) &&
                     <Row>
                         <Col>
-                            <h3>Add new product</h3>
                             <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
                         </Col>
                     </Row>
-                </Container>
-            )
-        }
-        else {
-            return (
-                <Container>
+                }
+                {content &&
+                    <Row>
+                        <Col>
+                            <header className="jumbotron">
+                                <h3>{content}</h3>
+                            </header>
+                        </Col>
+                    </Row>
+                }
+                {categoriesLoaded &&
                     <Row>
                         <Col>
                             <h3>Add new product</h3>
-                            <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={null} categories={categories} />
+                            <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={null} categories={categories} fileInput={this.fileInput} fileError={fileError} />
                         </Col>
                     </Row>
-                </Container>
-            )
-        }
+                }
+            </Container>
+        )
     }
 }
-
-export default AddProduct
