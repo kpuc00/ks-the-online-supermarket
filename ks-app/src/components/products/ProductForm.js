@@ -37,7 +37,10 @@ const ProductForm = ({ handleChange, submitProduct, product, categories, fileInp
                 {fileError &&
                     <Alert variant="danger">{fileError}</Alert>
                 }
-                <Form.File name="image" accept="image/png,image/jpeg" label="Upload product image. Accepts .jpg/.png, max 1 MB" ref={fileInput} onChange={handleChange} />
+                <Form.Label>Select product image</Form.Label>
+                <Form.Text>If you leave it empty, a default picture will apply.</Form.Text>
+                <Form.Text>Accepts .jpg/.png, max 1 MB.</Form.Text>
+                <Form.File name="image" accept="image/png,image/jpeg" ref={fileInput} onChange={handleChange} />
             </Form.Group>
             <Button disabled={fileError} variant="primary" onClick={submitProduct}>Submit</Button>
         </Form>

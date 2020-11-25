@@ -31,33 +31,45 @@ export default class StockManager extends Component {
   }
 
   componentDidMount() {
-    Axios.get('/categories')
+    Axios.get('/categories/admin', { headers: authHeader() })
       .then(res => {
         const categories = res.data
         this.setState({
           categories,
           categoriesLoaded: true
         })
-      })
-    Axios.get('/products/admin', { headers: authHeader() }).then(
-      res => {
-        const products = res.data
-        this.setState({
-          products,
-          productsLoaded: true
-        })
       },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    )
+        error => {
+          this.setState({
+            content:
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          });
+        }
+      )
+    Axios.get('/products/admin', { headers: authHeader() })
+      .then(
+        res => {
+          const products = res.data
+          this.setState({
+            products,
+            productsLoaded: true
+          })
+        },
+        error => {
+          this.setState({
+            content:
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          });
+        }
+      )
   }
 
   addCategoryDialog = () => {

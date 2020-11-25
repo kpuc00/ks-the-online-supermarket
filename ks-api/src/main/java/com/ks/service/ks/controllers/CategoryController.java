@@ -30,6 +30,13 @@ public class CategoryController {
         return categoryRepository.findAll();
     }
 
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody
+    List<Category> getAllCategoriesInAdmin() {
+        return categoryRepository.findAll();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable long id) {
         if (categoryRepository.existsById(id))

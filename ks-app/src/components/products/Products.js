@@ -159,18 +159,6 @@ class Products extends Component {
                     <Button className="float-right" onClick={() => this.handleShowDialog(product)} variant="primary" disabled={!currentUser}><FaCartPlus /> Buy</Button>
                   </Card.Footer>
                 </Card>
-                // <Card key={product.productId} style={{ width: "40%", margin: "5px" }}>
-                //   <Card.Img variant="top" src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                //   <Card.Body>
-                //     <big><Card.Title as={Link} variant="link" to={"/products/" + product.productId}>{product.name}</Card.Title></big>
-                //     <Card.Text>
-                //       {product.description}<br />
-                //       <strong>Category:</strong> {product.category.name}<br />
-                //       <strong>Price:</strong> {product.price.toFixed(2)} €
-                //     </Card.Text>
-                //     <Button disabled={!currentUser} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
-                //   </Card.Body>
-                // </Card>
               ))}
             </Col>
           </Row>

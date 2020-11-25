@@ -34,6 +34,19 @@ export default class OrdersManager extends Component {
                             content: "Something went wrong! Please try again later."
                         });
                     }
+                },
+                error => {
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+
+                    this.setState({
+                        ordersLoaded: false,
+                        content: resMessage
+                    });
                 }
             )
     }
