@@ -1,7 +1,7 @@
 package com.ks.service.ks.controller;
 
 import com.ks.service.ks.model.Category;
-import com.ks.service.ks.repository.CategoryRepository;
+import com.ks.service.ks.service.CategoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,7 +28,7 @@ class CategoryControllerTest {
     CategoryController categoryController;
 
     @MockBean
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
 
     List<Category> mockCategories;
 
@@ -35,11 +36,11 @@ class CategoryControllerTest {
     void setUp() {
         mockCategories = Arrays.asList(
                 new Category()
-                .setCategoryId(1L)
-                .setName("Drinks"),
+                        .setCategoryId(1L)
+                        .setName("Drinks"),
                 new Category()
-                .setCategoryId(2L)
-                .setName("Bakery")
+                        .setCategoryId(2L)
+                        .setName("Bakery")
         );
     }
 
@@ -53,7 +54,7 @@ class CategoryControllerTest {
 
     @Test
     void getAllCategories() {
-        when(categoryRepository.findAll()).thenReturn(mockCategories);
+        when(categoryService.findAll()).thenReturn(mockCategories);
         List<Category> actualCategories = categoryController.getAllCategories();
         assertEquals(mockCategories, actualCategories);
     }
@@ -69,8 +70,8 @@ class CategoryControllerTest {
     @Test
     void deleteCategory() {
         Category sampleCategory = mockCategories.get(0);
-        when(categoryRepository.findById(sampleCategory.getCategoryId())).thenReturn(Optional.empty());
-        categoryRepository.delete(sampleCategory);
-        verify(categoryRepository).delete(sampleCategory);
+        when(categoryService.findById(sampleCategory.getCategoryId())).thenReturn(Optional.empty());
+        categoryService.deleteById(sampleCategory.getCategoryId());
+        verify(categoryService).deleteById(sampleCategory.getCategoryId());
     }
 }

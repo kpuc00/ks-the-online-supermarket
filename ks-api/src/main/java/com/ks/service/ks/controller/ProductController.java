@@ -1,7 +1,7 @@
 package com.ks.service.ks.controller;
 
 import com.ks.service.ks.model.Product;
-import com.ks.service.ks.repository.ProductRepository;
+import com.ks.service.ks.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,46 +15,46 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        productRepository.save(product);
+        productService.save(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping // /products
     public @ResponseBody
     List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productService.findAll();
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     List<Product> getAllProductsInAdmin() {
-        return productRepository.findAll();
+        return productService.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
-        if (productRepository.existsById(id))
-            return new ResponseEntity(productRepository.findById(id), HttpStatus.OK);
+        if (productService.existsById(id))
+            return new ResponseEntity(productService.findById(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
-        if (productRepository.existsById(id)) {
-            productRepository.findById(id).map(product -> {
+        if (productService.existsById(id)) {
+            productService.findById(id).map(product -> {
                 product.setName(updatedProduct.getName());
                 product.setDescription(updatedProduct.getDescription());
                 product.setPrice(updatedProduct.getPrice());
                 product.setCategory(updatedProduct.getCategory());
                 product.setImage(updatedProduct.getImage());
-                productRepository.save(product);
+                productService.save(product);
                 return null;
             });
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -65,8 +65,8 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> deleteProduct(@PathVariable long id) {
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
+        if (productService.existsById(id)) {
+            productService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

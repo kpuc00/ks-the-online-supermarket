@@ -2,7 +2,7 @@ package com.ks.service.ks.controller;
 
 import com.ks.service.ks.model.Category;
 import com.ks.service.ks.model.Product;
-import com.ks.service.ks.repository.ProductRepository;
+import com.ks.service.ks.service.ProductService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,21 +29,21 @@ class ProductControllerTest {
     ProductController productController;
 
     @MockBean
-    ProductRepository productRepository;
+    ProductService productService;
 
     List<Product> mockProducts;
 
     @BeforeEach
     void setUp() {
         mockProducts = Arrays.asList(
-                        new Product()
+                new Product()
                         .setProductId(1L)
                         .setName("Water")
                         .setDescription("Test description")
                         .setPrice(2.78)
-                                .setCategory(new Category()
-                                        .setCategoryId(1L)
-                                        .setName("Drinks")),
+                        .setCategory(new Category()
+                                .setCategoryId(1L)
+                                .setName("Drinks")),
                 new Product()
                         .setProductId(2L)
                         .setName("Bread")
@@ -64,7 +64,7 @@ class ProductControllerTest {
 
     @Test
     void getAllProducts() {
-        when(productRepository.findAll()).thenReturn(mockProducts);
+        when(productService.findAll()).thenReturn(mockProducts);
         List<Product> actualProducts = productController.getAllProducts();
         assertEquals(mockProducts, actualProducts);
     }
@@ -84,8 +84,8 @@ class ProductControllerTest {
     @Test
     void deleteProduct() {
         Product sampleProduct = mockProducts.get(0);
-        when(productRepository.findById(sampleProduct.getProductId())).thenReturn(Optional.empty());
-        productRepository.delete(sampleProduct);
-        verify(productRepository).delete(sampleProduct);
+        when(productService.findById(sampleProduct.getProductId())).thenReturn(Optional.empty());
+        productService.deleteById(sampleProduct.getProductId());
+        verify(productService).deleteById(sampleProduct.getProductId());
     }
 }

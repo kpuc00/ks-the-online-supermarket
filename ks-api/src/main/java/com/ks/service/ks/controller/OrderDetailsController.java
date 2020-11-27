@@ -4,9 +4,9 @@ import com.ks.service.ks.model.Order;
 import com.ks.service.ks.model.OrderDetails;
 import com.ks.service.ks.model.Product;
 import com.ks.service.ks.model.User;
-import com.ks.service.ks.repository.OrderDetailsRepository;
-import com.ks.service.ks.repository.OrderRepository;
-import com.ks.service.ks.repository.UserRepository;
+import com.ks.service.ks.service.OrderDetailsService;
+import com.ks.service.ks.service.OrderService;
+import com.ks.service.ks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,32 +19,32 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('USER')")
 public class OrderDetailsController {
     @Autowired
-    private OrderDetailsRepository orderDetailsRepository;
+    private OrderDetailsService orderDetailsService;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping("/{id}/details")
     public ResponseEntity<OrderDetails> getDetailsOfOrderById(@PathVariable long id) {
-        if (orderRepository.existsById(id)) {
-            if (orderDetailsRepository.getAllByOrder_OrderId(id).size() != 0)
-                return new ResponseEntity(orderDetailsRepository.getAllByOrder_OrderId(id), HttpStatus.OK);
+        if (orderService.existsById(id)) {
+            if (orderDetailsService.getAllByOrder_OrderId(id).size() != 0)
+                return new ResponseEntity(orderDetailsService.getAllByOrder_OrderId(id), HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/addProduct")
     public ResponseEntity<OrderDetails> addProductToCart(@RequestBody OrderDetails orderDetails) {
-        if (userRepository.existsById(orderDetails.getBuyerId())) {
-            User buyer = userRepository.getOne(orderDetails.getBuyerId());
-            Order cart = orderRepository.getUserShoppingCart(orderDetails.getBuyerId());
+        if (userService.existsById(orderDetails.getBuyerId())) {
+            User buyer = userService.getOne(orderDetails.getBuyerId());
+            Order cart = orderService.getUserShoppingCart(orderDetails.getBuyerId());
             if (cart == null) {
                 cart = new Order();
                 cart.setUser(buyer);
-                orderRepository.save(cart);
+                orderService.save(cart);
             }
             orderDetails.setPrice(orderDetails.getProduct().getPrice());
             double amount = Math.round((orderDetails.getPrice() * orderDetails.getQuantity()) * 100.0) / 100.0;
@@ -52,21 +52,21 @@ public class OrderDetailsController {
             orderDetails.setOrder(cart);
             double orderTotalPrice = Math.round((cart.getTotalPrice() + amount) * 100.0) / 100.0;
             cart.setTotalPrice(orderTotalPrice);
-            orderRepository.save(cart);
-            orderDetailsRepository.save(orderDetails);
+            orderService.save(cart);
+            orderDetailsService.save(orderDetails);
             return new ResponseEntity<>(orderDetails, HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable long id) {
-        if (orderDetailsRepository.existsById(id)) {
-            OrderDetails orderDetails = orderDetailsRepository.getOne(id);
+        if (orderDetailsService.existsById(id)) {
+            OrderDetails orderDetails = orderDetailsService.getOne(id);
             Order order = orderDetails.getOrder();
             double newOrderTotalPrice = order.getTotalPrice() - orderDetails.getAmount();
             order.setTotalPrice(newOrderTotalPrice);
-            orderRepository.save(order);
-            orderDetailsRepository.deleteById(id);
+            orderService.save(order);
+            orderDetailsService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,7 +1,7 @@
 package com.ks.service.ks.controller;
 
 import com.ks.service.ks.model.User;
-import com.ks.service.ks.repository.UserRepository;
+import com.ks.service.ks.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class UserControllerTest {
     UserController userController;
 
     @MockBean
-    UserRepository userRepository;
+    UserService userService;
 
     List<User> mockUsers;
 
@@ -35,25 +35,25 @@ class UserControllerTest {
     void setUp() {
         mockUsers = Arrays.asList
                 (
-                new User()
-                        .setId(1L)
-                .setFirstName("Kristiyan")
-                .setLastName("Strahilov")
-                .setAddress("EIN")
-                .setEmail("k.strahilov@fontys.nl")
-                .setPassword("parola")
-                .setPhone("+359894567890")
-                .setTotalCosts(9.99),
+                        new User()
+                                .setId(1L)
+                                .setFirstName("Kristiyan")
+                                .setLastName("Strahilov")
+                                .setAddress("EIN")
+                                .setEmail("k.strahilov@fontys.nl")
+                                .setPassword("parola")
+                                .setPhone("+359894567890")
+                                .setTotalCosts(9.99),
 
-                new User()
-                        .setId(2L)
-                .setFirstName("Ivan")
-                .setLastName("Ivanov")
-                .setAddress("VAR")
-                .setEmail("ivan.ivanov@gmail.com")
-                .setPassword("vankata")
-                .setPhone("+359890987654")
-                .setTotalCosts(8.99)
+                        new User()
+                                .setId(2L)
+                                .setFirstName("Ivan")
+                                .setLastName("Ivanov")
+                                .setAddress("VAR")
+                                .setEmail("ivan.ivanov@gmail.com")
+                                .setPassword("vankata")
+                                .setPhone("+359890987654")
+                                .setTotalCosts(8.99)
                 );
     }
 
@@ -62,7 +62,7 @@ class UserControllerTest {
     }
 
     @Test
-    void testListUsers(){
+    void testListUsers() {
         User expectedUser = new User()
                 .setFirstName("Kristiyan")
                 .setLastName("Strahilov")
@@ -83,7 +83,7 @@ class UserControllerTest {
 
     @Test
     void getAllUsers() {
-        when(userRepository.findAll()).thenReturn(mockUsers);
+        when(userService.findAll()).thenReturn(mockUsers);
         List<User> actualUsers = userController.getAllUsers();
         assertEquals(mockUsers, actualUsers);
     }
@@ -114,12 +114,12 @@ class UserControllerTest {
 
     @Test
     void deleteUser() {
-        User sampleUser=mockUsers.get(0);
-        when(userRepository.findById(sampleUser.getId())).thenReturn(Optional.empty());
+        User sampleUser = mockUsers.get(0);
+        when(userService.findById(sampleUser.getId())).thenReturn(Optional.empty());
         //delete the person
-        userRepository.delete(sampleUser);
+        userService.deleteById(sampleUser.getId());
         //verify if the method is working properly
-        verify(userRepository).delete(sampleUser);
+        verify(userService).deleteById(sampleUser.getId());
     }
 
     /*@Test
