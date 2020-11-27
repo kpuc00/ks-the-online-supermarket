@@ -152,7 +152,6 @@ export default class AddProduct extends Component {
                 {categoriesLoaded &&
                     <Row>
                         <Col>
-                            <h3>Add new product</h3>
                             <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={null} categories={categories} fileInput={this.fileInput} fileError={fileError} />
                         </Col>
                     </Row>
