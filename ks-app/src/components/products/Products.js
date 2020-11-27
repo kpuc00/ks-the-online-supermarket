@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaCartPlus } from 'react-icons/fa'
-import { Form, Image, Modal } from "react-bootstrap"
+import { Alert, Form, Image, Modal } from "react-bootstrap"
 import { Link } from "react-router-dom";
 
 class Products extends Component {
@@ -130,6 +130,11 @@ class Products extends Component {
               </header>
             </Col>
           </Row>
+        }
+        {!currentUser &&
+          <Alert variant="warning">
+            <big>You must be logged in to be able to buy!</big>
+          </Alert>
         }
         {productsLoaded &&
           <Row>
