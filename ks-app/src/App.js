@@ -15,9 +15,6 @@ import Login from "./components/auth/Login"
 import Register from "./components/auth/Register"
 
 import Profile from "./components/users/ProfilePage"
-import BoardUser from "./pages/UserPage"
-import BoardModerator from "./pages/ModeratorPage"
-import BoardAdmin from "./pages/AdminPage"
 
 import AddProduct from "./components/products/AddProduct"
 import EditProduct from "./components/products/EditProduct"
@@ -65,16 +62,17 @@ class App extends Component {
         id: user.id
       }
 
-      Axios.post(`/orders/cart/count`, givenUser, { headers: authHeader() }).then(
-        res => {
-          if (res.status === 200) {
-            const num = res.data;
-            this.setState({
-              cartCount: num
-            })
+      Axios.post(`/orders/cart/count`, givenUser, { headers: authHeader() })
+        .then(
+          res => {
+            if (res.status === 200) {
+              const num = res.data;
+              this.setState({
+                cartCount: num
+              })
+            }
           }
-        }
-      )
+        )
     }
   }
 
@@ -107,9 +105,6 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={Profile} />
-          <Route path="/user" component={BoardUser} />
-          <Route path="/mod" component={BoardModerator} />
-          <Route path="/admin" component={BoardAdmin} />
         </Switch>
         <Footer />
       </Router>

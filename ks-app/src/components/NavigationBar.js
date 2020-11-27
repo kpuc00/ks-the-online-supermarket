@@ -18,21 +18,6 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
             <Nav.Item>
               <Nav.Link as={Link} to="/products">Products</Nav.Link>
             </Nav.Item>
-            {showModeratorBoard && (
-              <Nav.Item>
-                <Nav.Link as={Link} to="/mod">Moderator Board</Nav.Link>
-              </Nav.Item>
-            )}
-            {showAdminBoard && (
-              <Nav.Item>
-                <Nav.Link as={Link} to="/admin">Admin Board</Nav.Link>
-              </Nav.Item>
-            )}
-            {currentUser && (
-              <Nav.Item>
-                <Nav.Link as={Link} to="/user">User</Nav.Link>
-              </Nav.Item>
-            )}
           </Nav>
 
           {currentUser ? (
