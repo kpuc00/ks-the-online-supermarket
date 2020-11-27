@@ -39,11 +39,11 @@ class Products extends Component {
             productsLoaded: true
           })
         }
-        if (res.status === 500) {
-          this.setState({
-            content: "Something went wrong! Please try again later."
-          });
-        }
+      },
+      () => {
+        this.setState({
+          content: "Something went wrong! Please try again later."
+        });
       }
     )
   }
@@ -95,7 +95,7 @@ class Products extends Component {
           window.location.reload();
         }
       },
-      error => {
+      () => {
         this.setState({
           content: "Something went wrong! Please try again later."
         });

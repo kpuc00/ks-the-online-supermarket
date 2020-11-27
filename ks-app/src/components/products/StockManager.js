@@ -39,14 +39,9 @@ export default class StockManager extends Component {
           categoriesLoaded: true
         })
       },
-        error => {
+        () => {
           this.setState({
-            content:
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString()
+            content: "Something went wrong! Please try again later."
           });
         }
       )

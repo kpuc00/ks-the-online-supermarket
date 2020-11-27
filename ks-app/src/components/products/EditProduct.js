@@ -31,28 +31,42 @@ export default class EditProduct extends Component {
     componentDidMount() {
         let id = this.props.match.params.id
         Axios.get('/categories')
-            .then(res => {
-                const categories = res.data
-                this.setState({
-                    categories,
-                    categoriesLoaded: true
-                })
-            })
+            .then(
+                res => {
+                    const categories = res.data
+                    this.setState({
+                        categories,
+                        categoriesLoaded: true
+                    })
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    });
+                }
+            )
 
         Axios.get(`/products/${id}`)
-            .then(res => {
-                const product = res.data
-                this.setState({
-                    name: product.name,
-                    description: product.description,
-                    price: product.price,
-                    category: {
-                        categoryId: product.category.categoryId
-                    },
-                    product,
-                    productLoaded: true
-                })
-            })
+            .then(
+                res => {
+                    const product = res.data
+                    this.setState({
+                        name: product.name,
+                        description: product.description,
+                        price: product.price,
+                        category: {
+                            categoryId: product.category.categoryId
+                        },
+                        product,
+                        productLoaded: true
+                    })
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    });
+                }
+            )
     }
 
     _handleReaderLoaded = (readerEvt) => {
@@ -128,17 +142,10 @@ export default class EditProduct extends Component {
                         window.location.reload();
                     }
                 },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                () => {
                     this.setState({
-                        loading: false,
-                        content: resMessage
+                        content: "Something went wrong! Please try again later.",
+                        loading: false
                     });
                 }
             )

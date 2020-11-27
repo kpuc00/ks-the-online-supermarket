@@ -48,14 +48,9 @@ export default class Orders extends Component {
                     })
                 }
             },
-            error => {
+            () => {
                 this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
+                    content: "Something went wrong! Please try again later."
                 });
             }
         )
@@ -72,14 +67,9 @@ export default class Orders extends Component {
                     window.location.reload();
                 }
             },
-            error => {
+            () => {
                 this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
+                    content: "Something went wrong! Please try again later."
                 });
             }
         )

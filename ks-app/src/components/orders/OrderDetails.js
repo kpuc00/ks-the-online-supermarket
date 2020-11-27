@@ -32,30 +32,31 @@ export default class OrderDetails extends Component {
                     this.setState({
                         order: o
                     })
-                    Axios.get(`/orders/${id}/details`, { headers: authHeader() }).then(
-                        resDetails => {
-                            if (resDetails.status === 200) {
-                                const orderDetails = resDetails.data
-                                this.setState({
-                                    orderDetails,
-                                    loaded: true,
-                                    details: true
-                                })
-                            }
-                            if (resDetails.status === 500) {
+                    Axios.get(`/orders/${id}/details`, { headers: authHeader() })
+                        .then(
+                            resDetails => {
+                                if (resDetails.status === 200) {
+                                    const orderDetails = resDetails.data
+                                    this.setState({
+                                        orderDetails,
+                                        loaded: true,
+                                        details: true
+                                    })
+                                }
+                            },
+                            () => {
                                 this.setState({
                                     content: "Something went wrong! Please try again later."
                                 });
                             }
-                        }
-                    )
+                        )
                 }
                 else if (resOrder.status === 403) {
                     this.props.history.push("/orders");
                     window.location.reload();
                 }
             },
-            error => {
+            () => {
                 this.setState({
                     content: "Something went wrong! Please try again later."
                 });

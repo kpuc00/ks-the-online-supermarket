@@ -38,11 +38,11 @@ export default class ProductDetails extends Component {
                         productLoaded: true
                     })
                 }
-                if (res.status === 500) {
-                    this.setState({
-                        content: "Something went wrong! Please try again later."
-                    });
-                }
+            },
+            () => {
+                this.setState({
+                    content: "Something went wrong! Please try again later."
+                });
             }
         )
     }
@@ -93,7 +93,7 @@ export default class ProductDetails extends Component {
                     window.location.reload();
                 }
             },
-            error => {
+            () => {
                 this.setState({
                     content: "Something went wrong! Please try again later."
                 });

@@ -33,7 +33,13 @@ export default class AddProduct extends Component {
                     categories,
                     categoriesLoaded: true
                 })
-            })
+            },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    });
+                }
+            )
     }
 
     _handleReaderLoaded = (readerEvt) => {
@@ -109,17 +115,9 @@ export default class AddProduct extends Component {
                         window.location.reload();
                     }
                 },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                () => {
                     this.setState({
-                        loading: false,
-                        message: resMessage
+                        content: "Something went wrong! Please try again later."
                     });
                 }
             )
