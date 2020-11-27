@@ -1,4 +1,4 @@
-package com.ks.service.ks.controllers;
+package com.ks.service.ks.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;

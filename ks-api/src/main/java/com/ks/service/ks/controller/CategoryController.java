@@ -1,4 +1,4 @@
-package com.ks.service.ks.controllers;
+package com.ks.service.ks.controller;
 
 import com.ks.service.ks.model.Category;
 import com.ks.service.ks.repository.CategoryRepository;

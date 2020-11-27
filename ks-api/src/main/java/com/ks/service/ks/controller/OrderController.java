@@ -1,4 +1,4 @@
-package com.ks.service.ks.controllers;
+package com.ks.service.ks.controller;
 
 import com.ks.service.ks.model.Order;
 import com.ks.service.ks.model.OrderStatus;
@@ -104,7 +104,7 @@ public class OrderController {
                 numCartItems = cart.getOrderDetails().size();
                 return new ResponseEntity<>(numCartItems, HttpStatus.OK);
             }
-        } else return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cart/clear")
