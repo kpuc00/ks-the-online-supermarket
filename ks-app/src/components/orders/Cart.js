@@ -8,8 +8,9 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { Image } from "react-bootstrap"
+import { Image, Modal } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import { FaTrash } from 'react-icons/fa'
 
 export default class Cart extends Component {
     constructor() {
@@ -20,7 +21,9 @@ export default class Cart extends Component {
             orderDetails: [],
             loaded: false,
             cartEmpty: false,
-            content: ""
+            content: "",
+            showDialog: false,
+            setShowDialog: false,
         }
     }
 
@@ -120,6 +123,7 @@ export default class Cart extends Component {
                     }
                 }
             )
+        this.handleCloseDialog()
     }
 
     submitOrder() {
@@ -139,8 +143,20 @@ export default class Cart extends Component {
             )
     }
 
+    handleShowDialog = () => {
+        this.setState({
+            setShowDialog: true
+        })
+    }
+
+    handleCloseDialog = () => {
+        this.setState({
+            setShowDialog: false
+        })
+    }
+
     render() {
-        let { cartEmpty, loaded, content, order, orderDetails } = this.state
+        let { cartEmpty, loaded, content, order, orderDetails, setShowDialog } = this.state
 
         return (
             <Container className="p-1">
@@ -194,7 +210,7 @@ export default class Cart extends Component {
                                     }
                                     <Row><Col>
                                         {!cartEmpty &&
-                                            <Button className="float-right" variant="link" onClick={() => this.clearCart()}>Clear cart</Button>
+                                            <Button className="float-right" variant="link" onClick={() => this.handleShowDialog()}>Clear cart</Button>
                                         }
                                         <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
                                     </Col></Row>
@@ -211,6 +227,19 @@ export default class Cart extends Component {
                         </Col>
                     </Row>
                 }
+                <Modal show={setShowDialog} onHide={this.handleCloseDialog}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Clear cart</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Are you sure? This cannot be undone!</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => this.clearCart()}>
+                            <FaTrash /> Clear
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         )
     }
