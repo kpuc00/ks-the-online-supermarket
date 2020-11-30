@@ -30,6 +30,12 @@ public class ProductController {
         return productService.findAll();
     }
 
+    @GetMapping("/category/{id}")
+    public @ResponseBody
+    List<Product> getAllProductsByCategoryId(@PathVariable long id) {
+        return productService.getAllByCategory_CategoryId(id);
+    }
+
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody

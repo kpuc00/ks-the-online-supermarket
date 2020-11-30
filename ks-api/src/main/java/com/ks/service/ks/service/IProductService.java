@@ -17,5 +17,7 @@ public interface IProductService {
 
     List<Product> findAll();
 
+    List<Product> getAllByCategory_CategoryId(Long id);
+
     Product getOne(long id);
 }
