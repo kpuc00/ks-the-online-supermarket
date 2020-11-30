@@ -74,7 +74,6 @@ export default class OrdersManager extends Component {
                                                 <Card.Title>Order № {order.orderId}</Card.Title>
                                                 <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
                                             </Card.Header>
-                                            {console.log(order)}
                                             <Card.Body>
                                                 <Row>
                                                     <Col>

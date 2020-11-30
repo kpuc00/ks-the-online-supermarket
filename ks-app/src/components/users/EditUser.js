@@ -59,11 +59,7 @@ class EditCustomer extends Component {
             phone: this.state.phone
         }
         let id = this.props.match.params.id
-        Axios.put(`/users/${id}`, user, { headers: authHeader() }).then(
-            res => {
-                console.log(res)
-                console.log(res.data)
-            })
+        Axios.put(`/users/${id}`, user, { headers: authHeader() })
             .then(
                 () => {
                     this.props.history.push("/usersmanager");

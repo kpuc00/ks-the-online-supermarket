@@ -72,7 +72,6 @@ export default class StockManager extends Component {
   }
 
   handleChangeCategory = (e) => {
-    console.log(e.target.value)
     this.handleShowCategoryDialog(e.target.value)
   }
 

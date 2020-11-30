@@ -48,8 +48,9 @@ class UsersManager extends Component {
     deleteUser(id) {
         Axios.delete(`/users/${id}`, { headers: authHeader() }).then(
             res => {
-                console.log(res)
-                console.log(res.data)
+                if (res.status === 204) {
+                    window.location.reload()
+                }
             },
             error => {
                 this.setState({

@@ -22,7 +22,6 @@ class AddCustomer extends Component {
         this.setState({
             [e.target.id]: e.target.value
         })
-        console.log(this.state)
     }
 
     handleSubmit = (e) => {
@@ -35,10 +34,6 @@ class AddCustomer extends Component {
         }
 
         Axios.post(`/customers/add`, customer, { headers: authHeader() })
-            .then(res => {
-                console.log(res)
-                console.log(res.data)
-            })
     }
 
     render() {

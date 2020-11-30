@@ -95,7 +95,6 @@ export default class Cart extends Component {
         Axios.delete(`/orders/deleteProduct/${id}`, { headers: authHeader() })
             .then(
                 res => {
-                    console.log(res.status)
                     if (res.status === 204)
                         window.location.reload()
                     if (res.status === 500) {
