@@ -70,7 +70,9 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> deleteProduct(@PathVariable long id) {
         if (productService.existsById(id)) {
-            productService.deleteById(id);
+            Product product = productService.getOne(id);
+            product.setDeleted(true);
+            productService.save(product);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

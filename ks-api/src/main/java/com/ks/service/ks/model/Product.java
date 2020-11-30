@@ -18,6 +18,7 @@ public class Product {
     private double price;
     @Lob
     private String image;
+    private boolean deleted = false;
 
     @ManyToOne(optional = false, targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -73,6 +74,14 @@ public class Product {
     public Product setImage(String image) {
         this.image = image;
         return this;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Category getCategory() {
