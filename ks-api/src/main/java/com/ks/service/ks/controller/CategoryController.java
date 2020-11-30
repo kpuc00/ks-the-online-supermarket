@@ -48,11 +48,9 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable long id, @RequestBody Category updatedCategory) {
         if (categoryService.existsById(id)) {
-            categoryService.findById(id).map(category -> {
-                category.setName(updatedCategory.getName());
-                categoryService.save(category);
-                return null;
-            });
+            Category category = categoryService.getOne(id);
+            category.setName(updatedCategory.getName());
+            categoryService.save(category);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

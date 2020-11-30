@@ -48,15 +48,13 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
         if (productService.existsById(id)) {
-            productService.findById(id).map(product -> {
-                product.setName(updatedProduct.getName());
-                product.setDescription(updatedProduct.getDescription());
-                product.setPrice(updatedProduct.getPrice());
-                product.setCategory(updatedProduct.getCategory());
-                product.setImage(updatedProduct.getImage());
-                productService.save(product);
-                return null;
-            });
+            Product product = productService.getOne(id);
+            product.setName(updatedProduct.getName());
+            product.setDescription(updatedProduct.getDescription());
+            product.setPrice(updatedProduct.getPrice());
+            product.setCategory(updatedProduct.getCategory());
+            product.setImage(updatedProduct.getImage());
+            productService.save(product);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

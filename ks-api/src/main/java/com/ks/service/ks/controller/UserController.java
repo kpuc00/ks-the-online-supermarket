@@ -40,15 +40,13 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User updatedUser) {
         if (userService.existsById(id)) {
-            userService.findById(id).map(user -> {
-                user.setFirstName(updatedUser.getFirstName());
-                user.setLastName(updatedUser.getLastName());
-                user.setAddress(updatedUser.getAddress());
-                user.setEmail(updatedUser.getEmail());
-                user.setPhone(updatedUser.getPhone());
-                userService.save(user);
-                return null;
-            });
+            User user = userService.getOne(id);
+            user.setFirstName(updatedUser.getFirstName());
+            user.setLastName(updatedUser.getLastName());
+            user.setAddress(updatedUser.getAddress());
+            user.setEmail(updatedUser.getEmail());
+            user.setPhone(updatedUser.getPhone());
+            userService.save(user);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

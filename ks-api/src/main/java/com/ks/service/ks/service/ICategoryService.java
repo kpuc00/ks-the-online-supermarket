@@ -15,4 +15,6 @@ public interface ICategoryService {
     Optional<Category> findById(long id);
 
     List<Category> findAll();
+
+    Category getOne(long id);
 }

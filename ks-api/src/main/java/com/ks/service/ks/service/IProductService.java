@@ -16,4 +16,6 @@ public interface IProductService {
     Product save(Product product);
 
     List<Product> findAll();
+
+    Product getOne(long id);
 }
