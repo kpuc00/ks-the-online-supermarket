@@ -65,20 +65,12 @@ class EditCustomer extends Component {
                     this.props.history.push("/usersmanager");
                     window.location.reload();
                 },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                () => {
                     this.setState({
-                        loading: false,
-                        message: resMessage
-                    });
-                }
-            )
+                        message: "Something went wrong! Please try again later.",
+                        loading: false
+                    })
+                })
     }
 
     render() {

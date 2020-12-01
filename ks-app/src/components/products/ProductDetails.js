@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaCartPlus } from 'react-icons/fa'
-import { Breadcrumb, Form, Image, Modal } from "react-bootstrap"
+import { Breadcrumb, Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap"
 
 export default class ProductDetails extends Component {
     constructor() {
@@ -143,9 +143,11 @@ export default class ProductDetails extends Component {
                                 <Card.Body>
                                     <Row>
                                         <Col className="col-4">
-                                            <div className="product-image">
-                                                <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                                            </div>
+                                            <ResponsiveEmbed aspectRatio="16by9">
+                                                <div className="product-image">
+                                                    <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                                                </div>
+                                            </ResponsiveEmbed>
                                         </Col>
                                         <Col >
                                             <Card.Body>
@@ -157,7 +159,7 @@ export default class ProductDetails extends Component {
                                     </Row>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <Button className="float-right" disabled={!currentUser} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
+                                    <Button className="float-right" disabled={!currentUser || product.deleted} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
                                 </Card.Footer>
                             </Card>
                         </Col>

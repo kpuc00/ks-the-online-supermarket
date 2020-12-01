@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { Image, Modal } from "react-bootstrap"
+import { Image, Modal, ResponsiveEmbed } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { FaTrash } from 'react-icons/fa'
 
@@ -62,30 +62,18 @@ export default class Cart extends Component {
                                 })
                             }
                         },
-                        error => {
+                        () => {
                             this.setState({
-                                content:
-                                    (error.response &&
-                                        error.response.data &&
-                                        error.response.data.message) ||
-                                    error.message ||
-                                    error.toString()
-                            });
-                        }
-                    )
+                                content: "Something went wrong! Please try again later."
+                            })
+                        })
                 }
             },
-            error => {
+            () => {
                 this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        )
+                    content: "Something went wrong! Please try again later."
+                })
+            })
         this.setState({
             loaded: true
         })
@@ -97,11 +85,11 @@ export default class Cart extends Component {
                 res => {
                     if (res.status === 204)
                         window.location.reload()
-                    if (res.status === 500) {
-                        this.setState({
-                            content: "Something went wrong! Please try again later."
-                        });
-                    }
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    })
                 }
             )
     }
@@ -114,12 +102,12 @@ export default class Cart extends Component {
             .then(
                 res => {
                     if (res.status === 200)
-                        window.location.reload();
-                    if (res.status === 500) {
-                        this.setState({
-                            content: "Something went wrong! Please try again later."
-                        });
-                    }
+                        window.location.reload()
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    })
                 }
             )
         this.handleCloseDialog()
@@ -133,11 +121,11 @@ export default class Cart extends Component {
                         this.props.history.push("/orders?orderPlaced=true");
                         window.location.reload();
                     }
-                    if (res.status === 500) {
-                        this.setState({
-                            content: "Something went wrong! Please try again later."
-                        });
-                    }
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    })
                 }
             )
     }
@@ -159,7 +147,12 @@ export default class Cart extends Component {
 
         return (
             <Container className="p-1">
-                <Row><Col><h3>Your shopping cart</h3></Col></Row>
+                <Row>
+                    <Col>
+                        <h3>Your shopping cart</h3>
+                    </Col>
+                </Row>
+
                 {(!loaded && !content) &&
                     <Row>
                         <Col>
@@ -181,7 +174,7 @@ export default class Cart extends Component {
                 {loaded &&
                     <Row>
                         <Col>
-                            <Card className="m-5">
+                            <Card className="mb-2">
                                 <Card.Body>
                                     {cartEmpty ? <h5>Empty</h5>
                                         :
@@ -192,10 +185,12 @@ export default class Cart extends Component {
                                                 </Card.Header>
                                                 <Card.Body>
                                                     <Row>
-                                                        <Col className="col-4">
-                                                            <div className="product-image">
-                                                                <Image src={details.product.image ? (`data:image/png;base64,${details.product.image}`) : ("/images/product/default.jpg")} />
-                                                            </div>
+                                                        <Col className="col-3">
+                                                            <ResponsiveEmbed aspectRatio="16by9">
+                                                                <div className="product-image">
+                                                                    <Image src={details.product.image ? (`data:image/png;base64,${details.product.image}`) : ("/images/product/default.jpg")} />
+                                                                </div>
+                                                            </ResponsiveEmbed>
                                                         </Col>
                                                         <Col className="text-right">
                                                             <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
@@ -216,7 +211,10 @@ export default class Cart extends Component {
                                 </Card.Body>
 
                                 <Card.Footer>
-                                    <Card.Title className="m-0 float-right">Total price: {cartEmpty ? "0.00" : order.totalPrice?.toFixed(2)} €</Card.Title>
+                                    <Col className="text-right">
+                                        <Card.Subtitle>{orderDetails.length} item(s)</Card.Subtitle>
+                                        <Card.Title className="m-0">Total price: {cartEmpty ? "0.00" : order.totalPrice?.toFixed(2)} €</Card.Title>
+                                    </Col>
                                 </Card.Footer>
                                 <Card.Body>
                                     <Button className="float-right" disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>

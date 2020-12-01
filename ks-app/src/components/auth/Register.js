@@ -5,7 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../../services/auth-service";
-import { Button, Card, Container } from "react-bootstrap";
+import { Alert, Button, Card, Container } from "react-bootstrap";
 
 const required = value => {
     if (!value) {
@@ -138,20 +138,12 @@ export default class Register extends Component {
                     });
                     this.handleLogin();
                 },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                () => {
                     this.setState({
-                        successful: false,
-                        message: resMessage
-                    });
-                }
-            );
+                        message: "Something went wrong! Please try again later.",
+                        successful: false
+                    })
+                })
         }
     }
 
@@ -166,20 +158,12 @@ export default class Register extends Component {
                 this.props.history.push("/");
                 window.location.reload();
             },
-            error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-
+            () => {
                 this.setState({
-                    successful: false,
-                    message: resMessage
-                });
-            }
-        );
+                    message: "Something went wrong! Please try again later.",
+                    successful: false
+                })
+            })
     }
 
     render() {
@@ -187,7 +171,7 @@ export default class Register extends Component {
             <Container className="p-5">
                 <Card>
                     <Card.Body>
-                        <Card.Text className="small text-muted">Entries with "*" are required!</Card.Text>
+                        <Alert variant="info">Entries with "*" are required!</Alert>
                         <Form
                             onSubmit={this.handleRegister}
                             ref={c => {

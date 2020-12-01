@@ -32,17 +32,11 @@ class UsersManager extends Component {
                     usersLoaded: true
                 })
             },
-            error => {
+            () => {
                 this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        )
+                    content: "Something went wrong! Please try again later."
+                })
+            })
     }
 
     deleteUser(id) {
@@ -52,15 +46,10 @@ class UsersManager extends Component {
                     window.location.reload()
                 }
             },
-            error => {
+            () => {
                 this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
+                    content: "Something went wrong! Please try again later."
+                })
             }
         )
         this.handleCloseDialog()
@@ -132,9 +121,7 @@ class UsersManager extends Component {
                                                 ))}
                                         </ul>
 
-                                        <Link to={"/usersmanager/edituser/" + user.id}>
-                                            <Button variant="warning"><FaEdit /></Button>
-                                        </Link>
+                                        <Button as={Link} to={"/usersmanager/edituser/" + user.id} variant="warning"><FaEdit /></Button>
                                         <Button variant="danger" onClick={() => this.handleShowDialog(user)}><FaTrash /></Button>
                                     </ul>
                                 </div>

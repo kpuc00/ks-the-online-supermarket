@@ -27,13 +27,14 @@ export default class AddProduct extends Component {
 
     componentDidMount() {
         Axios.get('/categories')
-            .then(res => {
-                const categories = res.data
-                this.setState({
-                    categories,
-                    categoriesLoaded: true
-                })
-            },
+            .then(
+                res => {
+                    const categories = res.data
+                    this.setState({
+                        categories,
+                        categoriesLoaded: true
+                    })
+                },
                 () => {
                     this.setState({
                         content: "Something went wrong! Please try again later."

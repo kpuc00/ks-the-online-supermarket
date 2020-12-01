@@ -32,19 +32,19 @@ export default class StockManager extends Component {
 
   componentDidMount() {
     Axios.get('/categories/admin', { headers: authHeader() })
-      .then(res => {
-        const categories = res.data
-        this.setState({
-          categories,
-          categoriesLoaded: true
-        })
-      },
+      .then(
+        res => {
+          const categories = res.data
+          this.setState({
+            categories,
+            categoriesLoaded: true
+          })
+        },
         () => {
           this.setState({
             content: "Something went wrong! Please try again later."
-          });
-        }
-      )
+          })
+        })
     Axios.get('/products/admin', { headers: authHeader() })
       .then(
         res => {
@@ -54,17 +54,11 @@ export default class StockManager extends Component {
             productsLoaded: true
           })
         },
-        error => {
+        () => {
           this.setState({
-            content:
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString()
-          });
-        }
-      )
+            content: "Something went wrong! Please try again later."
+          })
+        })
   }
 
   addCategoryDialog = () => {
@@ -91,17 +85,11 @@ export default class StockManager extends Component {
           window.location.reload()
         }
       },
-      error => {
+      () => {
         this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    )
+          content: "Something went wrong! Please try again later."
+        })
+      })
     this.handleCloseCategoryDialog()
   }
 
@@ -115,49 +103,44 @@ export default class StockManager extends Component {
           window.location.reload()
         }
       },
-      error => {
+      () => {
         this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    )
+          content: "Something went wrong! Please try again later."
+        })
+      })
     this.handleCloseCategoryDialog()
   }
 
   deleteCategory(id) {
-    Axios.delete(`/categories/${id}`, { headers: authHeader() }).then(
-      res => {
-        if (res.status === 204) {
-          window.location.reload()
-        }
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    )
+    Axios.delete(`/categories/${id}`, { headers: authHeader() })
+      .then(
+        res => {
+          if (res.status === 204) {
+            window.location.reload()
+          }
+        },
+        () => {
+          this.setState({
+            content: "Something went wrong! Please try again later."
+          })
+        })
     this.handleCloseCategoryDialog()
   }
 
   deleteProduct(id) {
     Axios.delete(`/products/${id}`, { headers: authHeader() })
-      .then(res => {
-        if (res.status === 204) {
-          window.location.reload()
-        }
-      })
-    this.handleCloseProductsDialog()
+      .then(
+        res => {
+          if (res.status === 204) {
+            window.location.reload()
+          }
+        },
+        () => {
+          this.setState({
+            content: "Something went wrong! Please try again later."
+          })
+        })
+    this.handleCloseProductDialog()
   }
 
   handleCloseCategoryDialog = () => {

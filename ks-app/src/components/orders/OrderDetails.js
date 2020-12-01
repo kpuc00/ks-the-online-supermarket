@@ -15,7 +15,7 @@ export default class OrderDetails extends Component {
         super()
         this.state = {
             currentUser: AuthService.getCurrentUser(),
-            order: {},
+            order: null,
             orderDetails: {},
             loaded: false,
             details: false,
@@ -51,14 +51,11 @@ export default class OrderDetails extends Component {
                             }
                         )
                 }
-                else if (resOrder.status === 403) {
-                    this.props.history.push("/orders");
-                    window.location.reload();
-                }
             },
-            () => {
+            error => {
+                console.log(error)
                 this.setState({
-                    content: "Something went wrong! Please try again later."
+                    content: "Something went wrong! " + error.message
                 });
             }
         )
@@ -99,11 +96,11 @@ export default class OrderDetails extends Component {
                 }
                 <Row>
                     <Col>
-                        {loaded &&
+                        {(loaded && order) &&
                             <Card>
                                 <Card.Header>
                                     <Card.Title>Order № {order.orderId}</Card.Title>
-                                    <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
                                 </Card.Header>
                                 <Card.Body>
                                     <Card.Subtitle className="mb-2">Status: {order.status}</Card.Subtitle>

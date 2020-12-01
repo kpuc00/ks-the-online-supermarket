@@ -67,6 +67,9 @@ export default class OrdersManager extends Component {
                     <Row>
                         <Col>
                             <Card className="p-3">
+                                {orders.length === 0 &&
+                                    <h5>Empty</h5>
+                                }
                                 {orders &&
                                     orders.map(order => (
                                         <Card className="mb-3" key={order.orderId}>

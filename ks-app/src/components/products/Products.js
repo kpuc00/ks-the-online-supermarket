@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaCartPlus } from 'react-icons/fa'
-import { Alert, Form, Image, Modal } from "react-bootstrap"
+import { Alert, Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap"
 import { Link } from "react-router-dom";
 
 class Products extends Component {
@@ -110,7 +110,9 @@ class Products extends Component {
     return (
       <Container className="p-1">
         <Row>
-          <h3>Products</h3>
+          <Col>
+            <h3>Products</h3>
+          </Col>
         </Row>
 
         {(!productsLoaded && !content) &&
@@ -146,10 +148,12 @@ class Products extends Component {
                   </Card.Header>
                   <Card.Body>
                     <Row>
-                      <Col className="col-4">
-                        <div className="product-image">
-                          <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                        </div>
+                      <Col className="col-3">
+                        <ResponsiveEmbed aspectRatio="16by9">
+                          <div className="product-image">
+                            <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                          </div>
+                        </ResponsiveEmbed>
                       </Col>
                       <Col>
                         <Card.Body>
@@ -161,7 +165,7 @@ class Products extends Component {
                     </Row>
                   </Card.Body>
                   <Card.Footer>
-                    <Button className="float-right" onClick={() => this.handleShowDialog(product)} variant="primary" disabled={!currentUser}><FaCartPlus /> Buy</Button>
+                    <Button className="float-right" onClick={() => this.handleShowDialog(product)} variant="primary" disabled={!currentUser || product.deleted}><FaCartPlus /> Buy</Button>
                   </Card.Footer>
                 </Card>
               ))}
