@@ -27,7 +27,7 @@ public class ProductController {
     @GetMapping // /products
     public @ResponseBody
     List<Product> getAllProducts() {
-        return productService.findAll();
+        return productService.getAllByDeletedFalse();
     }
 
     @GetMapping("/category/{id}")
@@ -39,8 +39,15 @@ public class ProductController {
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
-    List<Product> getAllProductsInAdmin() {
-        return productService.findAll();
+    List<Product> getAllProductsAdmin() {
+        return productService.getAllByDeletedFalse();
+    }
+
+    @GetMapping("/deleted")
+    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody
+    List<Product> getAllDeletedProducts() {
+        return productService.getAllByDeletedTrue();
     }
 
     @GetMapping("/{id}")
@@ -72,6 +79,18 @@ public class ProductController {
         if (productService.existsById(id)) {
             Product product = productService.getOne(id);
             product.setDeleted(true);
+            productService.save(product);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/restore/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Product> restoreProduct(@PathVariable long id) {
+        if (productService.existsById(id)) {
+            Product product = productService.getOne(id);
+            product.setDeleted(false);
             productService.save(product);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

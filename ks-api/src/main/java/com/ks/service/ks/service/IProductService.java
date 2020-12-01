@@ -17,6 +17,10 @@ public interface IProductService {
 
     List<Product> findAll();
 
+    List<Product> getAllByDeletedFalse();
+
+    List<Product> getAllByDeletedTrue();
+
     List<Product> getAllByCategory_CategoryId(Long id);
 
     Product getOne(long id);

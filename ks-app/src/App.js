@@ -19,6 +19,7 @@ import Profile from "./components/users/ProfilePage"
 import AddProduct from "./components/products/AddProduct"
 import EditProduct from "./components/products/EditProduct"
 import StockManager from "./components/products/StockManager"
+import DeletedProducts from './components/products/DeletedProducts'
 import Products from './components/products/Products'
 import ProductDetails from './components/products/ProductDetails'
 
@@ -92,6 +93,7 @@ class App extends Component {
           <Route exact path="/stockmanager" component={StockManager} />
           <Route path="/stockmanager/addproduct" component={AddProduct} />
           <Route path="/stockmanager/editproduct/:id" component={EditProduct} />
+          <Route path="/stockmanager/deletedproducts" component={DeletedProducts} />
 
           <Route exact path="/orders" component={Orders} />
           <Route path="/orders/:id" component={OrderDetails} />

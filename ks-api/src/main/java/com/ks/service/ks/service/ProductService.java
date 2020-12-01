@@ -39,6 +39,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<Product> getAllByDeletedFalse() {
+        return productRepository.getAllByDeletedFalse();
+    }
+
+    @Override
+    public List<Product> getAllByDeletedTrue() {
+        return productRepository.getAllByDeletedTrue();
+    }
+
+    @Override
     public List<Product> getAllByCategory_CategoryId(Long id) {
         return productRepository.getAllByCategory_CategoryId(id);
     }

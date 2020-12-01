@@ -239,9 +239,8 @@ export default class StockManager extends Component {
         {productsLoaded &&
           <Row>
             <Col>
-              <Link to="/stockmanager/addproduct">
-                <Button variant="primary"><FaPlus /> Add new product</Button>
-              </Link>
+              <Button as={Link} to="/stockmanager/addproduct" variant="primary"><FaPlus /> Add new product</Button>
+              <Button as={Link} to="/stockmanager/deletedproducts" variant="secondary" className="float-right"><FaTrash /> Deleted products</Button>
 
               {products.map(product => (
                 <Card key={product.productId} className="m-3">
