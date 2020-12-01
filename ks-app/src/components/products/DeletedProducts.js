@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaEdit, FaTrashRestore } from 'react-icons/fa'
-import { Breadcrumb, Image, Modal } from "react-bootstrap";
+import { Breadcrumb, Image, Modal, ResponsiveEmbed } from "react-bootstrap";
 
 export default class DeletedProducts extends Component {
   constructor() {
@@ -130,9 +130,11 @@ export default class DeletedProducts extends Component {
                   <Card.Body>
                     <Row>
                       <Col className="col-4">
-                        <div className="product-image">
-                          <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                        </div>
+                        <ResponsiveEmbed aspectRatio="16by9">
+                          <div className="product-image">
+                            <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                          </div>
+                        </ResponsiveEmbed>
                       </Col>
                       <Col>
                         <Card.Body>

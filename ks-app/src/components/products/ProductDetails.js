@@ -159,6 +159,9 @@ export default class ProductDetails extends Component {
                                     </Row>
                                 </Card.Body>
                                 <Card.Footer>
+                                    {product.deleted &&
+                                        <Card.Subtitle>This product does not exist.</Card.Subtitle>
+                                    }
                                     <Button className="float-right" disabled={!currentUser || product.deleted} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
                                 </Card.Footer>
                             </Card>
