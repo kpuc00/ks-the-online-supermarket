@@ -55,7 +55,7 @@ class CategoryControllerTest {
     @Test
     void getAllCategories() {
         when(categoryService.findAll()).thenReturn(mockCategories);
-        List<Category> actualCategories = categoryController.getAllCategories();
+        List<Category> actualCategories = categoryController.getAllViewableCategories();
         assertEquals(mockCategories, actualCategories);
     }
 

@@ -39,6 +39,16 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public List<Category> getAllByDeletedFalse() {
+        return categoryRepository.getAllByDeletedFalse();
+    }
+
+    @Override
+    public List<Category> getAllByDeletedTrue() {
+        return categoryRepository.getAllByDeletedTrue();
+    }
+
+    @Override
     public Category getOne(long id) {
         return categoryRepository.getOne(id);
     }

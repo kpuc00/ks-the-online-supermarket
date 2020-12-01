@@ -11,6 +11,7 @@ public class Category {
     private Long categoryId;
     @Column(nullable = false, length = 50)
     private String name;
+    private boolean deleted = false;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
@@ -34,5 +35,13 @@ public class Category {
     public Category setName(String name) {
         this.name = name;
         return this;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

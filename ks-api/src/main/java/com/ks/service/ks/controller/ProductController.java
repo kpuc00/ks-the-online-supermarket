@@ -26,7 +26,7 @@ public class ProductController {
 
     @GetMapping // /products
     public @ResponseBody
-    List<Product> getAllProducts() {
+    List<Product> getAllViewableProducts() {
         return productService.getAllByDeletedFalse();
     }
 

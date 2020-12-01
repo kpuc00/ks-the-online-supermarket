@@ -16,5 +16,9 @@ public interface ICategoryService {
 
     List<Category> findAll();
 
+    List<Category> getAllByDeletedFalse();
+
+    List<Category> getAllByDeletedTrue();
+
     Category getOne(long id);
 }
