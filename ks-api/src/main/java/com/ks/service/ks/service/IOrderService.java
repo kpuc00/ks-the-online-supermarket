@@ -12,6 +12,10 @@ public interface IOrderService {
 
     List<Order> getAllProcessingOrders();
 
+    List<Order> getAllNotCollectedOrders();
+
+    List<Order> getAllCollectedOrders();
+
     Boolean existsById(long id);
 
     Optional<Order> findById(long id);

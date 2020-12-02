@@ -27,7 +27,7 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
                   placement="bottom"
                   overlay={
                     <Tooltip id={`tooltip-bottom`}>
-                      {`${cartCount} items in your cart`}
+                      {`${cartCount} item(s) in your cart`}
                     </Tooltip>
                   }
                 >

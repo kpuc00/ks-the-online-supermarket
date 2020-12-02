@@ -7,10 +7,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment';
-import { Breadcrumb, Card } from "react-bootstrap";
+import { Breadcrumb, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default class OrderDetails extends Component {
+export default class OrderShipment extends Component {
     constructor() {
         super()
         this.state = {
@@ -65,6 +65,63 @@ export default class OrderDetails extends Component {
         })
     }
 
+    finalizeOrder() {
+        const orderId = this.state.order.orderId
+        const orderStatus = this.state.order.status
+        const deliveryMethod = this.state.order.deliveryMethod
+        let order
+        if (orderStatus === "PROCESSING") {
+            if (deliveryMethod === "Pick up") {
+                order = {
+                    status: "READY"
+                }
+            }
+            else if (deliveryMethod === "Home delivery") {
+                order = {
+                    status: "TRAVELLING"
+                }
+            }
+            Axios.post(`/orders/send/${orderId}`, order, { headers: authHeader() }).then(
+                res => {
+                    if (res.status === 200) {
+                        this.props.history.push("/ordersmanager");
+                        window.location.reload();
+                    }
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    });
+                }
+            )
+        }
+        else {
+            if (orderStatus === "READY") {
+                order = {
+                    status: "FINISHED"
+                }
+            }
+            else if (orderStatus === "TRAVELLING") {
+                order = {
+                    status: "DELIVERED"
+                }
+            }
+            Axios.post(`/orders/deliver/${orderId}`, order, { headers: authHeader() }).then(
+                res => {
+                    if (res.status === 200) {
+                        this.props.history.push("/ordersmanager");
+                        window.location.reload();
+                    }
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    });
+                }
+            )
+        }
+    }
+
     render() {
         let { order, orderDetails, details, loaded, content } = this.state
         return (
@@ -72,8 +129,8 @@ export default class OrderDetails extends Component {
                 <Row><Col>
                     <h3>Order details</h3>
                     <Breadcrumb>
-                        <Breadcrumb.Item href="/orders">My orders</Breadcrumb.Item>
-                        <Breadcrumb.Item active>Order details</Breadcrumb.Item>
+                        <Breadcrumb.Item href="/ordersmanager">Orders manager</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Order № {order?.orderId}</Breadcrumb.Item>
                     </Breadcrumb>
                 </Col></Row>
                 {(!loaded && !content) &&
@@ -101,10 +158,8 @@ export default class OrderDetails extends Component {
                                 <Card.Header>
                                     <Card.Title>Order № {order.orderId}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                    <Card.Subtitle className="mb-2 text-muted">Delivered on: {order.deliveredDate ? Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm') : <span>Pending...</span>}</Card.Subtitle>
                                 </Card.Header>
                                 <Card.Body>
-                                    {console.log(order)}
                                     <Card.Subtitle className="mb-3">Status: {order.status}</Card.Subtitle>
                                     <Card.Text>Delivery method: {order.deliveryMethod} {order.deliveryAddress && <span>to address: {order.deliveryAddress}</span>}</Card.Text>
                                     <Card.Text>Payment method: {order.paymentMethod}</Card.Text>
@@ -127,6 +182,11 @@ export default class OrderDetails extends Component {
                                         <Card.Subtitle>Total price: {order.totalPrice?.toFixed(2)} €</Card.Subtitle>
                                     </Col>
                                 </Card.Body>
+                                <Card.Footer>
+                                    {order.status !== "DELIVERED" &&
+                                        <Button className="float-right" variant="success" onClick={() => this.finalizeOrder()}>Finalize order</Button>
+                                    }
+                                </Card.Footer>
                             </Card>
                         }
                     </Col>

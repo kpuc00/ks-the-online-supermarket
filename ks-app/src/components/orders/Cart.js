@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { Image, Modal, ResponsiveEmbed } from "react-bootstrap"
+import { Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { FaTrash } from 'react-icons/fa'
 
@@ -23,7 +23,11 @@ export default class Cart extends Component {
             cartEmpty: false,
             content: "",
             showDialog: false,
-            setShowDialog: false,
+            setShowClearCartDialog: false,
+            setShowOrderDialog: false,
+            deliveryMethod: "Pick up",
+            userHomeAddress: null,
+            paymentMethod: "Cash"
         }
     }
 
@@ -110,11 +114,26 @@ export default class Cart extends Component {
                     })
                 }
             )
-        this.handleCloseDialog()
+        this.handleCloseClearCartDialog()
     }
 
     submitOrder() {
-        Axios.put(`/orders/cart`, this.state.order, { headers: authHeader() })
+        const deliveryMethod = this.state.deliveryMethod
+        const paymentMethod = this.state.paymentMethod
+        let homeAddress = this.state.userHomeAddress
+
+        if (deliveryMethod !== "Home delivery") {
+            homeAddress = null
+        }
+
+        const order = {
+            ...this.state.order,
+            deliveryMethod: deliveryMethod,
+            deliveryAddress: homeAddress,
+            paymentMethod: paymentMethod
+        }
+        console.log(order)
+        Axios.put(`/orders/cart`, order, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {
@@ -130,20 +149,54 @@ export default class Cart extends Component {
             )
     }
 
-    handleShowDialog = () => {
+    handleChange = (e) => {
+        const { name, value } = e.target
         this.setState({
-            setShowDialog: true
+            ...this.state,
+            [name]: value
         })
     }
 
-    handleCloseDialog = () => {
+    handleShowClearCartDialog = () => {
         this.setState({
-            setShowDialog: false
+            setShowClearCartDialog: true
+        })
+    }
+
+    handleCloseClearCartDialog = () => {
+        this.setState({
+            setShowClearCartDialog: false
+        })
+    }
+
+    handleShowOrderDialog = () => {
+        Axios.get(`/users/${this.state.currentUser.id}`, { headers: authHeader() })
+            .then(
+                res => {
+                    console.log(res.data)
+                    if (res.status === 200) {
+                        this.setState({
+                            userHomeAddress: res.data.address,
+                            setShowOrderDialog: true
+                        })
+                    }
+                },
+                () => {
+                    this.setState({
+                        content: "Something went wrong! Please try again later."
+                    })
+                }
+            )
+    }
+
+    handleCloseOrderDialog = () => {
+        this.setState({
+            setShowOrderDialog: false
         })
     }
 
     render() {
-        let { cartEmpty, loaded, content, order, orderDetails, setShowDialog } = this.state
+        let { cartEmpty, loaded, content, order, orderDetails, setShowClearCartDialog, setShowOrderDialog } = this.state
 
         return (
             <Container className="p-1">
@@ -204,7 +257,7 @@ export default class Cart extends Component {
                                     }
                                     <Row><Col>
                                         {!cartEmpty &&
-                                            <Button className="float-right" variant="link" onClick={() => this.handleShowDialog()}>Clear cart</Button>
+                                            <Button className="float-right" variant="link" onClick={() => this.handleShowClearCartDialog()}>Clear cart</Button>
                                         }
                                         <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
                                     </Col></Row>
@@ -217,14 +270,14 @@ export default class Cart extends Component {
                                     </Col>
                                 </Card.Footer>
                                 <Card.Body>
-                                    <Button className="float-right" disabled={cartEmpty} onClick={() => this.submitOrder()}>Purchase</Button>
+                                    <Button className="float-right" disabled={cartEmpty} onClick={() => this.handleShowOrderDialog()}>Purchase</Button>
                                 </Card.Body>
 
                             </Card>
                         </Col>
                     </Row>
                 }
-                <Modal show={setShowDialog} onHide={this.handleCloseDialog}>
+                <Modal show={setShowClearCartDialog} onHide={this.handleCloseClearCartDialog}>
                     <Modal.Header closeButton>
                         <Modal.Title>Clear cart</Modal.Title>
                     </Modal.Header>
@@ -237,6 +290,62 @@ export default class Cart extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
+                <Modal show={setShowOrderDialog} onHide={this.handleCloseOrderDialog}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Order</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Select delivery method:</p>
+                        <Form.Group>
+                            <Col>
+                                <Form.Check
+                                    onChange={this.handleChange}
+                                    type="radio"
+                                    label="Pick up point"
+                                    name="deliveryMethod"
+                                    value="Pick up"
+                                    defaultChecked
+                                />
+                                <Form.Check
+                                    onChange={this.handleChange}
+                                    type="radio"
+                                    label="Home delivery"
+                                    name="deliveryMethod"
+                                    value="Home delivery"
+                                />
+                                <Form.Label>Home address:</Form.Label>
+                                <Form.Control disabled={this.state.deliveryMethod !== "Home delivery"} name="userHomeAddress" onChange={this.handleChange} type="address" value={this.state.userHomeAddress} />
+                            </Col>
+                        </Form.Group>
+                        <p>Select payment method:</p>
+                        <Form.Group>
+                            <Col>
+                                <Form.Check
+                                    onChange={this.handleChange}
+                                    type="radio"
+                                    label="Cash"
+                                    name="paymentMethod"
+                                    value="Cash"
+                                    defaultChecked
+                                />
+                                <Form.Check
+                                    onChange={this.handleChange}
+                                    type="radio"
+                                    label="Card"
+                                    name="paymentMethod"
+                                    value="Card"
+                                />
+                            </Col>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" onClick={() => this.submitOrder()}>
+                            Order now
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
             </Container>
         )
     }

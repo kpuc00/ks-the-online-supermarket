@@ -29,6 +29,16 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public List<Order> getAllNotCollectedOrders() {
+        return orderRepository.getAllNotCollectedOrders();
+    }
+
+    @Override
+    public List<Order> getAllCollectedOrders() {
+        return orderRepository.getAllCollectedOrders();
+    }
+
+    @Override
     public Boolean existsById(long id) {
         return orderRepository.existsById(id);
     }

@@ -16,9 +16,13 @@ public class Order {
     private double totalPrice;
     @Column(nullable = false)
     private LocalDateTime orderDate = LocalDateTime.now();
+    private LocalDateTime deliveredDate;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.NOT_CONFIRMED_BY_USER;
+    private String deliveryMethod;
+    private String deliveryAddress;
+    private String paymentMethod;
 
     @ManyToOne(optional = false, targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -55,12 +59,44 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    public LocalDateTime getDeliveredDate() {
+        return deliveredDate;
+    }
+
+    public void setDeliveredDate(LocalDateTime deliveredDate) {
+        this.deliveredDate = deliveredDate;
+    }
+
     public OrderStatus getStatus() {
         return status;
     }
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public User getUser() {

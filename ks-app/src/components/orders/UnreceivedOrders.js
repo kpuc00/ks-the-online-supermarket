@@ -6,10 +6,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment'
-import { Button, Card } from "react-bootstrap"
+import { Breadcrumb, Button, Card } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-export default class OrdersManager extends Component {
+export default class UnreceivedOrders extends Component {
     constructor() {
         super()
         this.state = {
@@ -20,7 +20,7 @@ export default class OrdersManager extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/orders/processing', { headers: authHeader() })
+        Axios.get('/orders/unreceived', { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {
@@ -44,7 +44,13 @@ export default class OrdersManager extends Component {
 
         return (
             <Container className="p-1">
-                <Row><Col><h3>Orders Manager</h3></Col></Row>
+                <Row><Col>
+                    <h3>Unreceived orders</h3>
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="/ordersmanager">Orders manager</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Unreceived orders</Breadcrumb.Item>
+                    </Breadcrumb>
+                </Col></Row>
 
                 {(!ordersLoaded && !content) &&
                     <Row>
@@ -68,10 +74,6 @@ export default class OrdersManager extends Component {
                     <Row>
                         <Col>
                             <Card className="p-3">
-                                <Col className="text-right">
-                                    <Button as={Link} to="/ordersmanager/unreceived" className="mb-2 mr-2" variant="danger">Unreceived orders</Button>
-                                    <Button as={Link} to="/ordersmanager/received" className="mb-2" variant="success">Received orders</Button>
-                                </Col>
                                 {orders.length === 0 &&
                                     <h5>Empty</h5>
                                 }

@@ -36,6 +36,18 @@ public class OrderController {
         return orderService.getAllProcessingOrders();
     }
 
+    @GetMapping("/unreceived")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public List<Order> getNotCollectedOrders() {
+        return orderService.getAllNotCollectedOrders();
+    }
+
+    @GetMapping("/received")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public List<Order> getCollectedOrders() {
+        return orderService.getAllCollectedOrders();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable long id) {
         if (orderService.existsById(id))
@@ -43,6 +55,38 @@ public class OrderController {
                 return new ResponseEntity(orderService.findById(id), HttpStatus.OK);
             else return new ResponseEntity(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/delivery/{id}")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity<Order> getOrderByIdForDelivery(@PathVariable long id) {
+        if (orderService.existsById(id))
+            if (orderService.findById(id).isPresent())
+                return new ResponseEntity(orderService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/send/{id}")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity sendOrder(@PathVariable long id, @RequestBody Order givenOrderInfo) {
+        if (orderService.existsById(id)) {
+            Order order = orderService.getOne(id);
+            order.setStatus(givenOrderInfo.getStatus());
+            orderService.save(order);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/deliver/{id}")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity deliverOrder(@PathVariable long id, @RequestBody Order givenOrderInfo) {
+        if (orderService.existsById(id)) {
+            Order order = orderService.getOne(id);
+            order.setStatus(givenOrderInfo.getStatus());
+            order.setDeliveredDate(LocalDateTime.now());
+            orderService.save(order);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/user")

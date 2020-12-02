@@ -27,6 +27,7 @@ import Orders from './components/orders/Orders'
 import OrderDetails from "./components/orders/OrderDetails"
 import Cart from './components/orders/Cart'
 import OrdersManager from './components/orders/OrdersManager'
+import OrderShipment from "./components/orders/OrderShipment"
 
 import UsersManager from './components/users/UsersManager'
 import AddUser from "./components/users/AddUser"
@@ -35,6 +36,8 @@ import EditUser from "./components/users/EditUser"
 import Footer from "./components/Footer"
 
 import './App.css'
+import UnreceivedOrders from "./components/orders/UnreceivedOrders"
+import ReceivedOrders from "./components/orders/ReceivedOrders"
 
 class App extends Component {
   constructor(props) {
@@ -98,7 +101,10 @@ class App extends Component {
           <Route exact path="/orders" component={Orders} />
           <Route path="/orders/:id" component={OrderDetails} />
           <Route path="/cart" component={Cart} />
-          <Route path="/ordersmanager" component={OrdersManager} />
+          <Route exact path="/ordersmanager" component={OrdersManager} />
+          <Route path="/ordersmanager/unreceived" component={UnreceivedOrders} />
+          <Route path="/ordersmanager/received" component={ReceivedOrders} />
+          <Route path="/ordersmanager/:id" component={OrderShipment} />
 
           <Route exact path="/usersmanager" component={UsersManager} />
           <Route path="/usersmanager/adduser" component={AddUser} />

@@ -6,10 +6,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment'
-import { Button, Card } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Breadcrumb, Button, Card } from "react-bootstrap"
 
-export default class OrdersManager extends Component {
+export default class ReceivedOrders extends Component {
     constructor() {
         super()
         this.state = {
@@ -20,7 +19,7 @@ export default class OrdersManager extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/orders/processing', { headers: authHeader() })
+        Axios.get('/orders/received', { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {
@@ -44,7 +43,13 @@ export default class OrdersManager extends Component {
 
         return (
             <Container className="p-1">
-                <Row><Col><h3>Orders Manager</h3></Col></Row>
+                <Row><Col>
+                    <h3>Received orders</h3>
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="/ordersmanager">Orders manager</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Received orders</Breadcrumb.Item>
+                    </Breadcrumb>
+                </Col></Row>
 
                 {(!ordersLoaded && !content) &&
                     <Row>
@@ -68,10 +73,6 @@ export default class OrdersManager extends Component {
                     <Row>
                         <Col>
                             <Card className="p-3">
-                                <Col className="text-right">
-                                    <Button as={Link} to="/ordersmanager/unreceived" className="mb-2 mr-2" variant="danger">Unreceived orders</Button>
-                                    <Button as={Link} to="/ordersmanager/received" className="mb-2" variant="success">Received orders</Button>
-                                </Col>
                                 {orders.length === 0 &&
                                     <h5>Empty</h5>
                                 }
@@ -90,7 +91,7 @@ export default class OrdersManager extends Component {
                                                         <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
                                                     </Col>
                                                     <Col>
-                                                        <Button as={Link} to={"/ordersmanager/" + order.orderId} className="float-right" variant="warning" >Manage</Button>
+                                                        <Button className="float-right" variant="link" href={"/ordersmanager/" + order.orderId}>See more</Button>
                                                     </Col>
                                                 </Row>
                                             </Card.Body>
