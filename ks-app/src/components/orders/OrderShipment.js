@@ -96,12 +96,7 @@ export default class OrderShipment extends Component {
             )
         }
         else {
-            if (orderStatus === "READY") {
-                order = {
-                    status: "FINISHED"
-                }
-            }
-            else if (orderStatus === "TRAVELLING") {
+            if (orderStatus === ("READY" || "TRAVELLING")) {
                 order = {
                     status: "DELIVERED"
                 }
@@ -158,6 +153,9 @@ export default class OrderShipment extends Component {
                                 <Card.Header>
                                     <Card.Title>Order № {order.orderId}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                    {order.deliveredDate &&
+                                        <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                    }
                                 </Card.Header>
                                 <Card.Body>
                                     <Card.Subtitle className="mb-3">Status: {order.status}</Card.Subtitle>

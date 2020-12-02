@@ -81,7 +81,7 @@ export default class ReceivedOrders extends Component {
                                         <Card className="mb-3" key={order.orderId}>
                                             <Card.Header>
                                                 <Card.Title>Order № {order.orderId}</Card.Title>
-                                                <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                                <Card.Subtitle className="mb-2 text-muted">Delivered on: {order.deliveredDate && Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
                                             </Card.Header>
                                             <Card.Body>
                                                 <Row>
@@ -91,7 +91,7 @@ export default class ReceivedOrders extends Component {
                                                         <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
                                                     </Col>
                                                     <Col>
-                                                        <Button className="float-right" variant="link" href={"/ordersmanager/" + order.orderId}>See more</Button>
+                                                        <Button className="float-right" variant="info" href={"/ordersmanager/" + order.orderId}>See more</Button>
                                                     </Col>
                                                 </Row>
                                             </Card.Body>

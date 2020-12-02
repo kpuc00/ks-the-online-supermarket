@@ -101,7 +101,9 @@ export default class OrderDetails extends Component {
                                 <Card.Header>
                                     <Card.Title>Order № {order.orderId}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                    <Card.Subtitle className="mb-2 text-muted">Delivered on: {order.deliveredDate ? Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm') : <span>Pending...</span>}</Card.Subtitle>
+                                    {order.deliveredDate &&
+                                        <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                    }
                                 </Card.Header>
                                 <Card.Body>
                                     {console.log(order)}
