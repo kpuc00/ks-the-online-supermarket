@@ -64,7 +64,7 @@ class ProductControllerTest {
 
     @Test
     void getAllProducts() {
-        when(productService.findAll()).thenReturn(mockProducts);
+        when(productService.getAllByDeletedFalse()).thenReturn(mockProducts);
         List<Product> actualProducts = productController.getAllViewableProducts();
         assertEquals(mockProducts, actualProducts);
     }

@@ -54,7 +54,7 @@ class CategoryControllerTest {
 
     @Test
     void getAllCategories() {
-        when(categoryService.findAll()).thenReturn(mockCategories);
+        when(categoryService.getAllByDeletedFalse()).thenReturn(mockCategories);
         List<Category> actualCategories = categoryController.getAllViewableCategories();
         assertEquals(mockCategories, actualCategories);
     }
