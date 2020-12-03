@@ -30,6 +30,7 @@ public class UserController {
         return userService.findAll();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable long id) {
         if (userService.existsById(id))

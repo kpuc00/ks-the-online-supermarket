@@ -96,7 +96,7 @@ export default class OrderShipment extends Component {
             )
         }
         else {
-            if (orderStatus === ("READY" || "TRAVELLING")) {
+            if (orderStatus === "READY" || orderStatus === "TRAVELLING") {
                 order = {
                     status: "DELIVERED"
                 }
