@@ -2,14 +2,23 @@ import React from "react"
 import { Link } from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import { Badge, NavDropdown, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { Badge, Image, NavDropdown, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { FaShoppingCart } from 'react-icons/fa'
 
 const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut, cartCount }) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Nav.Item>
-        <Navbar.Brand as={Link} to="/">KS Supermarket</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <Image
+            alt="KS"
+            src="/images/kssupermarket-logo.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{' '}
+          KS Supermarket
+        </Navbar.Brand>
       </Nav.Item>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

@@ -64,8 +64,8 @@ export default class OrdersManager extends Component {
                                     <h4>Pending orders</h4>
                                 </Col>
                                 <Col className="text-right">
-                                    <Button as={Link} to="/ordersmanager/unreceived" className="mb-2 mr-2" variant="danger">Unreceived orders</Button>
-                                    <Button as={Link} to="/ordersmanager/received" className="mb-2" variant="success">Received orders</Button>
+                                    <Button as={Link} to="/ordersmanager/unreceived" variant="danger">Unreceived orders</Button>
+                                    <Button as={Link} to="/ordersmanager/received" className="m-1" variant="success">Received orders</Button>
                                 </Col>
                             </Row>
                             {orders.length === 0 &&
