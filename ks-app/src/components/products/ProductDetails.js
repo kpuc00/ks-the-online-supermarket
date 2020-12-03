@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaCartPlus } from 'react-icons/fa'
-import { Breadcrumb, Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap"
+import { Alert, Breadcrumb, Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap"
 
 export default class ProductDetails extends Component {
     constructor() {
@@ -62,7 +62,7 @@ export default class ProductDetails extends Component {
     }
 
     handleChangeProductQuantity = (e) => {
-        const quantity = (e.target.value > 0 || e.target.value === "") ? e.target.value : 1
+        const quantity = ((e.target.value > 0 && e.target.value <= 50) || e.target.value === "") ? e.target.value : 1
         const amount = quantity * this.state.product.price
         if (quantity < 1) {
             this.setState({
@@ -106,68 +106,60 @@ export default class ProductDetails extends Component {
         let { productLoaded, product, productQuantity, invalidQuantity, amount, currentUser, content, setShowDialog } = this.state
 
         return (
-            <Container className="p-1">
-                <Row><Col>
-                    <h3>Product details</h3>
+            <Container>
+                    <h3 className="my-4">Product details</h3>
                     <Breadcrumb>
                         <Breadcrumb.Item href="/products">Products</Breadcrumb.Item>
                         <Breadcrumb.Item active>{product?.name}</Breadcrumb.Item>
                     </Breadcrumb>
-                </Col></Row>
 
-                {(!productLoaded && !content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                }
-                {content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
-                }
-                {productLoaded &&
-                    <Row>
-                        <Col>
-                            <Card>
-                                <Card.Header>
-                                    <Card.Title className="m-0">{product.name}</Card.Title>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Row>
-                                        <Col className="col-4">
-                                            <ResponsiveEmbed aspectRatio="16by9">
-                                                <div className="product-image">
-                                                    <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                                                </div>
-                                            </ResponsiveEmbed>
-                                        </Col>
-                                        <Col >
-                                            <Card.Body>
-                                                <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
-                                                <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
-                                                <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
-                                            </Card.Body>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                                <Card.Footer>
-                                    {product.deleted &&
-                                        <Card.Subtitle>This product does not exist.</Card.Subtitle>
-                                    }
-                                    <Button className="float-right" disabled={!currentUser || product.deleted} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
-                                </Card.Footer>
-                            </Card>
-                        </Col>
-                    </Row>
-                }
+
+                    {(!productLoaded && !content) &&
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    }
+                    {content &&
+                        <header className="jumbotron">
+                            <h3>{content}</h3>
+                        </header>
+                    }
+                    {!currentUser &&
+                        <Alert variant="warning">
+                            <big>You must be logged in to be able to buy!</big>
+                        </Alert>
+                    }
+                    {productLoaded &&
+                        <Card>
+                            <Card.Header>
+                                <Card.Title className="m-0">{product.name}</Card.Title>
+                            </Card.Header>
+                            <Card.Body>
+                                <Row>
+                                    <Col className="col-4">
+                                        <ResponsiveEmbed aspectRatio="16by9">
+                                            <div className="product-image">
+                                                <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                                            </div>
+                                        </ResponsiveEmbed>
+                                    </Col>
+                                    <Col >
+                                        <Card.Body>
+                                            <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
+                                            <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
+                                            <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
+                                        </Card.Body>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                            <Card.Footer>
+                                {product.deleted &&
+                                    <Card.Subtitle>This product does not exist.</Card.Subtitle>
+                                }
+                                <Button className="float-right" disabled={!currentUser || product.deleted} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
+                            </Card.Footer>
+                        </Card>
+                    }
 
                 <Modal show={setShowDialog} onHide={this.handleCloseDialog}>
                     <Modal.Header closeButton>
@@ -175,7 +167,7 @@ export default class ProductDetails extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group controlId="productQuantity">
-                            <Form.Label>Quantity</Form.Label>
+                            <Form.Label>Quantity (max. 50)</Form.Label>
                             <Form.Control name="productQuantity" onChange={this.handleChangeProductQuantity} type="number" value={productQuantity} />
                         </Form.Group>
                         <strong>Total:</strong> {amount?.toFixed(2)} €
@@ -186,7 +178,7 @@ export default class ProductDetails extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </Container >
+            </Container>
         )
     }
 }

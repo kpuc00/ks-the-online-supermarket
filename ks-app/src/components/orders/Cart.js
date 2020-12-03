@@ -199,83 +199,67 @@ export default class Cart extends Component {
         let { cartEmpty, loaded, content, order, orderDetails, setShowClearCartDialog, setShowOrderDialog } = this.state
 
         return (
-            <Container className="p-1">
-                <Row>
-                    <Col>
-                        <h3>Your shopping cart</h3>
-                    </Col>
-                </Row>
+            <Container>
+                <h3 className="my-4">Your shopping cart</h3>
 
                 {(!loaded && !content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
                 }
                 {content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
+                    <header className="jumbotron">
+                        <h3>{content}</h3>
+                    </header>
                 }
                 {loaded &&
-                    <Row>
-                        <Col>
-                            <Card className="mb-2">
-                                <Card.Body>
-                                    {cartEmpty ? <h5>Empty</h5>
-                                        :
-                                        orderDetails.map(details => (
-                                            <Card className="mb-3" key={details.id}>
-                                                <Card.Header>
-                                                    <big><Card.Title className="m-0" as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name}</Card.Title></big>
-                                                </Card.Header>
-                                                <Card.Body>
-                                                    <Row>
-                                                        <Col className="col-3">
-                                                            <ResponsiveEmbed aspectRatio="16by9">
-                                                                <div className="product-image">
-                                                                    <Image src={details.product.image ? (`data:image/png;base64,${details.product.image}`) : ("/images/product/default.jpg")} />
-                                                                </div>
-                                                            </ResponsiveEmbed>
-                                                        </Col>
-                                                        <Col className="text-right">
-                                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
-                                                            <Card.Subtitle>Total: {details.amount.toFixed(2)} €</Card.Subtitle>
-                                                        </Col>
-                                                    </Row>
-                                                    <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
-                                                </Card.Body>
-                                            </Card>
-                                        ))
-                                    }
-                                    <Row><Col>
-                                        {!cartEmpty &&
-                                            <Button className="float-right" variant="link" onClick={() => this.handleShowClearCartDialog()}>Clear cart</Button>
-                                        }
-                                        <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
-                                    </Col></Row>
-                                </Card.Body>
+                    <Card>
+                        <Card.Body>
+                            {cartEmpty ? <h5>Empty</h5>
+                                :
+                                orderDetails.map(details => (
+                                    <Card className="my-3" key={details.id}>
+                                        <Card.Header>
+                                            <big><Card.Title className="m-0" as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name}</Card.Title></big>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Row>
+                                                <Col className="col-3">
+                                                    <ResponsiveEmbed aspectRatio="16by9">
+                                                        <div className="product-image">
+                                                            <Image src={details.product.image ? (`data:image/png;base64,${details.product.image}`) : ("/images/product/default.jpg")} />
+                                                        </div>
+                                                    </ResponsiveEmbed>
+                                                </Col>
+                                                <Col className="text-right">
+                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
+                                                    <Card.Subtitle>Total: {details.amount.toFixed(2)} €</Card.Subtitle>
+                                                </Col>
+                                            </Row>
+                                            <Button variant="link" onClick={() => this.deleteProduct(details.id)}>Remove</Button>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                            <Row><Col>
+                                {!cartEmpty &&
+                                    <Button className="float-right" variant="link" onClick={() => this.handleShowClearCartDialog()}>Clear cart</Button>
+                                }
+                                <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
+                            </Col></Row>
+                        </Card.Body>
 
-                                <Card.Footer>
-                                    <Col className="text-right">
-                                        <Card.Subtitle>{orderDetails.length} item(s)</Card.Subtitle>
-                                        <Card.Title className="m-0">Total price: {cartEmpty ? "0.00" : order.totalPrice?.toFixed(2)} €</Card.Title>
-                                    </Col>
-                                </Card.Footer>
-                                <Card.Body>
-                                    <Button className="float-right" disabled={cartEmpty} onClick={() => this.handleShowOrderDialog()}>Purchase</Button>
-                                </Card.Body>
+                        <Card.Footer>
+                            <Col className="text-right">
+                                <Card.Subtitle>{orderDetails.length} item(s)</Card.Subtitle>
+                                <Card.Title className="m-0">Total price: {cartEmpty ? "0.00" : order.totalPrice?.toFixed(2)} €</Card.Title>
+                            </Col>
+                        </Card.Footer>
+                        <Card.Body>
+                            <Button className="float-right" disabled={cartEmpty} onClick={() => this.handleShowOrderDialog()}>Purchase</Button>
+                        </Card.Body>
 
-                            </Card>
-                        </Col>
-                    </Row>
+                    </Card>
                 }
                 <Modal show={setShowClearCartDialog} onHide={this.handleCloseClearCartDialog}>
                     <Modal.Header closeButton>

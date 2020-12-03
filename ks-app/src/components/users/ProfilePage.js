@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import AuthService from "../../services/auth-service";
 
 export default class Profile extends Component {
@@ -19,52 +19,44 @@ export default class Profile extends Component {
     }
     else
       return (
-        <Container className="p-1">
-          <Row>
-            <Col>
-              <header className="jumbotron">
-                <h3>
-                  <strong>{currentUser.firstName} {currentUser.lastName}</strong> Profile
-                </h3>
-              </header>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <p>
-                <strong>Username:</strong>{" "}
-                {currentUser.username}
+        <Container>
+          <header className="jumbotron my-4">
+            <h3>
+              <strong>{currentUser.firstName} {currentUser.lastName}</strong> Profile
+            </h3>
+          </header>
+          <p>
+            <strong>Username:</strong>{" "}
+            {currentUser.username}
+          </p>
+          <p>
+            <strong>Email:</strong>{" "}
+            {currentUser.email}
+          </p>
+          <p>
+            <strong>Address:</strong>{" "}
+            {
+              currentUser.address &&
+              <span>{currentUser.address}</span>
+            }
+            {
+              !currentUser.address &&
+              <span>Not added</span>
+            }
+          </p>
+          <p>
+            <strong>Phone:</strong>{" "}
+            {currentUser.phone}
+          </p>
+          <p>
+            <strong>Total costs:</strong>{" "}
+            {currentUser.totalCosts} €
               </p>
-              <p>
-                <strong>Email:</strong>{" "}
-                {currentUser.email}
-              </p>
-              <p>
-                <strong>Address:</strong>{" "}
-                {
-                  currentUser.address &&
-                  <span>{currentUser.address}</span>
-                }
-                {
-                  !currentUser.address &&
-                  <span>Not added</span>
-                }
-              </p>
-              <p>
-                <strong>Phone:</strong>{" "}
-                {currentUser.phone}
-              </p>
-              <p>
-                <strong>Total costs:</strong>{" "}
-                {currentUser.totalCosts} €
-              </p>
-              <strong>Authorities:</strong>
-              <ul>
-                {currentUser.roles &&
-                  currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-              </ul>
-            </Col>
-          </Row>
+          <strong>Authorities:</strong>
+          <ul>
+            {currentUser.roles &&
+              currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+          </ul>
         </Container>
       );
   }

@@ -2,15 +2,13 @@ import React, { Component } from "react"
 import Container from 'react-bootstrap/Container'
 import Axios from "axios"
 import authHeader from '../../services/auth-header';
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import { Link } from "react-router-dom"
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { Modal } from "react-bootstrap";
 
-class UsersManager extends Component {
+export default class UsersManager extends Component {
     constructor() {
         super()
         this.state = {
@@ -71,63 +69,48 @@ class UsersManager extends Component {
         let { usersLoaded, users } = this.state
 
         return (
-            <Container className="p-1">
-                <Row><Col><h3>Users Manager</h3></Col></Row>
+            <Container>
+                <h3 className="my-4">Users Manager</h3>
 
-                {
-                    (!usersLoaded && !this.state.content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
+                {(!usersLoaded && !this.state.content) &&
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
                 }
-                {
-                    this.state.content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{this.state.content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
+                {this.state.content &&
+                    <header className="jumbotron">
+                        <h3>{this.state.content}</h3>
+                    </header>
                 }
-                {
-                    (usersLoaded && !this.state.content) &&
-                    <Row>
-                        <Col>
-                            {users.map(user => (
-                                <div key={user.id}>
-                                    <h5>{user.firstName} {user.lastName}</h5>
-                                    <ul>
-                                        {
-                                            user.address &&
-                                            <li>Address: {user.address}</li>
-                                        }
-                                        {
-                                            !user.address &&
-                                            <li>Address: Not added</li>
-                                        }
-                                        <li>Email: {user.email}</li>
-                                        <li>Phone: {user.phone}</li>
-                                        <li>Total costs: {user.totalCosts.toFixed(2)} €</li>
-                                        <li>Roles:</li>
-                                        <ul>
-                                            {user.roles &&
-                                                user.roles.map(role => (
-                                                    <li key={role.id}>{role.name}</li>
-                                                ))}
-                                        </ul>
+                {(usersLoaded && !this.state.content) &&
+                    users.map(user => (
+                        <div key={user.id}>
+                            <h5>{user.firstName} {user.lastName}</h5>
+                            <ul>
+                                {
+                                    user.address &&
+                                    <li>Address: {user.address}</li>
+                                }
+                                {
+                                    !user.address &&
+                                    <li>Address: Not added</li>
+                                }
+                                <li>Email: {user.email}</li>
+                                <li>Phone: {user.phone}</li>
+                                <li>Total costs: {user.totalCosts.toFixed(2)} €</li>
+                                <li>Roles:</li>
+                                <ul>
+                                    {user.roles &&
+                                        user.roles.map(role => (
+                                            <li key={role.id}>{role.name}</li>
+                                        ))}
+                                </ul>
 
-                                        <Button as={Link} to={"/usersmanager/edituser/" + user.id} variant="warning"><FaEdit /></Button>
-                                        <Button variant="danger" onClick={() => this.handleShowDialog(user)}><FaTrash /></Button>
-                                    </ul>
-                                </div>
-                            ))}
-                        </Col>
-                    </Row>
+                                <Button as={Link} to={"/usersmanager/edituser/" + user.id} variant="warning"><FaEdit /></Button>
+                                <Button variant="danger" onClick={() => this.handleShowDialog(user)}><FaTrash /></Button>
+                            </ul>
+                        </div>
+                    ))
                 }
 
                 <Modal show={this.state.setShowDialog} onHide={this.handleCloseDialog}>
@@ -146,5 +129,3 @@ class UsersManager extends Component {
         )
     }
 }
-
-export default UsersManager

@@ -2,12 +2,10 @@ import React, { Component } from "react"
 import Axios from "axios"
 import authHeader from '../../services/auth-header';
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import UserForm from './UserForm'
 import Spinner from 'react-bootstrap/Spinner'
 
-class EditCustomer extends Component {
+export default class EditCustomer extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -74,32 +72,22 @@ class EditCustomer extends Component {
     }
 
     render() {
-        let { userLoaded, user } = this.state
-        if (!userLoaded) {
-            return (
-                <Container>
-                    <Row>
-                        <Col>
-                            <h3>Edit user</h3>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                </Container>
-            )
-        }
+        let { userLoaded, user, message } = this.state
         return (
             <Container>
-                <Row>
-                    <Col>
-                        <h3>Edit Customer</h3>
-                        <UserForm handleChange={this.handleChange} submitUser={this.handleSubmit} user={user} />
-                    </Col>
-                </Row>
+                <h3 className="my-4">Edit Customer</h3>
+                {(!userLoaded && !message) &&
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                }
+                {message &&
+                    <header className="jumbotron">
+                        <h3>{message}</h3>
+                    </header>
+                }
+                <UserForm handleChange={this.handleChange} submitUser={this.handleSubmit} user={user} />
             </Container >
         )
     }
 }
-
-export default EditCustomer

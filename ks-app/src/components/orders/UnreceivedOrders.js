@@ -43,67 +43,54 @@ export default class UnreceivedOrders extends Component {
         let { ordersLoaded, orders, content } = this.state
 
         return (
-            <Container className="p-1">
-                <Row><Col>
-                    <h3>Unreceived orders</h3>
-                    <Breadcrumb>
-                        <Breadcrumb.Item href="/ordersmanager">Orders manager</Breadcrumb.Item>
-                        <Breadcrumb.Item active>Unreceived orders</Breadcrumb.Item>
-                    </Breadcrumb>
-                </Col></Row>
+            <Container>
+                <h3 className="my-4">Unreceived orders</h3>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/ordersmanager">Orders manager</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Unreceived orders</Breadcrumb.Item>
+                </Breadcrumb>
 
                 {(!ordersLoaded && !content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
                 }
                 {content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
+                    <header className="jumbotron">
+                        <h3>{content}</h3>
+                    </header>
                 }
                 {ordersLoaded &&
-                    <Row>
-                        <Col>
-                            <Card className="p-3">
-                                {orders.length === 0 &&
-                                    <h5>Empty</h5>
-                                }
-                                {orders &&
-                                    orders.map(order => (
-                                        <Card className="mb-3" key={order.orderId}>
-                                            <Card.Header>
-                                                <Card.Title>Order № {order.orderId}</Card.Title>
-                                                <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <Row>
-                                                    <Col>
-                                                        <Card.Subtitle className="m-1">Customer: {order.user.firstName} {order.user.lastName}</Card.Subtitle>
-                                                        <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
-                                                        <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
-                                                    </Col>
-                                                    <Col>
-                                                        <Button as={Link} to={"/ordersmanager/" + order.orderId} className="float-right" variant="warning" >Manage</Button>
-                                                    </Col>
-                                                </Row>
-                                            </Card.Body>
-                                        </Card>
-                                    ))
-                                }
-                            </Card>
-                        </Col>
-                    </Row>
+                    <Card>
+                        <Card.Body>
+                            {orders.length === 0 &&
+                                <h5>Empty</h5>
+                            }
+                            {orders &&
+                                orders.map(order => (
+                                    <Card className="my-3" key={order.orderId}>
+                                        <Card.Header>
+                                            <Card.Title>Order № {order.orderId}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Row>
+                                                <Col>
+                                                    <Card.Subtitle className="m-1">Customer: {order.user.firstName} {order.user.lastName}</Card.Subtitle>
+                                                    <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
+                                                    <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
+                                                </Col>
+                                                <Col>
+                                                    <Button as={Link} to={"/ordersmanager/" + order.orderId} className="float-right" variant="warning" >Manage</Button>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                        </Card.Body>
+                    </Card>
                 }
-
             </Container>
         )
     }

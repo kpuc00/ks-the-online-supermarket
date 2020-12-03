@@ -173,94 +173,76 @@ export default class StockManager extends Component {
     let { productsLoaded, categoriesLoaded, products, categories, selectedCategoryId, newCategoryName } = this.state
 
     return (
-      <Container className="p-1">
-        <Row>
-          <h3>Stock manager</h3>
-        </Row>
+      <Container>
+        <h3 className="my-4">Stock manager</h3>
 
         {(!productsLoaded && !this.state.content) &&
-          <Row>
-            <Col>
-              <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            </Col>
-          </Row>
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
         }
         {this.state.content &&
-          <Row>
-            <Col>
-              <header className="jumbotron">
-                <h3>{this.state.content}</h3>
-              </header>
-            </Col>
-          </Row>
+          <header className="jumbotron">
+            <h3>{this.state.content}</h3>
+          </header>
         }
         {categoriesLoaded &&
-          <Row>
-            <Col>
-              <Card className="mb-3">
-                <Card.Header>
-                  <Card.Title className="m-0">Categories</Card.Title>
-                </Card.Header>
-                <Card.Body>
-                  <Button className="mb-2" variant="primary" onClick={this.addCategoryDialog}><FaPlus /> Add new category</Button>
-                  <Form.Group controlId="categoryId">
-                    <Form.Label>Select to manage:</Form.Label>
-                    <Form.Control as="select" name="categoryId" onChange={this.handleChangeCategory}>
-                      <option selected disabled>Category</option>
-                      {categories.map(category => (
-                        <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+          <Card>
+            <Card.Header>
+              <Card.Title className="m-0">Categories</Card.Title>
+            </Card.Header>
+            <Card.Body>
+              <Button className="mb-2" variant="primary" onClick={this.addCategoryDialog}><FaPlus /> Add new category</Button>
+              <Form.Group controlId="categoryId">
+                <Form.Label>Select to manage:</Form.Label>
+                <Form.Control as="select" name="categoryId" onChange={this.handleChangeCategory}>
+                  <option selected disabled>Category</option>
+                  {categories.map(category => (
+                    <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </Card.Body>
+          </Card>
         }
         {productsLoaded &&
-          <Card>
+          <Card className="my-3">
             <Card.Header>
               <Card.Title className="m-0">Products</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Row>
-                <Col>
-                  <Button as={Link} to="/stockmanager/addproduct" variant="primary"><FaPlus /> Add new product</Button>
-                  <Button as={Link} to="/stockmanager/deletedproducts" variant="secondary" className="float-right"><FaTrash /> Deleted products</Button>
+              <Button as={Link} to="/stockmanager/addproduct" variant="primary"><FaPlus /> Add new product</Button>
+              <Button as={Link} to="/stockmanager/deletedproducts" variant="secondary" className="float-right"><FaTrash /> Deleted products</Button>
 
-                  {products.map(product => (
-                    <Card key={product.productId} className="m-3">
-                      <Card.Header>
-                        <Card.Title className="m-0">{product.name}</Card.Title>
-                      </Card.Header>
-                      <Card.Body>
-                        <Row>
-                          <Col className="col-4">
-                            <ResponsiveEmbed aspectRatio="16by9">
-                              <div className="product-image">
-                                <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                              </div>
-                            </ResponsiveEmbed>
-                          </Col>
-                          <Col>
-                            <Card.Body>
-                              <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
-                              <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
-                              <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
-                            </Card.Body>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Footer>
-                        <Button as={Link} to={"/stockmanager/editproduct/" + product.productId} variant="warning"><FaEdit /> Edit</Button>
-                        <Button className="float-right" onClick={() => this.handleShowProductDialog(product)} variant="danger"><FaTrash /> Delete</Button>
-                      </Card.Footer>
-                    </Card>
-                  ))}
-                </Col>
-              </Row>
+              {products.map(product => (
+                <Card key={product.productId} className="my-3">
+                  <Card.Header>
+                    <Card.Title className="m-0">{product.name}</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    <Row>
+                      <Col className="col-4">
+                        <ResponsiveEmbed aspectRatio="16by9">
+                          <div className="product-image">
+                            <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                          </div>
+                        </ResponsiveEmbed>
+                      </Col>
+                      <Col>
+                        <Card.Body>
+                          <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
+                          <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
+                          <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
+                        </Card.Body>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Button as={Link} to={"/stockmanager/editproduct/" + product.productId} variant="warning"><FaEdit /> Edit</Button>
+                    <Button className="float-right" onClick={() => this.handleShowProductDialog(product)} variant="danger"><FaTrash /> Delete</Button>
+                  </Card.Footer>
+                </Card>
+              ))}
             </Card.Body>
           </Card>
         }

@@ -83,32 +83,22 @@ export default class Orders extends Component {
     render() {
         let { ordersLoaded, orders, content, empty, orderPlaced } = this.state
         return (
-            <Container className="p-1">
-                <Row>
-                    <Col>
-                        <h3>My orders</h3>
-                    </Col>
-                </Row>
+            <Container>
+                <h3 className="my-4">My orders</h3>
                 {(!ordersLoaded && !content) &&
-                    <Row>
-                        <Col>
-                            {empty ? <h5>You have not ordered yet.</h5>
-                                :
-                                <Spinner animation="border" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </Spinner>
-                            }
-                        </Col>
-                    </Row>
+                    <>
+                        {empty ? <h5>You have not ordered yet.</h5>
+                            :
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        }
+                    </>
                 }
                 {content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
+                    <header className="jumbotron">
+                        <h3>{content}</h3>
+                    </header>
                 }
                 {orderPlaced &&
                     <Alert variant="success">
@@ -116,43 +106,41 @@ export default class Orders extends Component {
                     </Alert>
                 }
                 {ordersLoaded &&
-                    <Row>
-                        <Col>
-                            <Card className="p-3">
-                                {orders &&
-                                    orders.map(order => (
-                                        <Card className="mb-3" key={order.orderId}>
-                                            <Card.Header>
-                                                <Card.Title>Order № {order.orderId}</Card.Title>
-                                                <Card.Subtitle className="mb-2 text-muted">
-                                                    {order.deliveredDate ?
-                                                        <span>Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</span>
-                                                        :
-                                                        <span>Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</span>
-                                                    }
-                                                </Card.Subtitle>
-                                            </Card.Header>
+                    <Card>
+                        <Card.Body>
+                            {orders &&
+                                orders.map(order => (
+                                    <Card className="my-3" key={order.orderId}>
+                                        <Card.Header>
+                                            <Card.Title>Order № {order.orderId}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">
+                                                {order.deliveredDate ?
+                                                    <span>Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</span>
+                                                    :
+                                                    <span>Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</span>
+                                                }
+                                            </Card.Subtitle>
+                                        </Card.Header>
 
-                                            <Card.Body>
-                                                <Row>
-                                                    <Col>
-                                                        <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
-                                                        <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
-                                                    </Col>
-                                                    <Col>
-                                                        {(order.status === "PROCESSING") &&
-                                                            <Button className="float-right" variant="danger" onClick={() => this.cancelOrder(order.orderId)}>Cancel order</Button>
-                                                        }
-                                                        <Button className="float-right" variant="link" href={"/orders/" + order.orderId}>See more</Button>
-                                                    </Col>
-                                                </Row>
-                                            </Card.Body>
-                                        </Card>
-                                    ))
-                                }
-                            </Card>
-                        </Col>
-                    </Row>
+                                        <Card.Body>
+                                            <Row>
+                                                <Col>
+                                                    <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
+                                                    <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
+                                                </Col>
+                                                <Col>
+                                                    {(order.status === "PROCESSING") &&
+                                                        <Button className="float-right" variant="danger" onClick={() => this.cancelOrder(order.orderId)}>Cancel order</Button>
+                                                    }
+                                                    <Button className="float-right" variant="link" href={"/orders/" + order.orderId}>See more</Button>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                        </Card.Body>
+                    </Card>
                 }
             </Container>
         )

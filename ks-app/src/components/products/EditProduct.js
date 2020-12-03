@@ -2,8 +2,6 @@ import React, { Component } from "react"
 import Axios from "axios"
 import authHeader from '../../services/auth-header'
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import ProductForm from './ProductForm'
 import Spinner from 'react-bootstrap/Spinner'
 
@@ -154,35 +152,21 @@ export default class EditProduct extends Component {
     render() {
         let { productLoaded, categoriesLoaded, product, categories, content, fileError } = this.state
         return (
-            <Container className="p-1">
-                <Row>
-                    <h3>Edit product</h3>
-                </Row>
+            <Container>
+                <h3 className="my-4">Edit product</h3>
 
                 {((!productLoaded || !categoriesLoaded) && !content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
                 }
                 {content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
+                    <header className="jumbotron">
+                        <h3>{content}</h3>
+                    </header>
                 }
                 {(productLoaded && categoriesLoaded) &&
-                    <Row>
-                        <Col>
-                            <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={product} categories={categories} fileInput={this.fileInput} fileError={fileError} />
-                        </Col>
-                    </Row>
+                    <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={product} categories={categories} fileInput={this.fileInput} fileError={fileError} />
                 }
             </Container>
         )

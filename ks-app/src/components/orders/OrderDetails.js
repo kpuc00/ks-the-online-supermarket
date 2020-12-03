@@ -3,7 +3,6 @@ import Axios from "axios"
 import AuthService from "../../services/auth-service";
 import authHeader from '../../services/auth-header';
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment';
@@ -68,71 +67,56 @@ export default class OrderDetails extends Component {
     render() {
         let { order, orderDetails, details, loaded, content } = this.state
         return (
-            <Container className="p-1">
-                <Row><Col>
-                    <h3>Order details</h3>
-                    <Breadcrumb>
-                        <Breadcrumb.Item href="/orders">My orders</Breadcrumb.Item>
-                        <Breadcrumb.Item active>Order details</Breadcrumb.Item>
-                    </Breadcrumb>
-                </Col></Row>
+            <Container>
+                <h3 className="my-4">Order details</h3>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/orders">My orders</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Order details</Breadcrumb.Item>
+                </Breadcrumb>
                 {(!loaded && !content) &&
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
                 }
                 {content &&
-                    <Row>
-                        <Col>
-                            <header className="jumbotron">
-                                <h3>{content}</h3>
-                            </header>
-                        </Col>
-                    </Row>
+                    <header className="jumbotron">
+                        <h3>{content}</h3>
+                    </header>
                 }
-                <Row>
-                    <Col>
-                        {(loaded && order) &&
-                            <Card>
-                                <Card.Header>
-                                    <Card.Title>Order № {order.orderId}</Card.Title>
-                                    <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                    {order.deliveredDate &&
-                                        <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                    }
-                                </Card.Header>
-                                <Card.Body>
-                                    {console.log(order)}
-                                    <Card.Subtitle className="mb-3">Status: {order.status}</Card.Subtitle>
-                                    <Card.Text>Delivery method: {order.deliveryMethod} {order.deliveryAddress && <span>to address: {order.deliveryAddress}</span>}</Card.Text>
-                                    <Card.Text>Payment method: {order.paymentMethod}</Card.Text>
-                                    <Card.Text>Ordered products:</Card.Text>
+                {(loaded && order) &&
+                    <Card>
+                        <Card.Header>
+                            <Card.Title>Order № {order.orderId}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                            {order.deliveredDate &&
+                                <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                            }
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Subtitle className="mb-3">Status: {order.status}</Card.Subtitle>
+                            <Card.Text>Delivery method: {order.deliveryMethod} {order.deliveryAddress && <span>to address: {order.deliveryAddress}</span>}</Card.Text>
+                            <Card.Text>Payment method: {order.paymentMethod}</Card.Text>
+                            <Card.Text>Ordered products:</Card.Text>
 
-                                    {details &&
-                                        orderDetails.map(details => (
-                                            <Card className="mb-3" key={details.id}>
-                                                <Card.Header>
-                                                    <Card.Subtitle as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name} - {details.amount.toFixed(2)} €</Card.Subtitle>
-                                                </Card.Header>
-                                                <Card.Body>
-                                                    <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
-                                                </Card.Body>
-                                            </Card>
-                                        ))
-                                    }
-                                    <Col className="text-right">
-                                        <Card.Subtitle className="mb-2">{orderDetails.length} item(s)</Card.Subtitle>
-                                        <Card.Subtitle>Total price: {order.totalPrice?.toFixed(2)} €</Card.Subtitle>
-                                    </Col>
-                                </Card.Body>
-                            </Card>
-                        }
-                    </Col>
-                </Row>
+                            {details &&
+                                orderDetails.map(details => (
+                                    <Card className="my-3" key={details.id}>
+                                        <Card.Header>
+                                            <Card.Subtitle as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name} - {details.amount.toFixed(2)} €</Card.Subtitle>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                            <Col className="text-right">
+                                <Card.Subtitle className="mb-2">{orderDetails.length} item(s)</Card.Subtitle>
+                                <Card.Subtitle>Total price: {order.totalPrice?.toFixed(2)} €</Card.Subtitle>
+                            </Col>
+                        </Card.Body>
+                    </Card>
+                }
             </Container>
         )
     }

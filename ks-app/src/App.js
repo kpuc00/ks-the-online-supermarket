@@ -30,7 +30,6 @@ import OrdersManager from './components/orders/OrdersManager'
 import OrderShipment from "./components/orders/OrderShipment"
 
 import UsersManager from './components/users/UsersManager'
-import AddUser from "./components/users/AddUser"
 import EditUser from "./components/users/EditUser"
 
 import Footer from "./components/Footer"
@@ -107,7 +106,6 @@ class App extends Component {
           <Route path="/ordersmanager/:id" component={OrderShipment} />
 
           <Route exact path="/usersmanager" component={UsersManager} />
-          <Route path="/usersmanager/adduser" component={AddUser} />
           <Route path="/usersmanager/edituser/:id" component={EditUser} />
 
           <Route exact path="/login" component={Login} />

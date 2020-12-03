@@ -168,7 +168,7 @@ export default class Register extends Component {
 
     render() {
         return (
-            <Container className="p-5">
+            <Container className="my-5">
                 <Card>
                     <Card.Body>
                         <Alert variant="info">Entries with "*" are required!</Alert>
