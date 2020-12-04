@@ -170,7 +170,7 @@ export default class OrderShipment extends Component {
                         </Card.Body>
                         <Card.Footer>
                             {order.status !== "DELIVERED" && (
-                                order.status == "PROCESSING" ?
+                                order.status === "PROCESSING" ?
                                     <Button className="float-right" variant="primary" onClick={() => this.finalizeOrder()}>Process order</Button>
                                     :
                                     <Button className="float-right" variant="success" onClick={() => this.finalizeOrder()}>Finalize order</Button>
