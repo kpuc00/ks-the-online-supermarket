@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Container from 'react-bootstrap/Container'
 import Axios from "axios"
+import AuthService from "../../services/auth-service";
 import authHeader from '../../services/auth-header'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -13,6 +14,7 @@ export default class OrdersManager extends Component {
     constructor() {
         super()
         this.state = {
+            currentUser: AuthService.getCurrentUser(),
             orders: [],
             ordersLoaded: false,
             content: ""
@@ -20,6 +22,10 @@ export default class OrdersManager extends Component {
     }
 
     componentDidMount() {
+        if (!this.state.currentUser) {
+            this.props.history.push("/login");
+            window.location.reload();
+        }
         Axios.get('/orders/processing', { headers: authHeader() })
             .then(
                 res => {

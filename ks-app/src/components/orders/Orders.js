@@ -85,16 +85,13 @@ export default class Orders extends Component {
         return (
             <Container>
                 <h3 className="my-4">My orders</h3>
-                {(!ordersLoaded && !content) &&
-                    <>
-                        {empty ? <h5>You have not ordered yet.</h5>
-                            :
-                            <Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        }
-                    </>
-                }
+                {(!ordersLoaded && !content) && (
+                    empty ? <h5>You have not ordered yet.</h5>
+                        :
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                )}
                 {content &&
                     <header className="jumbotron">
                         <h3>{content}</h3>

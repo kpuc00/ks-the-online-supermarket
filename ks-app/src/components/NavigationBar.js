@@ -28,7 +28,7 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
           </Nav.Item>
         </Nav>
 
-        {currentUser ? (
+        {currentUser ?
           <Nav>
             {cartCount > 0 &&
               <OverlayTrigger
@@ -49,29 +49,29 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
             <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
               <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
               <NavDropdown.Item href="/orders">My orders</NavDropdown.Item>
-              {showModeratorBoard && (
+              {showModeratorBoard &&
                 <>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/ordersmanager">Orders manager</NavDropdown.Item>
                 </>
-              )}
-              {showAdminBoard && (
+              }
+              {showAdminBoard &&
                 <>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/stockmanager">Stock manager</NavDropdown.Item>
                   <NavDropdown.Item href="/usersmanager">Users manager</NavDropdown.Item>
                 </>
-              )}
+              }
               <NavDropdown.Divider />
               <NavDropdown.Item href="/" onClick={logOut}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-        ) : (
-            <Nav>
-              <Nav.Link as={Link} to="/login">Login</Nav.Link>
-              <Nav.Link as={Link} to="/register">Register</Nav.Link>
-            </Nav>
-          )}
+          :
+          <Nav>
+            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/register">Register</Nav.Link>
+          </Nav>
+        }
       </Navbar.Collapse>
     </Navbar>
   )

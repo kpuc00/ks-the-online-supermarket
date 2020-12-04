@@ -106,9 +106,7 @@ export default class DeletedProducts extends Component {
         }
         {productsLoaded &&
           <>
-            {products.length === 0 &&
-              <h5>Empty</h5>
-            }
+            {products.length === 0 && <h5>Empty</h5>}
             {products.map(product => (
               <Card key={product.productId} className="my-3">
                 <Card.Header>

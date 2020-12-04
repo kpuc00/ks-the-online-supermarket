@@ -107,59 +107,61 @@ export default class ProductDetails extends Component {
 
         return (
             <Container>
-                    <h3 className="my-4">Product details</h3>
-                    <Breadcrumb>
-                        <Breadcrumb.Item href="/products">Products</Breadcrumb.Item>
-                        <Breadcrumb.Item active>{product?.name}</Breadcrumb.Item>
-                    </Breadcrumb>
+                <h3 className="my-4">Product details</h3>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/products">Products</Breadcrumb.Item>
+                    <Breadcrumb.Item active>{product?.name}</Breadcrumb.Item>
+                </Breadcrumb>
 
 
-                    {(!productLoaded && !content) &&
-                        <Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
-                    }
-                    {content &&
-                        <header className="jumbotron">
-                            <h3>{content}</h3>
-                        </header>
-                    }
-                    {!currentUser &&
-                        <Alert variant="warning">
-                            <big>You must be logged in to be able to buy!</big>
-                        </Alert>
-                    }
-                    {productLoaded &&
-                        <Card>
-                            <Card.Header>
-                                <Card.Title className="m-0">{product.name}</Card.Title>
-                            </Card.Header>
-                            <Card.Body>
-                                <Row>
-                                    <Col className="col-4">
-                                        <ResponsiveEmbed aspectRatio="16by9">
-                                            <div className="product-image">
-                                                <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                                            </div>
-                                        </ResponsiveEmbed>
-                                    </Col>
-                                    <Col >
-                                        <Card.Body>
-                                            <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
-                                            <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
-                                            <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
-                                        </Card.Body>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                            <Card.Footer>
-                                {product.deleted &&
-                                    <Card.Subtitle>This product does not exist.</Card.Subtitle>
-                                }
-                                <Button className="float-right" disabled={!currentUser || product.deleted} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
-                            </Card.Footer>
-                        </Card>
-                    }
+                {(!productLoaded && !content) &&
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                }
+                {content &&
+                    <header className="jumbotron">
+                        <h3>{content}</h3>
+                    </header>
+                }
+                {!currentUser &&
+                    <Alert variant="warning">
+                        <big>You must be logged in to be able to buy!</big>
+                    </Alert>
+                }
+                {productLoaded &&
+                    <Card>
+                        <Card.Header>
+                            <Card.Title className="m-0">{product.name}</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Row>
+                                <Col className="col-4">
+                                    <ResponsiveEmbed aspectRatio="16by9">
+                                        <div className="product-image">
+                                            <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                                        </div>
+                                    </ResponsiveEmbed>
+                                </Col>
+                                <Col >
+                                    <Card.Body>
+                                        <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
+                                        {product.description &&
+                                            <><Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text></>
+                                        }
+                                        <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
+                                    </Card.Body>
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                        <Card.Footer>
+                            {product.deleted &&
+                                <Card.Subtitle>This product does not exist.</Card.Subtitle>
+                            }
+                            <Button className="float-right" disabled={!currentUser || product.deleted} variant="primary" onClick={() => this.handleShowDialog(product)}><FaCartPlus /> Buy</Button>
+                        </Card.Footer>
+                    </Card>
+                }
 
                 <Modal show={setShowDialog} onHide={this.handleCloseDialog}>
                     <Modal.Header closeButton>

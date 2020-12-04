@@ -135,47 +135,49 @@ export default class OrderShipment extends Component {
                         <h3>{content}</h3>
                     </header>
                 }
-                <>
-                    {(loaded && order) &&
-                        <Card>
-                            <Card.Header>
-                                <Card.Title>Order № {order.orderId}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                {order.deliveredDate &&
-                                    <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                }
-                            </Card.Header>
-                            <Card.Body>
-                                <Card.Subtitle className="mb-3">Status: {order.status}</Card.Subtitle>
-                                <Card.Text>Delivery method: {order.deliveryMethod} {order.deliveryAddress && <span>to address: {order.deliveryAddress}</span>}</Card.Text>
-                                <Card.Text>Payment method: {order.paymentMethod}</Card.Text>
-                                <Card.Text>Ordered products:</Card.Text>
+                {(loaded && order) &&
+                    <Card>
+                        <Card.Header>
+                            <Card.Title>Order № {order.orderId}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                            {order.deliveredDate &&
+                                <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                            }
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Subtitle className="mb-3">Status: {order.status}</Card.Subtitle>
+                            <Card.Text>Customer: {order.user.firstName} {order.user.lastName}</Card.Text>
+                            <Card.Text>Delivery method: {order.deliveryMethod} {order.deliveryAddress && <span>to address: {order.deliveryAddress}</span>}</Card.Text>
+                            <Card.Text>Payment method: {order.paymentMethod}</Card.Text>
+                            <Card.Text>Ordered products:</Card.Text>
 
-                                {details &&
-                                    orderDetails.map(details => (
-                                        <Card className="my-3" key={details.id}>
-                                            <Card.Header>
-                                                <Card.Subtitle as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name} - {details.amount.toFixed(2)} €</Card.Subtitle>
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
-                                            </Card.Body>
-                                        </Card>
-                                    ))
-                                }
-                                <Col className="text-right">
-                                    <Card.Subtitle className="mb-2">{orderDetails.length} item(s)</Card.Subtitle>
-                                    <Card.Subtitle>Total price: {order.totalPrice?.toFixed(2)} €</Card.Subtitle>
-                                </Col>
-                            </Card.Body>
-                            <Card.Footer>
-                                {order.status !== "DELIVERED" &&
+                            {details &&
+                                orderDetails.map(details => (
+                                    <Card className="my-3" key={details.id}>
+                                        <Card.Header>
+                                            <Card.Subtitle as={Link} variant="link" to={"/products/" + details.product.productId}>{details.product.name} - {details.amount.toFixed(2)} €</Card.Subtitle>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Card.Subtitle className="mb-2 text-muted">{details.quantity} x {details.price.toFixed(2)} €</Card.Subtitle>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                            <Col className="text-right">
+                                <Card.Subtitle className="mb-2">{orderDetails.length} item(s)</Card.Subtitle>
+                                <Card.Subtitle>Total price: {order.totalPrice?.toFixed(2)} €</Card.Subtitle>
+                            </Col>
+                        </Card.Body>
+                        <Card.Footer>
+                            {order.status !== "DELIVERED" && (
+                                order.status == "PROCESSING" ?
+                                    <Button className="float-right" variant="primary" onClick={() => this.finalizeOrder()}>Process order</Button>
+                                    :
                                     <Button className="float-right" variant="success" onClick={() => this.finalizeOrder()}>Finalize order</Button>
-                                }
-                            </Card.Footer>
-                        </Card>
-                    }
-                </>
+                            )}
+                        </Card.Footer>
+                    </Card>
+                }
             </Container>
         )
     }

@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaTrashAlt } from 'react-icons/fa'
 import { Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap";
 
 export default class StockManager extends Component {
@@ -192,7 +192,7 @@ export default class StockManager extends Component {
               <Card.Title className="m-0">Categories</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Button className="mb-2" variant="primary" onClick={this.addCategoryDialog}><FaPlus /> Add new category</Button>
+              <Button className="mb-2" variant="primary" onClick={this.addCategoryDialog}><FaPlus /> Add</Button>
               <Form.Group controlId="categoryId">
                 <Form.Label>Select to manage:</Form.Label>
                 <Form.Control as="select" name="categoryId" onChange={this.handleChangeCategory}>
@@ -211,9 +211,14 @@ export default class StockManager extends Component {
               <Card.Title className="m-0">Products</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Button as={Link} to="/stockmanager/addproduct" variant="primary"><FaPlus /> Add new product</Button>
-              <Button as={Link} to="/stockmanager/deletedproducts" variant="secondary" className="float-right"><FaTrash /> Deleted products</Button>
-
+              <Row>
+                <Col className="text-left">
+                  <Button as={Link} to="/stockmanager/addproduct" variant="primary"><FaPlus /> Add</Button>
+                </Col>
+                <Col className="text-right">
+                  <Button as={Link} to="/stockmanager/deletedproducts" variant="secondary"><FaTrashAlt /> Deleted</Button>
+                </Col>
+              </Row>
               {products.map(product => (
                 <Card key={product.productId} className="my-3">
                   <Card.Header>
@@ -231,7 +236,9 @@ export default class StockManager extends Component {
                       <Col>
                         <Card.Body>
                           <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
-                          <Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text>
+                          {product.description &&
+                            <><Card.Subtitle>Description: </Card.Subtitle><Card.Text>{product.description}</Card.Text></>
+                          }
                           <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
                         </Card.Body>
                       </Col>

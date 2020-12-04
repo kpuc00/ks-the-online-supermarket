@@ -4,6 +4,7 @@ import authHeader from '../../services/auth-header'
 import Container from 'react-bootstrap/Container'
 import ProductForm from './ProductForm'
 import Spinner from 'react-bootstrap/Spinner'
+import { Breadcrumb } from "react-bootstrap"
 
 export default class EditProduct extends Component {
     constructor(props) {
@@ -154,7 +155,10 @@ export default class EditProduct extends Component {
         return (
             <Container>
                 <h3 className="my-4">Edit product</h3>
-
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/stockmanager">Stock manager</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Edit product</Breadcrumb.Item>
+                </Breadcrumb>
                 {((!productLoaded || !categoriesLoaded) && !content) &&
                     <Spinner animation="border" role="status">
                         <span className="sr-only">Loading...</span>
