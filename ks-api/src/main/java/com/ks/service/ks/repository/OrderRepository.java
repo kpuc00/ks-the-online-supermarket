@@ -21,6 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query(value = "SELECT * FROM ORDERS WHERE status = 'TRAVELLING' OR status = 'READY' ORDER BY order_date", nativeQuery = true)
     List<Order> getAllNotCollectedOrders();
 
-    @Query(value = "SELECT * FROM ORDERS WHERE status = 'DELIVERED' OR status = 'FINISHED' ORDER BY order_date DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM ORDERS WHERE status = 'DELIVERED' ORDER BY delivered_date DESC", nativeQuery = true)
     List<Order> getAllCollectedOrders();
 }

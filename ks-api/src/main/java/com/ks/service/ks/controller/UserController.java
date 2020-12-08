@@ -3,6 +3,7 @@ package com.ks.service.ks.controller;
 import com.ks.service.ks.model.User;
 import com.ks.service.ks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,14 +31,22 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable long id) {
+
         if (userService.existsById(id))
             return new ResponseEntity(userService.findById(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/own")
+    public ResponseEntity<User> getOwnUserById(@PathVariable long id) {
+        if (userService.existsById(id))
+            return new ResponseEntity(userService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User updatedUser) {
         if (userService.existsById(id)) {
