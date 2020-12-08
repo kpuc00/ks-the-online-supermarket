@@ -74,31 +74,33 @@ export default class OrdersManager extends Component {
                                     <Button as={Link} to="/ordersmanager/received" className="m-1" variant="success">Received orders</Button>
                                 </Col>
                             </Row>
-                            {orders.length === 0 &&
-                                <h5>Empty</h5>
-                            }
-                            {orders &&
-                                orders.map(order => (
-                                    <Card className="my-3" key={order.orderId}>
-                                        <Card.Header>
-                                            <Card.Title>Order № {order.orderId}</Card.Title>
-                                            <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
-                                        </Card.Header>
-                                        <Card.Body>
-                                            <Row>
-                                                <Col>
-                                                    <Card.Subtitle className="m-1">Customer: {order.user.firstName} {order.user.lastName}</Card.Subtitle>
-                                                    <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
-                                                    <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
-                                                </Col>
-                                                <Col>
-                                                    <Button as={Link} to={"/ordersmanager/" + order.orderId} className="float-right" variant="warning" >Manage</Button>
-                                                </Col>
-                                            </Row>
-                                        </Card.Body>
-                                    </Card>
-                                ))
-                            }
+                            <Card><Card.Body>
+                                {orders.length === 0 &&
+                                    <h5>Empty</h5>
+                                }
+                                {orders &&
+                                    orders.map(order => (
+                                        <Card className="my-3" key={order.orderId}>
+                                            <Card.Header>
+                                                <Card.Title>Order № {order.orderId}</Card.Title>
+                                                <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                            </Card.Header>
+                                            <Card.Body>
+                                                <Row>
+                                                    <Col>
+                                                        <Card.Subtitle className="m-1">Customer: {order.user.firstName} {order.user.lastName}</Card.Subtitle>
+                                                        <Card.Subtitle className="m-1">Total price: {order.totalPrice.toFixed(2)} €</Card.Subtitle>
+                                                        <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
+                                                    </Col>
+                                                    <Col>
+                                                        <Button as={Link} to={"/ordersmanager/" + order.orderId} className="float-right" variant="warning" >Manage</Button>
+                                                    </Col>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
+                                    ))
+                                }
+                            </Card.Body></Card>
                         </Card.Body>
                     </Card>
                 }
