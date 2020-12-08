@@ -9,11 +9,11 @@ import { Breadcrumb } from "react-bootstrap"
 export default class EditProduct extends Component {
     constructor(props) {
         super(props)
-        this.fileInput = React.createRef();
+        // this.fileInput = React.createRef();
         this.state = {
-            name: "",
-            description: "",
-            price: 0,
+            productName: "",
+            productDescription: "",
+            productPrice: 0,
             category: {
                 categoryId: 0
             },
@@ -50,12 +50,13 @@ export default class EditProduct extends Component {
                 res => {
                     const product = res.data
                     this.setState({
-                        name: product.name,
-                        description: product.description,
-                        price: product.price,
+                        productName: product.name,
+                        productDescription: product.description,
+                        productPrice: product.price,
                         category: {
                             categoryId: product.category.categoryId
                         },
+                        base64TextString: product.image,
                         product,
                         productLoaded: true
                     })
@@ -77,6 +78,7 @@ export default class EditProduct extends Component {
 
     handleChange = (e) => {
         const { name, value } = e.target
+        console.log(name, value)
         if (name === "categoryId") {
             this.setState({
                 category: {
@@ -96,6 +98,9 @@ export default class EditProduct extends Component {
                 })
             }
             else {
+                this.setState({
+                    base64TextString: ""
+                })
                 if (file.type !== ("image/jpeg" || "image/png")) {
                     this.setState({
                         fileError: "Unsupported file type."
@@ -121,12 +126,21 @@ export default class EditProduct extends Component {
         }
     }
 
+    clearImage = () => {
+        this.setState({
+            ...this.state,
+            base64TextString: "",
+            fileError: ""
+        })
+        document.getElementById("image").value = null
+    }
+
     handleSubmit = (e) => {
         e.preventDefault()
         const product = {
-            name: this.state.name,
-            description: this.state.description,
-            price: this.state.price,
+            name: this.state.productName,
+            description: this.state.productDescription,
+            price: this.state.productPrice,
             category: {
                 categoryId: this.state.category.categoryId
             },
@@ -151,7 +165,7 @@ export default class EditProduct extends Component {
     }
 
     render() {
-        let { productLoaded, categoriesLoaded, product, categories, content, fileError } = this.state
+        let { productLoaded, categoriesLoaded, content } = this.state
         return (
             <Container>
                 <h3 className="my-4">Edit product</h3>
@@ -170,7 +184,7 @@ export default class EditProduct extends Component {
                     </header>
                 }
                 {(productLoaded && categoriesLoaded) &&
-                    <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={product} categories={categories} fileInput={this.fileInput} fileError={fileError} />
+                    <ProductForm state={this.state} handleChange={this.handleChange} submitProduct={this.handleSubmit} clearImage={this.clearImage} />
                 }
             </Container>
         )

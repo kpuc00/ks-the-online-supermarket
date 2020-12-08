@@ -10,9 +10,9 @@ export default class AddProduct extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: "",
-            description: "",
-            price: 0,
+            productName: "",
+            productDescription: "",
+            productPrice: 0,
             category: {
                 categoryId: 0
             },
@@ -70,6 +70,9 @@ export default class AddProduct extends Component {
                 })
             }
             else {
+                this.setState({
+                    base64TextString: ""
+                })
                 if (file.type !== ("image/jpeg" || "image/png")) {
                     this.setState({
                         fileError: "Unsupported file type."
@@ -95,12 +98,21 @@ export default class AddProduct extends Component {
         }
     }
 
+    clearImage = () => {
+        this.setState({
+            ...this.state,
+            base64TextString: "",
+            fileError: ""
+        })
+        document.getElementById("image").value = null
+    }
+
     handleSubmit = (e) => {
         e.preventDefault()
         const product = {
-            name: this.state.name,
-            description: this.state.description,
-            price: this.state.price,
+            name: this.state.productName,
+            description: this.state.productDescription,
+            price: this.state.productPrice,
             category: {
                 categoryId: this.state.category.categoryId
             },
@@ -124,7 +136,7 @@ export default class AddProduct extends Component {
     }
 
     render() {
-        let { categoriesLoaded, categories, content, fileError } = this.state
+        let { categoriesLoaded, content } = this.state
         return (
             <Container>
                 <h3 className="my-4">Add product</h3>
@@ -143,7 +155,7 @@ export default class AddProduct extends Component {
                     </header>
                 }
                 {categoriesLoaded &&
-                    <ProductForm handleChange={this.handleChange} submitProduct={this.handleSubmit} product={null} categories={categories} fileInput={this.fileInput} fileError={fileError} />
+                    <ProductForm state={this.state} handleChange={this.handleChange} submitProduct={this.handleSubmit} clearImage={this.clearImage} />
                 }
             </Container>
         )
