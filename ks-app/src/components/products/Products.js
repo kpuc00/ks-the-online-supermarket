@@ -7,8 +7,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Spinner from 'react-bootstrap/Spinner'
-import { Alert, Image, ResponsiveEmbed } from "react-bootstrap"
+import { Alert, Button, Form, FormControl, Image, InputGroup, ResponsiveEmbed } from "react-bootstrap"
 import { Link } from "react-router-dom";
+import { FaSearch } from 'react-icons/fa'
 
 class Products extends Component {
   constructor() {
@@ -16,12 +17,50 @@ class Products extends Component {
     this.state = {
       currentUser: AuthService.getCurrentUser(),
       products: [],
+      search: "",
+      searchAlert: "",
       content: "",
       productsLoaded: false
     }
   }
 
   componentDidMount() {
+    const search = new URLSearchParams(this.props.location.search).get('search')
+    this.setState({
+      ...this.state,
+      search: search
+    })
+    if (search !== null && search !== "") {
+      Axios.get(`/products/search/${search}`).then(
+        res => {
+          if (res.status === 200) {
+            const products = res.data
+            this.setState({
+              products,
+              searchAlert: `Showing ${products.length} product(s) with name "${search}".`,
+              productsLoaded: true
+            })
+          }
+          else if (res.status === 204) {
+            this.getProducts()
+            this.setState({
+              searchAlert: `Products with name containing "${search}" were not found!`
+            })
+          }
+        },
+        () => {
+          this.setState({
+            content: "Something went wrong! Please try again later."
+          })
+        }
+      )
+    }
+    else {
+      this.getProducts()
+    }
+  }
+
+  getProducts = () => {
     Axios.get('/products').then(
       res => {
         if (res.status === 200) {
@@ -35,9 +74,31 @@ class Products extends Component {
       () => {
         this.setState({
           content: "Something went wrong! Please try again later."
-        });
+        })
       }
     )
+  }
+
+  handleChangeSearchBar = (e) => {
+    const { name, value } = e.target
+    this.setState({
+      ...this.state,
+      [name]: value
+    })
+  }
+
+  searchProducts = (e) => {
+    e.preventDefault()
+    const { search } = this.state
+    if (search.trim() !== "") {
+      this.props.history.push("?search=" + search)
+      window.location.reload()
+    }
+  }
+
+  clearSearchBar = () => {
+    this.props.history.push("/products")
+    window.location.reload()
   }
 
   handleShowDialog = (product) => {
@@ -97,7 +158,7 @@ class Products extends Component {
   }
 
   render() {
-    let { productsLoaded, products, currentUser, content } = this.state
+    let { productsLoaded, products, search, searchAlert, currentUser, content } = this.state
 
     return (
       <Container>
@@ -119,30 +180,56 @@ class Products extends Component {
           </Alert>
         }
         {productsLoaded &&
-          products.map(product => (
-            <Card key={product.productId} className="my-3">
-              <Card.Header>
-                <big><Card.Title as={Link} to={"/products/" + product.productId} variant="link">{product.name}</Card.Title></big>
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  <Col className="col-3">
-                    <ResponsiveEmbed aspectRatio="16by9">
-                      <div className="product-image">
-                        <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
-                      </div>
-                    </ResponsiveEmbed>
-                  </Col>
-                  <Col>
-                    <Card.Body>
-                      <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
-                      <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
-                    </Card.Body>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          ))
+          <>
+            <Form onSubmit={this.searchProducts}>
+              <InputGroup className="my-2 w-100">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="search-addon"><FaSearch /></InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  required
+                  type="text"
+                  name="search"
+                  placeholder="Search..."
+                  value={search}
+                  maxLength="30"
+                  aria-describedby="search-addon"
+                  onChange={this.handleChangeSearchBar}
+                />
+                <Button disabled={!search} type="submit" variant="secondary">Go</Button>
+                <Button disabled={!search} variant="danger" onClick={() => this.clearSearchBar()}>Clear</Button>
+              </InputGroup>
+
+            </Form>
+            {searchAlert &&
+              <Alert variant="info">{searchAlert}</Alert>
+            }
+            {products.map(product => (
+              <Card key={product.productId} className="my-3">
+                <Card.Header>
+                  <big><Card.Title as={Link} to={"/products/" + product.productId} variant="link">{product.name}</Card.Title></big>
+                </Card.Header>
+                <Card.Body>
+                  <Row>
+                    <Col className="col-3">
+                      <ResponsiveEmbed aspectRatio="16by9">
+                        <div className="product-image">
+                          <Image src={product.image ? (`data:image/png;base64,${product.image}`) : ("/images/product/default.jpg")} />
+                        </div>
+                      </ResponsiveEmbed>
+                    </Col>
+                    <Col>
+                      <Card.Body>
+                        <Card.Subtitle>Price: </Card.Subtitle><Card.Text>{product.price?.toFixed(2)} €</Card.Text>
+                        <Card.Subtitle>Category: </Card.Subtitle><Card.Text>{product.category.name}</Card.Text>
+                      </Card.Body>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            ))
+            }
+          </>
         }
       </Container>
     )

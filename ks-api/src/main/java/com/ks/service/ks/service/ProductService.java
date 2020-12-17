@@ -34,6 +34,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<Product> searchNotDeletedProducts(String search) {
+        return productRepository.searchNotDeletedProducts(search);
+    }
+
+    @Override
     public List<Product> findAll() {
         return productRepository.findAll();
     }

@@ -173,7 +173,6 @@ export default class Cart extends Component {
         Axios.get(`/users/${this.state.currentUser.id}`, { headers: authHeader() })
             .then(
                 res => {
-                    console.log(res.data)
                     if (res.status === 200) {
                         this.setState({
                             userHomeAddress: res.data.address,

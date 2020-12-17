@@ -8,8 +8,8 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { FaPlus, FaEdit, FaTrash, FaTrashAlt } from 'react-icons/fa'
-import { Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap";
+import { FaPlus, FaSearch, FaEdit, FaTrash, FaTrashAlt } from 'react-icons/fa'
+import { Alert, Form, FormControl, Image, InputGroup, Modal, ResponsiveEmbed } from "react-bootstrap";
 
 export default class StockManager extends Component {
   constructor() {
@@ -17,6 +17,8 @@ export default class StockManager extends Component {
     this.state = {
       products: [],
       categories: [],
+      search: "",
+      searchAlert: "",
       productsLoaded: false,
       categoriesLoaded: false,
       content: "",
@@ -45,6 +47,43 @@ export default class StockManager extends Component {
             content: "Something went wrong! Please try again later."
           })
         })
+
+    const search = new URLSearchParams(this.props.location.search).get('search')
+    this.setState({
+      ...this.state,
+      search: search
+    })
+    if (search !== null && search !== "") {
+      Axios.get(`/products/search/${search}`).then(
+        res => {
+          if (res.status === 200) {
+            const products = res.data
+            this.setState({
+              products,
+              searchAlert: `Showing ${products.length} product(s) with name "${search}".`,
+              productsLoaded: true
+            })
+          }
+          else if (res.status === 204) {
+            this.getProducts()
+            this.setState({
+              searchAlert: `Products with name containing "${search}" were not found!`
+            })
+          }
+        },
+        () => {
+          this.setState({
+            content: "Something went wrong! Please try again later."
+          })
+        }
+      )
+    }
+    else {
+      this.getProducts()
+    }
+  }
+
+  getProducts = () => {
     Axios.get('/products/admin', { headers: authHeader() })
       .then(
         res => {
@@ -143,6 +182,28 @@ export default class StockManager extends Component {
     this.handleCloseProductDialog()
   }
 
+  handleChangeSearchBar = (e) => {
+    const { name, value } = e.target
+    this.setState({
+      ...this.state,
+      [name]: value
+    })
+  }
+
+  searchProducts = (e) => {
+    e.preventDefault()
+    const { search } = this.state
+    if (search.trim() !== "") {
+      this.props.history.push("?search=" + search)
+      window.location.reload()
+    }
+  }
+
+  clearSearchBar = () => {
+    this.props.history.push("/stockmanager")
+    window.location.reload()
+  }
+
   handleCloseCategoryDialog = () => {
     this.setState({
       setShowCategoryDialog: false
@@ -170,7 +231,7 @@ export default class StockManager extends Component {
   }
 
   render() {
-    let { productsLoaded, categoriesLoaded, products, categories, selectedCategoryId, newCategoryName } = this.state
+    let { productsLoaded, categoriesLoaded, products, search, searchAlert, categories, selectedCategoryId, newCategoryName } = this.state
 
     return (
       <Container>
@@ -219,6 +280,29 @@ export default class StockManager extends Component {
                   <Button as={Link} to="/stockmanager/deletedproducts" variant="secondary"><FaTrashAlt /> Deleted</Button>
                 </Col>
               </Row>
+              <Form onSubmit={this.searchProducts}>
+                <InputGroup className="my-2 w-100">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="search-addon"><FaSearch /></InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    required
+                    type="text"
+                    name="search"
+                    placeholder="Search..."
+                    value={search}
+                    maxLength="30"
+                    aria-describedby="search-addon"
+                    onChange={this.handleChangeSearchBar}
+                  />
+                  <Button disabled={!search} type="submit" variant="secondary">Go</Button>
+                  <Button disabled={!search} variant="danger" onClick={() => this.clearSearchBar()}>Clear</Button>
+                </InputGroup>
+
+              </Form>
+              {searchAlert &&
+                <Alert variant="info">{searchAlert}</Alert>
+              }
               {products.map(product => (
                 <Card key={product.productId} className="my-3">
                   <Card.Header>

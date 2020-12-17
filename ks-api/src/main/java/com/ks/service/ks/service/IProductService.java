@@ -15,6 +15,8 @@ public interface IProductService {
 
     Product save(Product product);
 
+    List<Product> searchNotDeletedProducts(String search);
+
     List<Product> findAll();
 
     List<Product> getAllByDeletedFalse();

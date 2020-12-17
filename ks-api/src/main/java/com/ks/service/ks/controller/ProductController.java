@@ -30,6 +30,15 @@ public class ProductController {
         return productService.getAllByDeletedFalse();
     }
 
+    @GetMapping("/search/{search}")
+    public @ResponseBody
+    ResponseEntity<List<Product>> getResultFromSearchBar(@PathVariable String search) {
+        List<Product> result = productService.searchNotDeletedProducts(search);
+        if (result.size() > 0)
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("/category/{id}")
     public @ResponseBody
     List<Product> getAllProductsByCategoryId(@PathVariable long id) {
