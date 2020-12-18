@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("FROM PRODUCTS p WHERE p.name LIKE %:search% AND p.deleted=false")
+    @Query("FROM PRODUCTS p WHERE p.name LIKE %:search% AND p.deleted=false ORDER BY p.name")
     List<Product> searchNotDeletedProducts(@Param("search") String search);
 
     List<Product> getAllByDeletedFalse();
