@@ -14,7 +14,7 @@ const UserForm = ({ handleChange, submitUser, user }) => {
                 <Form.Control onChange={handleChange} type="lastName" placeholder={user?.lastName} />
             </Form.Group>
             <Form.Group controlId="address">
-                <Form.Label>Address</Form.Label>
+                <Form.Label>Address (Street, House number, Postcode, City)</Form.Label>
                 <Form.Control onChange={handleChange} type="address" placeholder={user?.address} />
             </Form.Group>
             <Form.Group controlId="email">

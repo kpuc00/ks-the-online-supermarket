@@ -60,7 +60,7 @@ export default class EditCustomer extends Component {
         Axios.put(`/users/${id}`, user, { headers: authHeader() })
             .then(
                 () => {
-                    this.props.history.push("/usersmanager");
+                    this.props.history.push("/profile");
                     window.location.reload();
                 },
                 () => {

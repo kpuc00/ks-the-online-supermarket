@@ -87,6 +87,7 @@ export default class UsersManager extends Component {
                         <div key={user.id}>
                             <h5>{user.firstName} {user.lastName}</h5>
                             <ul>
+                                <li>Username: {user.username}</li>
                                 {
                                     user.address &&
                                     <li>Address: {user.address}</li>

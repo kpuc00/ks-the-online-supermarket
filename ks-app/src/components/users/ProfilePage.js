@@ -70,16 +70,14 @@ export default class Profile extends Component {
                 <Card.Title className="m-0">Personal data</Card.Title>
               </Card.Header>
               <Card.Body>
-              <Card.Subtitle>First name: </Card.Subtitle><Card.Text>{user.firstName}</Card.Text>
-              <Card.Subtitle>Last name: </Card.Subtitle><Card.Text>{user.lastName}</Card.Text>
+                <Card.Subtitle>First name: </Card.Subtitle><Card.Text>{user.firstName}</Card.Text>
+                <Card.Subtitle>Last name: </Card.Subtitle><Card.Text>{user.lastName}</Card.Text>
                 <Card.Subtitle>Username: </Card.Subtitle><Card.Text>{user.username}</Card.Text>
                 <Card.Subtitle>Authorities: </Card.Subtitle>
-                <Card.Text>
-                  <ul>
-                    {user.roles &&
-                      user.roles.map(role => <li key={role.id}>{role.name}</li>)}
-                  </ul>
-                </Card.Text>
+                <ul>
+                  {user.roles &&
+                    user.roles.map(role => <li key={role.id}>{role.name}</li>)}
+                </ul>
                 <Card.Subtitle>Email: </Card.Subtitle><Card.Text>{user.email}</Card.Text>
                 <Card.Subtitle>Address: </Card.Subtitle>
                 <Card.Text>

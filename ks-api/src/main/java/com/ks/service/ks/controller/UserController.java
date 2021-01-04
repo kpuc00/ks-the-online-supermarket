@@ -32,6 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<User> getUserById(@PathVariable long id) {
 
         if (userService.existsById(id))

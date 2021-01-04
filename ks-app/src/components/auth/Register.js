@@ -217,7 +217,7 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="address">Address</label>
+                                        <label htmlFor="address">Address (Street, House number, Postcode, City)</label>
                                         <Input
                                             type="text"
                                             className="form-control"

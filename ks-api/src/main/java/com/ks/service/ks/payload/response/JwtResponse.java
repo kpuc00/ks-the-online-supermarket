@@ -10,21 +10,15 @@ public class JwtResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private String address;
-    private String phone;
-    private double totalCosts;
     private String username;
 
-    public JwtResponse(String accessToken, Long id, String firstName, String lastName, String email,
-                       String address, String phone, double totalCosts, String username, List<String> roles) {
+    public JwtResponse(String accessToken, Long id, String firstName, String lastName,
+                       String email, String username, List<String> roles) {
         this.token = accessToken;
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.address = address;
-        this.phone = phone;
-        this.totalCosts = totalCosts;
         this.username = username;
         this.roles = roles;
     }
@@ -75,30 +69,6 @@ public class JwtResponse {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public double getTotalCosts() {
-        return totalCosts;
-    }
-
-    public void setTotalCosts(double totalCosts) {
-        this.totalCosts = totalCosts;
     }
 
     public String getUsername() {
