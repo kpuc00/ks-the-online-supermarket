@@ -19,7 +19,7 @@ export default class ReceivedOrders extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/orders/received', { headers: authHeader() })
+        Axios.get('/api/orders/received', { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {

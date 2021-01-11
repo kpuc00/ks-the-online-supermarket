@@ -39,7 +39,7 @@ export default class Cart extends Component {
         const userId = {
             id: this.state.currentUser.id
         }
-        Axios.post(`/orders/cart`, userId, { headers: authHeader() }).then(
+        Axios.post(`/api/orders/cart`, userId, { headers: authHeader() }).then(
             resCart => {
                 if (resCart.status === 204) {
                     this.setState({
@@ -51,7 +51,7 @@ export default class Cart extends Component {
                     this.setState({
                         order: cart
                     })
-                    Axios.get(`/orders/${this.state.order.orderId}/details`, { headers: authHeader() }).then(
+                    Axios.get(`/api/orders/${this.state.order.orderId}/details`, { headers: authHeader() }).then(
                         resDetails => {
                             if (resDetails.status === 204) {
                                 this.setState({
@@ -84,7 +84,7 @@ export default class Cart extends Component {
     }
 
     deleteProduct(id) {
-        Axios.delete(`/orders/deleteProduct/${id}`, { headers: authHeader() })
+        Axios.delete(`/api/orders/deleteProduct/${id}`, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 204)
@@ -102,7 +102,7 @@ export default class Cart extends Component {
         const user = {
             id: this.state.currentUser.id
         }
-        Axios.post(`/orders/cart/clear`, user, { headers: authHeader() })
+        Axios.post(`/api/orders/cart/clear`, user, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200)
@@ -133,7 +133,7 @@ export default class Cart extends Component {
             paymentMethod: paymentMethod
         }
         console.log(order)
-        Axios.put(`/orders/cart`, order, { headers: authHeader() })
+        Axios.put(`/api/orders/cart`, order, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {
@@ -170,7 +170,7 @@ export default class Cart extends Component {
     }
 
     handleShowOrderDialog = () => {
-        Axios.get(`/users/${this.state.currentUser.id}`, { headers: authHeader() })
+        Axios.get(`/api/users/${this.state.currentUser.id}`, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {

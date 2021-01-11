@@ -20,7 +20,7 @@ export default class UnreceivedOrders extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/orders/unreceived', { headers: authHeader() })
+        Axios.get('/api/orders/unreceived', { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {

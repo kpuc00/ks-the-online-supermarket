@@ -22,7 +22,7 @@ export default class EditCustomer extends Component {
 
     componentDidMount() {
         let id = this.props.match.params.id
-        Axios.get(`/users/${id}`, { headers: authHeader() })
+        Axios.get(`/api/users/${id}`, { headers: authHeader() })
             .then(res => {
                 const user = res.data
                 this.setState({
@@ -57,7 +57,7 @@ export default class EditCustomer extends Component {
             phone: this.state.phone
         }
         let id = this.props.match.params.id
-        Axios.put(`/users/${id}`, user, { headers: authHeader() })
+        Axios.put(`/api/users/${id}`, user, { headers: authHeader() })
             .then(
                 () => {
                     this.props.history.push("/profile");

@@ -29,7 +29,7 @@ export default class EditProduct extends Component {
 
     componentDidMount() {
         let id = this.props.match.params.id
-        Axios.get('/categories')
+        Axios.get('/api/categories')
             .then(
                 res => {
                     const categories = res.data
@@ -45,7 +45,7 @@ export default class EditProduct extends Component {
                 }
             )
 
-        Axios.get(`/products/${id}`)
+        Axios.get(`/api/products/${id}`)
             .then(
                 res => {
                     const product = res.data
@@ -147,7 +147,7 @@ export default class EditProduct extends Component {
             image: this.state.base64TextString
         }
         let id = this.props.match.params.id
-        Axios.put(`/products/${id}`, product, { headers: authHeader() })
+        Axios.put(`/api/products/${id}`, product, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 204) {

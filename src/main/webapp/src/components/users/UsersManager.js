@@ -22,7 +22,7 @@ export default class UsersManager extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/users', { headers: authHeader() }).then(
+        Axios.get('/api/users', { headers: authHeader() }).then(
             res => {
                 const users = res.data
                 this.setState({
@@ -38,7 +38,7 @@ export default class UsersManager extends Component {
     }
 
     deleteUser(id) {
-        Axios.delete(`/users/${id}`, { headers: authHeader() }).then(
+        Axios.delete(`/api/users/${id}`, { headers: authHeader() }).then(
             res => {
                 if (res.status === 204) {
                     window.location.reload()

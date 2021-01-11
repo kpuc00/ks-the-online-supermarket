@@ -24,14 +24,14 @@ export default class OrderDetails extends Component {
 
     componentDidMount() {
         let id = this.props.match.params.id
-        Axios.get(`/orders/${id}`, { headers: authHeader() }).then(
+        Axios.get(`/api/orders/${id}`, { headers: authHeader() }).then(
             resOrder => {
                 if (resOrder.status === 200) {
                     const o = resOrder.data;
                     this.setState({
                         order: o
                     })
-                    Axios.get(`/orders/${id}/details`, { headers: authHeader() })
+                    Axios.get(`/api/orders/${id}/details`, { headers: authHeader() })
                         .then(
                             resDetails => {
                                 if (resDetails.status === 200) {

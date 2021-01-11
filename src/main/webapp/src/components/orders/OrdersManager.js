@@ -26,7 +26,7 @@ export default class OrdersManager extends Component {
             this.props.history.push("/login");
             window.location.reload();
         }
-        Axios.get('/orders/processing', { headers: authHeader() })
+        Axios.get('/api/orders/processing', { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {

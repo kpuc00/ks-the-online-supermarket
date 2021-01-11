@@ -25,7 +25,7 @@ export default class AddProduct extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/categories')
+        Axios.get('/api/categories')
             .then(
                 res => {
                     const categories = res.data
@@ -119,7 +119,7 @@ export default class AddProduct extends Component {
             image: this.state.base64TextString
         }
 
-        Axios.post(`/products/add`, product, { headers: authHeader() })
+        Axios.post(`/api/products/add`, product, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 201) {

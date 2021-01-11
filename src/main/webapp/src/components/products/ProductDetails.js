@@ -29,7 +29,7 @@ export default class ProductDetails extends Component {
 
     componentDidMount() {
         let id = this.props.match.params.id
-        Axios.get(`/products/${id}`).then(
+        Axios.get(`/api/products/${id}`).then(
             res => {
                 if (res.status === 200) {
                     const product = res.data
@@ -86,7 +86,7 @@ export default class ProductDetails extends Component {
             quantity: this.state.productQuantity,
             buyerId: this.state.currentUser.id
         }
-        Axios.post(`/orders/addProduct`, item, { headers: authHeader() }).then(
+        Axios.post(`/api/orders/addProduct`, item, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
                     this.props.history.push("/cart");

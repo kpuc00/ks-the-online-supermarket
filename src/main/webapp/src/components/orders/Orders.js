@@ -38,7 +38,7 @@ export default class Orders extends Component {
         const user = {
             id: this.state.currentUser.id
         }
-        Axios.post('/orders/user', user, { headers: authHeader() }).then(
+        Axios.post('/api/orders/user', user, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
                     const orders = res.data
@@ -65,7 +65,7 @@ export default class Orders extends Component {
         const user = {
             id: this.state.currentUser.id
         }
-        Axios.post(`/orders/${id}/cancel`, user, { headers: authHeader() }).then(
+        Axios.post(`/api/orders/${id}/cancel`, user, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
                     this.props.history.push("/orders");

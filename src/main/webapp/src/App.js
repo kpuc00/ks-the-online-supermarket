@@ -65,7 +65,7 @@ class App extends Component {
         id: user.id
       }
 
-      Axios.post(`/orders/cart/count`, givenUser, { headers: authHeader() })
+      Axios.post(`/api/orders/cart/count`, givenUser, { headers: authHeader() })
         .then(
           res => {
             if (res.status === 200) {

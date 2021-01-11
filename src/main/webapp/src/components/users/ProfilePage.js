@@ -26,7 +26,7 @@ export default class Profile extends Component {
     }
     else {
       const id = currentUser.id
-      Axios.get(`/users/${id}`, { headers: authHeader() }).then(
+      Axios.get(`/api/users/${id}`, { headers: authHeader() }).then(
         res => {
           if (res.status === 200) {
             const user = res.data

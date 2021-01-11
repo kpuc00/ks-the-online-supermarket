@@ -25,7 +25,7 @@ export default class DeletedProducts extends Component {
   }
 
   componentDidMount() {
-    Axios.get('/products/deleted', { headers: authHeader() })
+    Axios.get('/api/products/deleted', { headers: authHeader() })
       .then(
         res => {
           const products = res.data
@@ -42,7 +42,7 @@ export default class DeletedProducts extends Component {
   }
 
   restoreProduct(id) {
-    Axios.put(`/products/restore/${id}`, null, { headers: authHeader() })
+    Axios.put(`/api/products/restore/${id}`, null, { headers: authHeader() })
       .then(
         res => {
           if (res.status === 204) {

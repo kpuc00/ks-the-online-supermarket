@@ -33,7 +33,7 @@ export default class StockManager extends Component {
   }
 
   componentDidMount() {
-    Axios.get('/categories/admin', { headers: authHeader() })
+    Axios.get('/api/categories/admin', { headers: authHeader() })
       .then(
         res => {
           const categories = res.data
@@ -54,7 +54,7 @@ export default class StockManager extends Component {
       search: search
     })
     if (search !== null && search !== "") {
-      Axios.get(`/products/search/${search}`).then(
+      Axios.get(`/api/products/search/${search}`).then(
         res => {
           if (res.status === 200) {
             const products = res.data
@@ -84,7 +84,7 @@ export default class StockManager extends Component {
   }
 
   getProducts = () => {
-    Axios.get('/products/admin', { headers: authHeader() })
+    Axios.get('/api/products/admin', { headers: authHeader() })
       .then(
         res => {
           const products = res.data
@@ -118,7 +118,7 @@ export default class StockManager extends Component {
     const category = {
       name: this.state.newCategoryName
     }
-    Axios.post(`/categories/add`, category, { headers: authHeader() }).then(
+    Axios.post(`/api/categories/add`, category, { headers: authHeader() }).then(
       res => {
         if (res.status === 201) {
           window.location.reload()
@@ -136,7 +136,7 @@ export default class StockManager extends Component {
     const category = {
       name: this.state.newCategoryName
     }
-    Axios.put(`/categories/${id}`, category, { headers: authHeader() }).then(
+    Axios.put(`/api/categories/${id}`, category, { headers: authHeader() }).then(
       res => {
         if (res.status === 204) {
           window.location.reload()
@@ -151,7 +151,7 @@ export default class StockManager extends Component {
   }
 
   deleteCategory(id) {
-    Axios.delete(`/categories/${id}`, { headers: authHeader() })
+    Axios.delete(`/api/categories/${id}`, { headers: authHeader() })
       .then(
         res => {
           if (res.status === 204) {
@@ -167,7 +167,7 @@ export default class StockManager extends Component {
   }
 
   deleteProduct(id) {
-    Axios.delete(`/products/${id}`, { headers: authHeader() })
+    Axios.delete(`/api/products/${id}`, { headers: authHeader() })
       .then(
         res => {
           if (res.status === 204) {

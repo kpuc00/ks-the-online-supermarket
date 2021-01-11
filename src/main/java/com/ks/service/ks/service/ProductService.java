@@ -45,12 +45,12 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getAllByDeletedFalse() {
-        return productRepository.getAllByDeletedFalse();
+        return productRepository.getAllByDeletedFalseOrderByName();
     }
 
     @Override
     public List<Product> getAllByDeletedTrue() {
-        return productRepository.getAllByDeletedTrue();
+        return productRepository.getAllByDeletedTrueOrderByName();
     }
 
     @Override

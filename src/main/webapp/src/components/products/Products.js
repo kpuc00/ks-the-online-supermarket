@@ -31,7 +31,7 @@ class Products extends Component {
       search: search
     })
     if (search !== null && search !== "") {
-      Axios.get(`/products/search/${search}`).then(
+      Axios.get(`/api/products/search/${search}`).then(
         res => {
           if (res.status === 200) {
             const products = res.data
@@ -61,7 +61,7 @@ class Products extends Component {
   }
 
   getProducts = () => {
-    Axios.get('/products').then(
+    Axios.get('/api/products').then(
       res => {
         if (res.status === 200) {
           const products = res.data
@@ -141,7 +141,7 @@ class Products extends Component {
       quantity: this.state.productQuantity,
       buyerId: currentUser.id
     }
-    Axios.post(`/orders/addProduct`, item, { headers: authHeader() }).then(
+    Axios.post(`/api/orders/addProduct`, item, { headers: authHeader() }).then(
       res => {
         if (res.status === 200) {
           this.props.history.push("/cart");

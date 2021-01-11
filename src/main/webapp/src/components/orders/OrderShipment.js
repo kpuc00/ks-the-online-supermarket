@@ -24,14 +24,14 @@ export default class OrderShipment extends Component {
 
     componentDidMount() {
         let id = this.props.match.params.id
-        Axios.get(`/orders/${id}`, { headers: authHeader() }).then(
+        Axios.get(`/api/orders/${id}`, { headers: authHeader() }).then(
             resOrder => {
                 if (resOrder.status === 200) {
                     const o = resOrder.data;
                     this.setState({
                         order: o
                     })
-                    Axios.get(`/orders/${id}/details`, { headers: authHeader() })
+                    Axios.get(`/api/orders/${id}/details`, { headers: authHeader() })
                         .then(
                             resDetails => {
                                 if (resDetails.status === 200) {
@@ -80,7 +80,7 @@ export default class OrderShipment extends Component {
                     status: "TRAVELLING"
                 }
             }
-            Axios.post(`/orders/send/${orderId}`, order, { headers: authHeader() }).then(
+            Axios.post(`/api/orders/send/${orderId}`, order, { headers: authHeader() }).then(
                 res => {
                     if (res.status === 200) {
                         this.props.history.push("/ordersmanager");
@@ -100,7 +100,7 @@ export default class OrderShipment extends Component {
                     status: "DELIVERED"
                 }
             }
-            Axios.post(`/orders/deliver/${orderId}`, order, { headers: authHeader() }).then(
+            Axios.post(`/api/orders/deliver/${orderId}`, order, { headers: authHeader() }).then(
                 res => {
                     if (res.status === 200) {
                         this.props.history.push("/ordersmanager/unreceived");
