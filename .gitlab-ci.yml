@@ -28,8 +28,8 @@ deploy:
   dependencies:
     - test
   script:
-    - ./docker build -t ks-app:latest .
-    - ./docker run --name ks-app-container --rm -p 8080:8080 ks-app
+    - docker build -t ks-app:latest .
+    - docker run --name ks-app-container --rm -p 8080:8080 ks-app
 
 after_script:
   - echo "End CI"
