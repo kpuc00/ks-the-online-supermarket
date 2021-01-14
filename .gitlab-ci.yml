@@ -25,8 +25,8 @@ stages:
 
 deploy:
   stage: deploy
-  dependencies:
-    - test
+#  dependencies:
+#    - test
   before_script:
     - ./gradlew assemble
   script:
