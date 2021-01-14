@@ -32,6 +32,8 @@ deploy:
   script:
     - docker build -t ks-app:latest .
     - docker run --name ks-app-container --rm -dp 8080:8080 ks-app
+  only:
+    - master
 
 after_script:
   - echo "End CI"
