@@ -1,37 +1,37 @@
 stages:
-#  - build
-#  - test
-#  - sonarqube
+  - build
+  - test
+  - sonarqube
   - deploy
 
-#build:
-#  stage: build
-#  script:
-#    - ./gradlew assemble
-#
-#test:
-#  stage: test
-#  dependencies:
-#    - build
-#  script:
-#    - ./gradlew test
-#
-#sonarqube:
-#  stage: sonarqube
-#  dependencies:
-#    - test
-#  script:
-#    - ./gradlew sonarqube
+build:
+  stage: build
+  script:
+    - ./gradlew assemble
+
+test:
+  stage: test
+  dependencies:
+    - build
+  script:
+    - ./gradlew test
+
+sonarqube:
+  stage: sonarqube
+  dependencies:
+    - test
+  script:
+    - ./gradlew sonarqube
 
 deploy:
   stage: deploy
-#  dependencies:
-#    - test
+  dependencies:
+    - test
   before_script:
     - ./gradlew assemble
   script:
     - docker build -t ks-app:latest .
-    - docker run --name ks-app-container --rm -p 8080:8080 ks-app
+    - docker run --name ks-app-container --rm -dp 8080:8080 ks-app
 
 after_script:
   - echo "End CI"
