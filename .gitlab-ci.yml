@@ -11,22 +11,16 @@ build:
 
 test:
   stage: test
-  dependencies:
-    - build
   script:
     - ./gradlew test
 
 sonarqube:
   stage: sonarqube
-  dependencies:
-    - test
   script:
     - ./gradlew sonarqube
 
 deploy:
   stage: deploy
-  dependencies:
-    - test
   before_script:
     - ./gradlew assemble
   script:

@@ -42,11 +42,6 @@ test {
     useJUnitPlatform()
 }
 
-task copyWebApp(type: Copy) {
-    from 'src/main/webapp/build'
-    into 'build/resources/main/static/.'
-}
-
 task appNpmInstall(type: NpmTask) {
     description = "Installs all dependencies from package.json"
     workingDir = file("${project.projectDir}/src/main/webapp")
@@ -57,6 +52,12 @@ task appNpmBuild(type: NpmTask) {
     description = "Builds production version of the webapp"
     workingDir = file("${project.projectDir}/src/main/webapp")
     args = ["run", "build"]
+}
+
+task copyWebApp(type: Copy) {
+    description = "Copies the WebApp production build to the backend server static folder"
+    from 'src/main/webapp/build'
+    into 'build/resources/main/static/.'
 }
 
 appNpmBuild.dependsOn appNpmInstall
