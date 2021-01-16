@@ -10,6 +10,8 @@ public interface IUserService {
 
     Boolean existsByUsername(String username);
 
+    User getByUsername(String username);
+
     Boolean existsByEmail(String email);
 
     void deleteById(long id);

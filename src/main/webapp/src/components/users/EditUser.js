@@ -23,7 +23,8 @@ export default class EditCustomer extends Component {
     componentDidMount() {
         let id = this.props.match.params.id
         Axios.get(`/api/users/${id}`, { headers: authHeader() })
-            .then(res => {
+            .then(
+                res => {
                 const user = res.data
                 this.setState({
                     firstName: user.firstName,
@@ -34,7 +35,18 @@ export default class EditCustomer extends Component {
                     user: user,
                     userLoaded: true
                 })
-            })
+            },
+                error => {
+                    this.setState({
+                        message:
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString(),
+                        loading: false
+                    })
+                })
     }
 
     handleChange = (e) => {
@@ -86,7 +98,9 @@ export default class EditCustomer extends Component {
                         <h3>{message}</h3>
                     </header>
                 }
-                <UserForm handleChange={this.handleChange} submitUser={this.handleSubmit} user={user} />
+                {userLoaded &&
+                    <UserForm handleChange={this.handleChange} submitUser={this.handleSubmit} user={user} />
+                }
             </Container >
         )
     }
