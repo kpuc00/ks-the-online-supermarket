@@ -145,39 +145,50 @@ public class OrderController {
     }
 
     @PutMapping("/cart")
-    public ResponseEntity<Order> submitOrder(@RequestBody Order order) {
+    public HttpStatus submitOrder(@RequestBody Order order, HttpServletRequest request) {
         if (orderService.existsById(order.getOrderId())) {
-            order.setOrderDate(LocalDateTime.now());
-            order.setStatus(OrderStatus.PROCESSING);
+            String[] token = request.getHeader("Authorization").split(" ");
+            User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
             User user = userService.getOne(order.getUser().getId());
-            user.setTotalCosts(user.getTotalCosts() + order.getTotalPrice());
-            userService.save(user);
-            orderService.save(order);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if (user.getUsername().equals(userToken.getUsername())) {
+                order.setOrderDate(LocalDateTime.now());
+                order.setStatus(OrderStatus.PROCESSING);
+                user.setTotalCosts(user.getTotalCosts() + order.getTotalPrice());
+                userService.save(user);
+                orderService.save(order);
+                return HttpStatus.OK;
+            } else return HttpStatus.FORBIDDEN;
+        } else return HttpStatus.NOT_FOUND;
     }
 
     @PostMapping("/cart/count")
-    public ResponseEntity countItemsInCart(@RequestBody User givenUser) {
+    public ResponseEntity countItemsInCart(@RequestBody User givenUser, HttpServletRequest request) {
         if (userService.existsById(givenUser.getId())) {
+            String[] token = request.getHeader("Authorization").split(" ");
+            User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
             User user = userService.getOne(givenUser.getId());
-            Order cart = orderService.getUserShoppingCart(user.getId());
-            int numCartItems;
-            if (cart == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else {
-                numCartItems = cart.getOrderDetails().size();
-                return new ResponseEntity<>(numCartItems, HttpStatus.OK);
-            }
+            if (user.getUsername().equals(userToken.getUsername())) {
+                Order cart = orderService.getUserShoppingCart(user.getId());
+                int numCartItems;
+                if (cart == null) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                } else {
+                    numCartItems = cart.getOrderDetails().size();
+                    return new ResponseEntity<>(numCartItems, HttpStatus.OK);
+                }
+            } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cart/clear")
     @Transactional
-    public ResponseEntity clearCart(@RequestBody User user) {
-        if (orderService.existsById(orderService.getUserShoppingCart(user.getId()).getOrderId())) {
-            Order order = orderService.getUserShoppingCart(user.getId());
-            if (order.getUser().getId().equals(user.getId())) {
+    public ResponseEntity clearCart(@RequestBody User givenUser, HttpServletRequest request) {
+        if (orderService.existsById(orderService.getUserShoppingCart(givenUser.getId()).getOrderId())) {
+            String[] token = request.getHeader("Authorization").split(" ");
+            User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
+            User user = userService.getOne(givenUser.getId());
+            if (user.getUsername().equals(userToken.getUsername())) {
+                Order order = orderService.getUserShoppingCart(givenUser.getId());
                 orderDetailsService.deleteAllByOrder_OrderId(order.getOrderId());
                 order.setTotalPrice(0);
                 orderService.save(order);
