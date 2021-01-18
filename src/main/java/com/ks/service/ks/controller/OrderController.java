@@ -76,24 +76,35 @@ public class OrderController {
 
     @PostMapping("/send/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public HttpStatus sendOrder(@PathVariable long id, @RequestBody Order givenOrderInfo) {
+    public HttpStatus sendOrder(@PathVariable long id) {
         if (orderService.existsById(id)) {
             Order order = orderService.getOne(id);
-            order.setStatus(givenOrderInfo.getStatus());
-            orderService.save(order);
-            return HttpStatus.OK;
+            if (order.getStatus().equals(OrderStatus.DELIVERED))
+                return HttpStatus.BAD_REQUEST;
+            else {
+                if (order.getDeliveryMethod().equals("Pick up"))
+                    order.setStatus(OrderStatus.READY);
+                else if (order.getDeliveryMethod().equals("Home delivery"))
+                    order.setStatus(OrderStatus.TRAVELLING);
+                orderService.save(order);
+                return HttpStatus.OK;
+            }
         } else return HttpStatus.NOT_FOUND;
     }
 
     @PostMapping("/deliver/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public HttpStatus deliverOrder(@PathVariable long id, @RequestBody Order givenOrderInfo) {
+    public HttpStatus deliverOrder(@PathVariable long id) {
         if (orderService.existsById(id)) {
             Order order = orderService.getOne(id);
-            order.setStatus(givenOrderInfo.getStatus());
-            order.setDeliveredDate(LocalDateTime.now());
-            orderService.save(order);
-            return HttpStatus.OK;
+            if (order.getStatus().equals(OrderStatus.DELIVERED))
+                return HttpStatus.BAD_REQUEST;
+            else {
+                order.setStatus(OrderStatus.DELIVERED);
+                order.setDeliveredDate(LocalDateTime.now());
+                orderService.save(order);
+                return HttpStatus.OK;
+            }
         } else return HttpStatus.NOT_FOUND;
     }
 
@@ -115,15 +126,17 @@ public class OrderController {
     }
 
     @PostMapping("/{id}/cancel")
-    public HttpStatus cancelOrder(@PathVariable long id, @RequestBody User givenUser, HttpServletRequest request) {
+    public HttpStatus cancelOrder(@PathVariable long id, HttpServletRequest request) {
         if (orderService.existsById(id)) {
             String[] token = request.getHeader("Authorization").split(" ");
             User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
             Order order = orderService.getOne(id);
             if (order.getUser().getUsername().equals(userToken.getUsername())) {
-                order.setStatus(OrderStatus.CANCELLED);
-                orderService.save(order);
-                return HttpStatus.OK;
+                if (order.getStatus().equals(OrderStatus.PROCESSING)) {
+                    order.setStatus(OrderStatus.CANCELLED);
+                    orderService.save(order);
+                    return HttpStatus.OK;
+                } else return HttpStatus.BAD_REQUEST;
             } else return HttpStatus.FORBIDDEN;
         } else return HttpStatus.NOT_FOUND;
     }

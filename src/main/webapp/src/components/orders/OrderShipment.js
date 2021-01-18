@@ -67,20 +67,8 @@ export default class OrderShipment extends Component {
     finalizeOrder() {
         const orderId = this.state.order.orderId
         const orderStatus = this.state.order.status
-        const deliveryMethod = this.state.order.deliveryMethod
-        let order
         if (orderStatus === "PROCESSING") {
-            if (deliveryMethod === "Pick up") {
-                order = {
-                    status: "READY"
-                }
-            }
-            else if (deliveryMethod === "Home delivery") {
-                order = {
-                    status: "TRAVELLING"
-                }
-            }
-            Axios.post(`/api/orders/send/${orderId}`, order, { headers: authHeader() }).then(
+            Axios.post(`/api/orders/send/${orderId}`, null, { headers: authHeader() }).then(
                 res => {
                     if (res.status === 200) {
                         this.props.history.push("/ordersmanager");
@@ -95,12 +83,7 @@ export default class OrderShipment extends Component {
             )
         }
         else {
-            if (orderStatus === "READY" || orderStatus === "TRAVELLING") {
-                order = {
-                    status: "DELIVERED"
-                }
-            }
-            Axios.post(`/api/orders/deliver/${orderId}`, order, { headers: authHeader() }).then(
+            Axios.post(`/api/orders/deliver/${orderId}`, null, { headers: authHeader() }).then(
                 res => {
                     if (res.status === 200) {
                         this.props.history.push("/ordersmanager/unreceived");

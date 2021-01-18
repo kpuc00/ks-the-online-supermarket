@@ -62,10 +62,7 @@ export default class Orders extends Component {
     }
 
     cancelOrder(id) {
-        const user = {
-            id: this.state.currentUser.id
-        }
-        Axios.post(`/api/orders/${id}/cancel`, user, { headers: authHeader() }).then(
+        Axios.post(`/api/orders/${id}/cancel`, null, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
                     this.props.history.push("/orders");
@@ -110,13 +107,10 @@ export default class Orders extends Component {
                                     <Card className="my-3" key={order.orderId}>
                                         <Card.Header>
                                             <Card.Title>Order № {order.orderId}</Card.Title>
-                                            <Card.Subtitle className="mb-2 text-muted">
-                                                {order.deliveredDate ?
-                                                    <span>Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</span>
-                                                    :
-                                                    <span>Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</span>
-                                                }
-                                            </Card.Subtitle>
+                                            <Card.Subtitle className="mb-2 text-muted">Registered on: {order.orderDate && Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                            {order.deliveredDate &&
+                                            <Card.Subtitle className="mb-2 text-muted">Delivered on: {Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                            }
                                         </Card.Header>
 
                                         <Card.Body>
