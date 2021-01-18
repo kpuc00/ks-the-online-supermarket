@@ -76,36 +76,36 @@ public class OrderController {
 
     @PostMapping("/send/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public HttpStatus sendOrder(@PathVariable long id) {
+    public ResponseEntity sendOrder(@PathVariable long id) {
         if (orderService.existsById(id)) {
             Order order = orderService.getOne(id);
             if (order.getStatus().equals(OrderStatus.DELIVERED))
-                return HttpStatus.BAD_REQUEST;
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             else {
                 if (order.getDeliveryMethod().equals("Pick up"))
                     order.setStatus(OrderStatus.READY);
                 else if (order.getDeliveryMethod().equals("Home delivery"))
                     order.setStatus(OrderStatus.TRAVELLING);
                 orderService.save(order);
-                return HttpStatus.OK;
+                return new ResponseEntity<>(HttpStatus.OK);
             }
-        } else return HttpStatus.NOT_FOUND;
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/deliver/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public HttpStatus deliverOrder(@PathVariable long id) {
+    public ResponseEntity deliverOrder(@PathVariable long id) {
         if (orderService.existsById(id)) {
             Order order = orderService.getOne(id);
             if (order.getStatus().equals(OrderStatus.DELIVERED))
-                return HttpStatus.BAD_REQUEST;
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             else {
                 order.setStatus(OrderStatus.DELIVERED);
                 order.setDeliveredDate(LocalDateTime.now());
                 orderService.save(order);
-                return HttpStatus.OK;
+                return new ResponseEntity<>(HttpStatus.OK);
             }
-        } else return HttpStatus.NOT_FOUND;
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/user")
@@ -126,7 +126,7 @@ public class OrderController {
     }
 
     @PostMapping("/{id}/cancel")
-    public HttpStatus cancelOrder(@PathVariable long id, HttpServletRequest request) {
+    public ResponseEntity<Order> cancelOrder(@PathVariable long id, HttpServletRequest request) {
         if (orderService.existsById(id)) {
             String[] token = request.getHeader("Authorization").split(" ");
             User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
@@ -135,14 +135,14 @@ public class OrderController {
                 if (order.getStatus().equals(OrderStatus.PROCESSING)) {
                     order.setStatus(OrderStatus.CANCELLED);
                     orderService.save(order);
-                    return HttpStatus.OK;
-                } else return HttpStatus.BAD_REQUEST;
-            } else return HttpStatus.FORBIDDEN;
-        } else return HttpStatus.NOT_FOUND;
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cart")
-    public ResponseEntity<Order> getCart(@RequestBody User givenUser, HttpServletRequest request) {
+    public ResponseEntity getCart(@RequestBody User givenUser, HttpServletRequest request) {
         String[] token = request.getHeader("Authorization").split(" ");
         User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
         User user = userService.findById(givenUser.getId()).orElse(null);
@@ -158,7 +158,7 @@ public class OrderController {
     }
 
     @PutMapping("/cart")
-    public HttpStatus submitOrder(@RequestBody Order order, HttpServletRequest request) {
+    public ResponseEntity submitOrder(@RequestBody Order order, HttpServletRequest request) {
         if (orderService.existsById(order.getOrderId())) {
             String[] token = request.getHeader("Authorization").split(" ");
             User userToken = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));
@@ -169,9 +169,9 @@ public class OrderController {
                 user.setTotalCosts(user.getTotalCosts() + order.getTotalPrice());
                 userService.save(user);
                 orderService.save(order);
-                return HttpStatus.OK;
-            } else return HttpStatus.FORBIDDEN;
-        } else return HttpStatus.NOT_FOUND;
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cart/count")
