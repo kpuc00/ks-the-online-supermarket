@@ -39,12 +39,6 @@ public class ProductController {
         else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/category/{id}")
-    public @ResponseBody
-    List<Product> getAllProductsByCategoryId(@PathVariable long id) {
-        return productService.getAllByCategory_CategoryId(id);
-    }
-
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody

@@ -23,7 +23,5 @@ public interface IProductService {
 
     List<Product> getAllByDeletedTrue();
 
-    List<Product> getAllByCategory_CategoryId(Long id);
-
     Product getOne(long id);
 }

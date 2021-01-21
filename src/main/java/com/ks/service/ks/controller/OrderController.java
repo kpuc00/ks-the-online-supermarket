@@ -65,15 +65,6 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/delivery/{id}")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<Order> getOrderByIdForDelivery(@PathVariable long id) {
-        if (orderService.existsById(id))
-            if (orderService.findById(id).isPresent())
-                return new ResponseEntity(orderService.findById(id), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
     @PostMapping("/send/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
     public ResponseEntity sendOrder(@PathVariable long id) {

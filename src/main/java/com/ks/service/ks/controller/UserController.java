@@ -25,12 +25,6 @@ public class UserController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    @PostMapping("/add")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        userService.save(user);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
     @GetMapping // /Users
     public @ResponseBody
     List<User> getAllUsers() {

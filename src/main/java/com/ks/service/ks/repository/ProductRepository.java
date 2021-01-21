@@ -17,6 +17,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> getAllByDeletedFalseOrderByName();
 
     List<Product> getAllByDeletedTrueOrderByName();
-
-    List<Product> getAllByCategory_CategoryId(Long id);
 }
