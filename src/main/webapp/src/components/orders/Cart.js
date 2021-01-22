@@ -212,7 +212,7 @@ export default class Cart extends Component {
                     </header>
                 }
                 {loaded &&
-                    <Card>
+                    <Card className="my-3">
                         <Card.Body>
                             {cartEmpty ? <h5>Empty</h5>
                                 :
@@ -244,7 +244,7 @@ export default class Cart extends Component {
                                 {!cartEmpty &&
                                     <Button className="float-right" variant="link" onClick={() => this.handleShowClearCartDialog()}>Clear cart</Button>
                                 }
-                                <Button className="m-3" variant="secondary" href="/products">Continue shopping</Button>
+                                <Button as={Link} className="m-3" variant="secondary" to="/products">Continue shopping</Button>
                             </Col></Row>
                         </Card.Body>
 

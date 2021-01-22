@@ -47,23 +47,23 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
               </OverlayTrigger>
             }
             <NavDropdown title={currentUser.firstName} id="basic-nav-dropdown" alignRight>
-              <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-              <NavDropdown.Item href="/orders">My orders</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/orders">My orders</NavDropdown.Item>
               {showModeratorBoard &&
                 <>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/ordersmanager">Orders manager</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ordersmanager">Orders manager</NavDropdown.Item>
                 </>
               }
               {showAdminBoard &&
                 <>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/stockmanager">Stock manager</NavDropdown.Item>
-                  <NavDropdown.Item href="/usersmanager">Users manager</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/stockmanager">Stock manager</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/usersmanager">Users manager</NavDropdown.Item>
                 </>
               }
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/" onClick={logOut}>Logout</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/" onClick={logOut}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           :
