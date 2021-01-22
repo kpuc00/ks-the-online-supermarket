@@ -1,10 +1,20 @@
-.container, .container-fluid {
+.container {
     min-height: 100vh;
 }
 
-.container-fluid .slideshow {
-    position: relative;
-    margin: 0 auto;
+.container-fluid .homepage-text {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 70px 20px;
+    margin: 20vh 20%;
+}
+
+.container-fluid .homepage-background{
+    background-image: url("/images/market.jpg");
+    color: white;
+    background-size: cover;
+    height:80vh;
+    margin: 0;
 }
 
 .product-image {

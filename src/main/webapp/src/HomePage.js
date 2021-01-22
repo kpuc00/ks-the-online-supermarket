@@ -1,51 +1,16 @@
-import React, { useState } from "react"
-import { Carousel } from "react-bootstrap"
+import React from "react"
+import Container from "react-bootstrap/Container";
 
 function Home() {
-    const [index, setIndex] = useState(0)
-
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex)
-    }
-
     return (
-        <Carousel activeIndex={index} onSelect={handleSelect}>
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="/images/supermarket.jpg"
-                    alt="First slide"
-                />
-                <Carousel.Caption>
-                    <h3>Stay fresh</h3>
-                    <p>Our products are fresh everyday.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="/images/market.jpg"
-                    alt="Second slide"
-                />
-
-                <Carousel.Caption>
-                    <h3>The best choice</h3>
-                    <p>You will find a good selection of products in our store.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="/images/countryside.jpg"
-                    alt="Third slide"
-                />
-
-                <Carousel.Caption>
-                    <h3>Homemade is better</h3>
-                    <p>Try fresh food right from our farm.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-        </Carousel>
+        <Container fluid className="p-0">
+            <header className="jumbotron text-center homepage-background">
+                <div className="homepage-text">
+                    <h1>The best choice</h1>
+                    <h5>You will find a good selection of products in our store.</h5>
+                </div>
+            </header>
+        </Container>
     )
 }
 
