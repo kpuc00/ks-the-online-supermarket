@@ -35,8 +35,8 @@ import EditUser from "./components/users/EditUser"
 import Footer from "./components/Footer"
 
 import './App.css'
-import UnreceivedOrders from "./components/orders/UnreceivedOrders"
-import ReceivedOrders from "./components/orders/ReceivedOrders"
+import SentOrders from "./components/orders/SentOrders"
+import DeliveredOrders from "./components/orders/DeliveredOrders"
 
 class App extends Component {
   constructor(props) {
@@ -101,8 +101,8 @@ class App extends Component {
           <Route path="/orders/:id" component={OrderDetails} />
           <Route path="/cart" component={Cart} />
           <Route exact path="/ordersmanager" component={OrdersManager} />
-          <Route path="/ordersmanager/unreceived" component={UnreceivedOrders} />
-          <Route path="/ordersmanager/received" component={ReceivedOrders} />
+          <Route path="/ordersmanager/sent" component={SentOrders} />
+          <Route path="/ordersmanager/delivered" component={DeliveredOrders} />
           <Route path="/ordersmanager/:id" component={OrderShipment} />
 
           <Route exact path="/usersmanager" component={UsersManager} />

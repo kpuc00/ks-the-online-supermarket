@@ -73,7 +73,7 @@ public class OrderDetailsController {
     }
 
     @DeleteMapping("/deleteProduct/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable long id, HttpServletRequest request) {
+    public ResponseEntity<Product> deleteProductFromCart(@PathVariable long id, HttpServletRequest request) {
         if (orderDetailsService.existsById(id)) {
             String[] token = request.getHeader("Authorization").split(" ");
             User user = userService.getByUsername(jwtUtils.getUserNameFromJwtToken(token[1]));

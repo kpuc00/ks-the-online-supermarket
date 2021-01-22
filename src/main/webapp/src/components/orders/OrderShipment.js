@@ -86,7 +86,7 @@ export default class OrderShipment extends Component {
             Axios.post(`/api/orders/deliver/${orderId}`, null, { headers: authHeader() }).then(
                 res => {
                     if (res.status === 200) {
-                        this.props.history.push("/ordersmanager/unreceived");
+                        this.props.history.push("/ordersmanager/sent");
                         window.location.reload();
                     }
                 },

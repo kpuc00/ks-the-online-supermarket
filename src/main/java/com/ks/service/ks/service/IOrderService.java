@@ -12,9 +12,9 @@ public interface IOrderService {
 
     List<Order> getAllProcessingOrders();
 
-    List<Order> getAllNotCollectedOrders();
+    List<Order> getAllNotDeliveredOrders();
 
-    List<Order> getAllCollectedOrders();
+    List<Order> getAllDeliveredOrders();
 
     Boolean existsById(long id);
 

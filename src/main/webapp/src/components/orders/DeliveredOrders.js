@@ -7,9 +7,8 @@ import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment'
 import { Breadcrumb, Button, Card } from "react-bootstrap"
-import { Link } from "react-router-dom"
 
-export default class UnreceivedOrders extends Component {
+export default class DeliveredOrders extends Component {
     constructor() {
         super()
         this.state = {
@@ -20,7 +19,7 @@ export default class UnreceivedOrders extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/api/orders/unreceived', { headers: authHeader() })
+        Axios.get('/api/orders/delivered', { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {
@@ -44,10 +43,10 @@ export default class UnreceivedOrders extends Component {
 
         return (
             <Container>
-                <h3 className="my-4">Unreceived orders</h3>
+                <h3 className="my-4">Delivered orders</h3>
                 <Breadcrumb>
                     <Breadcrumb.Item href="/ordersmanager">Orders manager</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Unreceived orders</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Delivered orders</Breadcrumb.Item>
                 </Breadcrumb>
 
                 {(!ordersLoaded && !content) &&
@@ -61,7 +60,7 @@ export default class UnreceivedOrders extends Component {
                     </header>
                 }
                 {ordersLoaded &&
-                    <Card>
+                    <Card className="my-3">
                         <Card.Body>
                             {orders.length === 0 &&
                                 <h5>Empty</h5>
@@ -71,7 +70,7 @@ export default class UnreceivedOrders extends Component {
                                     <Card className="my-3" key={order.orderId}>
                                         <Card.Header>
                                             <Card.Title>Order № {order.orderId}</Card.Title>
-                                            <Card.Subtitle className="mb-2 text-muted">Registered on: {Moment(order.orderDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
+                                            <Card.Subtitle className="mb-2 text-muted">Delivered on: {order.deliveredDate && Moment(order.deliveredDate).format('DD MMMM YYYY in HH:mm')}</Card.Subtitle>
                                         </Card.Header>
                                         <Card.Body>
                                             <Row>
@@ -81,7 +80,7 @@ export default class UnreceivedOrders extends Component {
                                                     <Card.Subtitle className="m-1">Status: {order.status}</Card.Subtitle>
                                                 </Col>
                                                 <Col>
-                                                    <Button as={Link} to={"/ordersmanager/" + order.orderId} className="float-right" variant="warning" >Manage</Button>
+                                                    <Button className="float-right" variant="info" href={"/ordersmanager/" + order.orderId}>See more</Button>
                                                 </Col>
                                             </Row>
                                         </Card.Body>

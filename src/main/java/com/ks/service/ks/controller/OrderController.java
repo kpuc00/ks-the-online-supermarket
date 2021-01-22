@@ -39,16 +39,16 @@ public class OrderController {
         return orderService.getAllProcessingOrders();
     }
 
-    @GetMapping("/unreceived")
+    @GetMapping("/sent")
     @PreAuthorize("hasRole('MODERATOR')")
     public List<Order> getNotCollectedOrders() {
-        return orderService.getAllNotCollectedOrders();
+        return orderService.getAllNotDeliveredOrders();
     }
 
-    @GetMapping("/received")
+    @GetMapping("/delivered")
     @PreAuthorize("hasRole('MODERATOR')")
     public List<Order> getCollectedOrders() {
-        return orderService.getAllCollectedOrders();
+        return orderService.getAllDeliveredOrders();
     }
 
     @GetMapping("/{id}")

@@ -29,13 +29,13 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Order> getAllNotCollectedOrders() {
-        return orderRepository.getAllNotCollectedOrders();
+    public List<Order> getAllNotDeliveredOrders() {
+        return orderRepository.getAllNotDeliveredOrders();
     }
 
     @Override
-    public List<Order> getAllCollectedOrders() {
-        return orderRepository.getAllCollectedOrders();
+    public List<Order> getAllDeliveredOrders() {
+        return orderRepository.getAllDeliveredOrders();
     }
 
     @Override
