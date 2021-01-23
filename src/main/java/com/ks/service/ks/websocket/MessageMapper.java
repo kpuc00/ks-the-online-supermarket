@@ -13,8 +13,8 @@ import java.util.List;
 public class MessageMapper {
 	// add/edit teacher's location
 	@MessageMapping("/processing")
-	@SendTo("/getOrders")
-	public Order getNewOrder(Order order) {
-		return order;
+	@SendTo("/api/orders/getOrders")
+	public String getNewOrder(String string) {
+		return string;
 	}
 }

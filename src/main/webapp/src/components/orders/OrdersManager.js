@@ -9,7 +9,6 @@ import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment'
 import { Button, Card } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { socket } from "../../services/socket"
 
 export default class OrdersManager extends Component {
     constructor() {
@@ -44,7 +43,6 @@ export default class OrdersManager extends Component {
                     });
                 }
             )
-        socket.connect();
     }
 
     render() {

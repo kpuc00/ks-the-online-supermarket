@@ -11,6 +11,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { Form, Image, Modal, ResponsiveEmbed } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { FaTrash } from 'react-icons/fa'
+import { socket } from "../../services/socket"
 
 export default class Cart extends Component {
     constructor() {
@@ -132,11 +133,11 @@ export default class Cart extends Component {
             deliveryAddress: homeAddress,
             paymentMethod: paymentMethod
         }
-        console.log(order)
         Axios.put(`/api/orders/cart`, order, { headers: authHeader() })
             .then(
                 res => {
                     if (res.status === 200) {
+                        socket.send(order);
                         this.props.history.push("/orders?orderPlaced=true");
                         window.location.reload();
                     }

@@ -37,6 +37,7 @@ import Footer from "./components/Footer"
 import './App.css'
 import SentOrders from "./components/orders/SentOrders"
 import DeliveredOrders from "./components/orders/DeliveredOrders"
+import { socket } from "./services/socket"
 
 class App extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class App extends Component {
     const user = AuthService.getCurrentUser();
 
     if (user) {
+      socket.connect();
       this.setState({
         currentUser: user,
         showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
