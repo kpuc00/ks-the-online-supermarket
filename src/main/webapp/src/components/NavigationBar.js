@@ -63,7 +63,7 @@ const NavigationBar = ({ currentUser, showModeratorBoard, showAdminBoard, logOut
                 </>
               }
               <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="/" onClick={logOut}>Logout</NavDropdown.Item>
+              <NavDropdown.Item href="/" onClick={logOut}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           :
