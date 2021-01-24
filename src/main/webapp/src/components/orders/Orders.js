@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment';
 import { Alert, Card } from "react-bootstrap";
+import {socket} from "../../services/socket";
 
 export default class Orders extends Component {
     constructor() {
@@ -41,6 +42,7 @@ export default class Orders extends Component {
         Axios.post('/api/orders/user', user, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
+                    socket.connect();
                     const orders = res.data
                     this.setState({
                         orders,
@@ -65,6 +67,7 @@ export default class Orders extends Component {
         Axios.post(`/api/orders/${id}/cancel`, null, { headers: authHeader() }).then(
             res => {
                 if (res.status === 200) {
+                    socket.send(null);
                     this.props.history.push("/orders");
                     window.location.reload();
                 }
