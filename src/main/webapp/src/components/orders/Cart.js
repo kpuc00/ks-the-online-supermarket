@@ -175,6 +175,7 @@ export default class Cart extends Component {
             .then(
                 res => {
                     if (res.status === 200) {
+                        socket.connect();
                         this.setState({
                             userHomeAddress: res.data.address,
                             setShowOrderDialog: true

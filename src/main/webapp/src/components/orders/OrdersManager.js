@@ -9,6 +9,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import Moment from 'moment'
 import { Button, Card } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import { socket } from "../../services/socket"
 
 export default class OrdersManager extends Component {
     constructor() {
@@ -30,6 +31,7 @@ export default class OrdersManager extends Component {
             .then(
                 res => {
                     if (res.status === 200) {
+                        socket.connect();
                         const orders = res.data
                         this.setState({
                             orders,

@@ -9,6 +9,7 @@ export const socket = {
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function () {
             stompClient.subscribe('/api/orders/getOrders', function () {
+                stompClient.disconnect(()=>("Disconnected"));
                 window.location.reload();
             });
         });
