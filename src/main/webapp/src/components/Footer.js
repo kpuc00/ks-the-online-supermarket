@@ -4,27 +4,10 @@ import { Col, Row } from "react-bootstrap"
 const Footer = () => {
   return (
     <div className="footer">
-      <Row>
+      <Row className="my-3">
         <Col>
           <h5 className="title">KS Supermarket</h5>
           <p>The Online Supermarket</p>
-        </Col>
-        <Col>
-          <h5 className="title">Links</h5>
-          <ul>
-            <li className="list-unstyled">
-              <a href="#!">Link 1</a>
-            </li>
-            <li className="list-unstyled">
-              <a href="#!">Link 2</a>
-            </li>
-            <li className="list-unstyled">
-              <a href="#!">Link 3</a>
-            </li>
-            <li className="list-unstyled">
-              <a href="#!">Link 4</a>
-            </li>
-          </ul>
         </Col>
       </Row>
       <Row>
