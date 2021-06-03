@@ -1,8 +1,8 @@
 # KS - The online supermarket
 
 ## The idea
-This is an online shop where you can browse different types of products such as food and beverages. 
-The inspiration came during the pandemic, when we were all in our homes and we shouldn't have gone out, 
+This is an online shop where you can browse different types of products such as food and drinks. 
+The inspiration came during the pandemic, when we were all in our homes and we couldn't go out, 
 but we were looking for an option to somehow buy the things we needed. With this web application you can place orders 
 directly from your phone or laptop and have them delivered to your door or collection point.
 
